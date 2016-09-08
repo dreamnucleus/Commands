@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands
 {
     public class ResultParser<TCommand, TSuccessResult, TReturn, TWhen>
+        where TCommand : IAsyncCommand
+        where TSuccessResult : IResult
         where TWhen : IResult
     {
         private readonly ResultRegister<TCommand, TSuccessResult, TReturn> resultRegister;

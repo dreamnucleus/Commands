@@ -9,8 +9,10 @@ namespace Slipstream.CommonDotNet.Commands.Results
     //public interface ISuccessResult<TCommand> : IAsyncCommand
     //{
     //}
-
+    // TODO: is there a way to make TResult not have to be a IResult so I can send back an int... maybe I can do something strange like Result.From(int)....
     public interface ISuccessResult<TCommand, TResult> : IAsyncCommand
+        where TCommand : IAsyncCommand
+        where TResult : IResult
     {
     }
 
@@ -22,6 +24,8 @@ namespace Slipstream.CommonDotNet.Commands.Results
     public static class SuccessResultExtensions
     {
         public static TResult Success<TCommand, TResult>(this ISuccessResult<TCommand, TResult> result)
+            where TCommand : IAsyncCommand
+            where TResult : IResult
         {
             return default(TResult);
         }

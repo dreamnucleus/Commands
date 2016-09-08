@@ -16,8 +16,6 @@ namespace Slipstream.CommonDotNet.Commands
 
     public interface ILifetimeScopeService
     {
-        // TODO: remove
-        ILifetimeScopeDependencyService BeginLifetimeScope();
         ILifetimeScopeDependencyService BeginLifetimeScope(ICommandProcessor commandProcessor);
     }
 }

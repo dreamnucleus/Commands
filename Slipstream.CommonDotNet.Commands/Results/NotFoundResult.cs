@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Results
 {
-    public interface INotFoundResult
+    public interface INotFoundResult : IErrorResult<NotFoundException>
     {
     }
 
-    public class NotFoundResult : IResult
+    public class NotFoundException : Exception, IResult
     {
     }
 
     public static class NotFoundResultExtensions
     {
-        public static NotFoundResult NotFound(this INotFoundResult result)
+        public static NotFoundException NotFound(this INotFoundResult result)
         {
-            return default(NotFoundResult);
+            return default(NotFoundException);
         }
     }
 }

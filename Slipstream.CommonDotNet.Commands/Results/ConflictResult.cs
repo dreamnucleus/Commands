@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Results
 {
-    public interface IConflictResult
+    public interface IConflictResult : IErrorResult<ConflictException>
     {
     }
 
-    public class ConflictResult : IResult
+    public class ConflictException : Exception, IResult
     {
     }
 
     public static class ConflictResultExtensions
     {
-        public static ConflictResult NotFound(this IConflictResult result)
+        public static ConflictException Conflict(this IConflictResult result)
         {
-            return default(ConflictResult);
+            return default(ConflictException);
         }
     }
 }

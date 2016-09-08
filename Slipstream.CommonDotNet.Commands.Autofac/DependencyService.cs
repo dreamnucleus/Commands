@@ -50,11 +50,6 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
             this.lifetimeScope = lifetimeScope;
         }
 
-        public ILifetimeScopeDependencyService BeginLifetimeScope()
-        {
-            return new DependencyService(lifetimeScope.BeginLifetimeScope());
-        }
-
         public ILifetimeScopeDependencyService BeginLifetimeScope(ICommandProcessor commandProcessor)
         {
             return new DependencyService(lifetimeScope.BeginLifetimeScope(c =>

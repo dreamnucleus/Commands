@@ -17,8 +17,10 @@ namespace Slipstream.CommonDotNet.Commands
 
         // can i make one which only returns the success
         public ResultRegister<TCommand, TSuccessResult, TReturn> For<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+            where TCommand : IAsyncCommand
+            where TSuccessResult : IResult
         {
-            return new ResultRegister<TCommand, TSuccessResult, TReturn>(command, lifetimeScopeService.BeginLifetimeScope());
+            return new ResultRegister<TCommand, TSuccessResult, TReturn>(command, lifetimeScopeService);
         }
 
         public void Dispose()

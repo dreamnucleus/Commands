@@ -10,19 +10,19 @@ namespace Slipstream.CommonDotNet.Commands
 {
     public class CommandProcessor : ICommandProcessor
     {
-#if DEBUG
         public Guid Id { get; } = Guid.NewGuid();
-#endif
+
 
         private readonly ILifetimeScopeDependencyService dependencyService;
-        public CommandProcessor(ILifetimeScopeDependencyService dependencyService)
+        public CommandProcessor(ILifetimeScopeService lifetimeScopeService)
         {
-            this.dependencyService = dependencyService;
-            //Console.WriteLine("CommandProcessor created: " + Id);
-            //this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
+            Console.WriteLine("CommandProcessor created " + Id);
+            this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
         public async Task<IResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+            where TCommand : IAsyncCommand
+            where TSuccessResult : IResult
         {
             //var validationContext = new ValidationContext(command);
             //var validationResults = new List<ValidationResult>();
@@ -35,12 +35,22 @@ namespace Slipstream.CommonDotNet.Commands
             //}
 
             var allClassTypes = GetAllConcreteClassTypes(typeof(TCommand));
+
+            // TODO: only create with IAsyncCommand, if none then throw a handler not found exception
+
             var firstRegisteredClassType = allClassTypes.First(t => dependencyService.IsRegistered(typeof(IAsyncCommandHandler<>).MakeGenericType(t)));
 
             var handlerType = typeof(IAsyncCommandHandler<>).MakeGenericType(firstRegisteredClassType);
             var handler = dependencyService.Resolve(handlerType);
             var task = (Task<IResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
             return await task;
+        }
+
+        public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+            where TCommand : IAsyncCommand
+            where TSuccessResult : IResult
+        {
+            return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
         }
 
         private IEnumerable<Type> GetAllConcreteClassTypes(Type type)
@@ -61,5 +71,10 @@ namespace Slipstream.CommonDotNet.Commands
             return types;
         }
 
+        public void Dispose()
+        {
+            dependencyService.Dispose();
+            Console.WriteLine("CommandProcessor disposed " + Id);
+        }
     }
 }

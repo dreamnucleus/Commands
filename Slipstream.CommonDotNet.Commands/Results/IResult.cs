@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Slipstream.CommonDotNet.Commands
+namespace Slipstream.CommonDotNet.Commands.Results
 {
     public interface IResult
     {
-        
     }
 }
