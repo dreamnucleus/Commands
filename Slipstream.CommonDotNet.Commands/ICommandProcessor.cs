@@ -16,7 +16,11 @@ namespace Slipstream.CommonDotNet.Commands
             where TCommand : IAsyncCommand
             where TSuccessResult : IResult;
 
-        Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+            where TCommand : IAsyncCommand
+            where TSuccessResult : IResult;
+
+        Task<TSuccessResult> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
             where TSuccessResult : IResult;
     }

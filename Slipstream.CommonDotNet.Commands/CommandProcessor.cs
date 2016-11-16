@@ -46,14 +46,30 @@ namespace Slipstream.CommonDotNet.Commands
             return await task;
         }
 
-        public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
             where TSuccessResult : IResult
         {
             return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
         }
 
-        private IEnumerable<Type> GetAllConcreteClassTypes(Type type)
+        public async Task<TSuccessResult> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+            where TCommand : IAsyncCommand
+            where TSuccessResult : IResult
+        {
+            var result = await ProcessAsync(command);
+
+            if (result is TSuccessResult)
+            {
+                return (TSuccessResult)result;
+            }
+            else
+            {
+                throw (Exception)result;
+            }
+        }
+
+        private static IEnumerable<Type> GetAllConcreteClassTypes(Type type)
         {
             var types = new List<Type>
             {

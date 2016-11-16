@@ -6,11 +6,11 @@ using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands
 {
-    public class Processor<TReturn> : IDisposable
+    public class ResultProcessor<TReturn> : IDisposable
     {
         private readonly ILifetimeScopeService lifetimeScopeService;
 
-        public Processor(ILifetimeScopeService lifetimeScopeService)
+        public ResultProcessor(ILifetimeScopeService lifetimeScopeService)
         {
             this.lifetimeScopeService = lifetimeScopeService;
         }

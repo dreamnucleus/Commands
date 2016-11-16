@@ -120,7 +120,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public async Task<IResult> ExecuteAsync(CreatePostCommand command)
         {
-            var getBlogResult = await commandProcessor.ProcessSuccessAsync(new GetBlogCommand(command.BlogId));
+            var getBlogResult = await commandProcessor.ProcessResultAsync(new GetBlogCommand(command.BlogId));
             if (getBlogResult.NotSuccess)
             {
                 return getBlogResult.Result;

@@ -38,9 +38,14 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand>>();
             containerBuilder.RegisterType<CreatePostCommandHandler>().As<IAsyncCommandHandler<CreatePostCommand>>();
 
+            containerBuilder.RegisterType<FakeCommandHandler>().As<IAsyncCommandHandler<FakeCommand>>();
+
             var container = containerBuilder.Build();
 
-            var processor = new Processor<HttpResult>(new LifetimeScopeService(container.BeginLifetimeScope()));
+            // TODO: need to be able to add in global stuff
+            // TODO: ExecuteSuccessAsync could be from another Processor? like a non-generic one
+            var resultProcessor = new ResultProcessor<HttpResult>(new LifetimeScopeService(container.BeginLifetimeScope()));
+            var commandProcessor = new CommandProcessor(new LifetimeScopeService(container.BeginLifetimeScope()));
 
             for (int i = 0; i < 10; i++)
             {
@@ -55,11 +60,22 @@ namespace Slipstream.CommonDotNet.Commands.Playground
                 //    .When(o => o.Success()).Return(r => new HttpResult(200))
                 //    .ExecuteAsync().Result;
 
-                var toReturn = processor.For(new CreatePostCommand(1, "2", "My Blog", "Good day!"))
+                try
+                {
+                    var test = commandProcessor.ProcessSuccessAsync(new FakeCommand(-1)).Result;
+                    Console.WriteLine(test);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+                
+                var toReturn = resultProcessor.For(new CreatePostCommand(1, "2", "My Blog", "Good day!"))
                     .When(o => o.NotFound()).Return(r => new HttpResult(404))
                     .When(o => o.Conflict()).Return(r => new HttpResult(409))
                     .When(o => o.Success()).Return(r => new HttpResult(200))
                     .ExecuteAsync().Result;
+
                 Console.WriteLine($"{i}: {toReturn.StatusCode}");
             }
 
