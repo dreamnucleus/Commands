@@ -25,12 +25,12 @@ namespace Slipstream.CommonDotNet.Commands.Playground
     {
         public FakeCommandHandler()
         {
-            
         }
 
         public async Task<IResult> ExecuteAsync(FakeCommand command)
         {
-            await Task.Delay(1);
+            await Task.Delay(12);
+            await Task.Delay(12);
 
             if (command.Number == 0)
             {
@@ -38,12 +38,18 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             }
             else if (command.Number == -1)
             {
-                return new NotFoundException();
+                return TestException.Create();
             }
             else
             {
-                return new ConflictException();
+                return command.Number == 2 ? Test() : new NotFoundException();
             }
+        }
+
+
+        private IResult Test()
+        {
+            return new ConflictException();
         }
     }
 }
