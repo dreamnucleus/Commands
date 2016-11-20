@@ -16,7 +16,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public int Number { get; set; }
     }
 
-    public class FakeData : IResult
+    public class FakeData
     {
         public int Id { get; set; }
     }
@@ -27,7 +27,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         {
         }
 
-        public async Task<IResult> ExecuteAsync(FakeCommand command)
+        public async Task<object> ExecuteAsync(FakeCommand command)
         {
             await Task.Delay(12);
             await Task.Delay(12);
@@ -47,7 +47,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         }
 
 
-        private IResult Test()
+        private object Test()
         {
             return new ConflictException();
         }

@@ -9,17 +9,16 @@ namespace Slipstream.CommonDotNet.Commands
 {
     public class ResultRegisterProcessor<TCommand, TSuccessResult, TReturn>
         where TCommand : IAsyncCommand
-        where TSuccessResult : IResult
     {
 
         private readonly ISuccessResult<TCommand, TSuccessResult> command;
 
-        private readonly IReadOnlyDictionary<Type, Func<IResult, TReturn>> defualtResultParsers;
-        private readonly Dictionary<Type, Func<IResult, TReturn>> resultParsers = new Dictionary<Type, Func<IResult, TReturn>>();
+        private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers;
+        private readonly Dictionary<Type, Func<object, TReturn>> resultParsers = new Dictionary<Type, Func<object, TReturn>>();
 
         private readonly ILifetimeScopeService lifetimeScopeService;
 
-        public ResultRegisterProcessor(ISuccessResult<TCommand, TSuccessResult> command, IReadOnlyDictionary<Type, Func<IResult, TReturn>> defualtResultParsers, ILifetimeScopeService lifetimeScopeService)
+        public ResultRegisterProcessor(ISuccessResult<TCommand, TSuccessResult> command, IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers, ILifetimeScopeService lifetimeScopeService)
         {
             Contract.Requires(command != null);
             Contract.Requires(defualtResultParsers != null);
@@ -32,7 +31,6 @@ namespace Slipstream.CommonDotNet.Commands
 
 
         public ResultParser<TCommand, TSuccessResult, TReturn, TWhen> When<TWhen>(Func<TCommand, TWhen> action)
-            where TWhen : IResult
         {
             return new ResultParser<TCommand, TSuccessResult, TReturn, TWhen>(this, func =>
             {

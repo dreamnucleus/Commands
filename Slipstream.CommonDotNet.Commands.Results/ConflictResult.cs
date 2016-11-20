@@ -10,7 +10,7 @@ namespace Slipstream.CommonDotNet.Commands.Results
     {
     }
 
-    public class ConflictException : Exception, IResult
+    public class ConflictException : Exception
     {
     }
 

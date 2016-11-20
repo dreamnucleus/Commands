@@ -10,7 +10,7 @@ namespace Slipstream.CommonDotNet.Commands
     public interface IAsyncCommandHandler<in TCommand>
         where TCommand : IAsyncCommand
     {
-        Task<IResult> ExecuteAsync(TCommand command);
+        Task<object> ExecuteAsync(TCommand command);
     }
 
 }

@@ -9,13 +9,11 @@ namespace Slipstream.CommonDotNet.Commands
 {
     public class ResultParser<TCommand, TSuccessResult, TReturn, TWhen>
         where TCommand : IAsyncCommand
-        where TSuccessResult : IResult
-        where TWhen : IResult
     {
         private readonly ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> resultRegisterProcessor;
-        private readonly Action<Func<IResult, TReturn>> registerResult;
+        private readonly Action<Func<object, TReturn>> registerResult;
 
-        public ResultParser(ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> resultRegisterProcessor, Action<Func<IResult, TReturn>> registerResult)
+        public ResultParser(ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> resultRegisterProcessor, Action<Func<object, TReturn>> registerResult)
         {
             this.resultRegisterProcessor = resultRegisterProcessor;
             this.registerResult = registerResult;
@@ -29,12 +27,11 @@ namespace Slipstream.CommonDotNet.Commands
     }
 
     public class ResultParser<TReturn, TWhen>
-        where TWhen : IResult
     {
         private readonly ResultRegister<TReturn> resultRegisterProcessor;
-        private readonly Action<Func<IResult, TReturn>> registerResult;
+        private readonly Action<Func<object, TReturn>> registerResult;
 
-        public ResultParser(ResultRegister<TReturn> resultRegisterProcessor, Action<Func<IResult, TReturn>> registerResult)
+        public ResultParser(ResultRegister<TReturn> resultRegisterProcessor, Action<Func<object, TReturn>> registerResult)
         {
             this.resultRegisterProcessor = resultRegisterProcessor;
             this.registerResult = registerResult;

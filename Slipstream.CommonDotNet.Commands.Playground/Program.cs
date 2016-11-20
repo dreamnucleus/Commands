@@ -33,6 +33,10 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             containerBuilder.RegisterType<MultipleCommandHandler>().As<IAsyncCommandHandler<MultipleCommand>>();
 
+            containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand>>();
+
+
+
             var container = containerBuilder.Build();
 
 
@@ -79,7 +83,9 @@ namespace Slipstream.CommonDotNet.Commands.Playground
                 .When(o => o.Success()).Return(r => new HttpResult(r.Result))
                 .ExecuteAsync().Result;
 
-
+            var intReturn = resultProcessor.For(new IntCommand())
+                .When(o => o.Success()).Return(r => new HttpResult(r))
+                .ExecuteAsync().Result;
 
             // checking it throws the exceptions
             try

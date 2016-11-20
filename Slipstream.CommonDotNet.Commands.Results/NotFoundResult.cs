@@ -10,7 +10,7 @@ namespace Slipstream.CommonDotNet.Commands.Results
     {
     }
 
-    public class NotFoundException : Exception, IResult
+    public class NotFoundException : Exception
     {
     }
 

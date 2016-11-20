@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Results
 {
-    public interface IErrorResult<TException> : IResult
+    public interface IErrorResult<TException>
         where TException : Exception
     {
     }

@@ -21,7 +21,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public async Task<IResult> ExecuteAsync(TestCommand command)
+        public async Task<object> ExecuteAsync(TestCommand command)
         {
             await Task.Delay(1);
 
@@ -36,7 +36,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         }
     }
 
-    public class TestData : IResult
+    public class TestData
     {
         public int Code { get; set; } = 200;
     }
@@ -52,7 +52,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         }
     }
 
-    public class BlogData : IResult
+    public class BlogData
     {
         public int BlogId { get; set; }
         public string Url { get; set; }
@@ -67,7 +67,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public async Task<IResult> ExecuteAsync(GetBlogCommand command)
+        public async Task<object> ExecuteAsync(GetBlogCommand command)
         {
             var blog = await context.Blogs.SingleOrDefaultAsync(b => b.BlogId == command.BlogId);
 
@@ -101,7 +101,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         }
     }
 
-    public class PostData : IResult
+    public class PostData
     {
         public string PostId { get; set; }
     }
@@ -118,7 +118,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public async Task<IResult> ExecuteAsync(CreatePostCommand command)
+        public async Task<object> ExecuteAsync(CreatePostCommand command)
         {
             var getBlogResult = await commandProcessor.ProcessResultAsync(new GetBlogCommand(command.BlogId));
             if (getBlogResult.NotSuccess)

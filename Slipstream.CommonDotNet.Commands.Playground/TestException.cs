@@ -10,7 +10,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
     {
     }
 
-    public class TestException : Exception, IResult
+    public class TestException : Exception
     {
         public static TestException Create()
         {

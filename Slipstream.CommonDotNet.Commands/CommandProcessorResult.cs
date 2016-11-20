@@ -8,12 +8,11 @@ using Slipstream.CommonDotNet.Commands.Results;
 namespace Slipstream.CommonDotNet.Commands
 {
     public class CommandProcessorSuccessResult<TSuccessResult>
-        where TSuccessResult : IResult
     {
         public bool Success { get; }
         public bool NotSuccess => !Success;
 
-        public IResult Result { get; }
+        public object Result { get; }
 
         public TSuccessResult SuccessResult
         {
@@ -31,7 +30,7 @@ namespace Slipstream.CommonDotNet.Commands
             }
         }
 
-        public CommandProcessorSuccessResult(IResult result)
+        public CommandProcessorSuccessResult(object result)
         {
             Result = result;
             Success = result is TSuccessResult;

@@ -20,14 +20,13 @@ namespace Slipstream.CommonDotNet.Commands
             this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
-        public async Task<IResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        public async Task<object> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
-            where TSuccessResult : IResult
         {
             //var validationContext = new ValidationContext(command);
             //var validationResults = new List<ValidationResult>();
 
-            //var isValid = Validator.TryValidateObject(command, validationContext, validationResults, true);
+            //var isValid = Validator.TryValidateobject(command, validationContext, validationResults, true);
 
             //if (!isValid)
             //{
@@ -42,20 +41,18 @@ namespace Slipstream.CommonDotNet.Commands
 
             var handlerType = typeof(IAsyncCommandHandler<>).MakeGenericType(firstRegisteredClassType);
             var handler = dependencyService.Resolve(handlerType);
-            var task = (Task<IResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
+            var task = (Task<object>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
             return await task;
         }
 
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
-            where TSuccessResult : IResult
         {
             return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
         }
 
         public async Task<TSuccessResult> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
-            where TSuccessResult : IResult
         {
             var result = await ProcessAsync(command);
 
