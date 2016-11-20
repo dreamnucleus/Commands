@@ -12,20 +12,38 @@ namespace Slipstream.CommonDotNet.Commands
         where TSuccessResult : IResult
         where TWhen : IResult
     {
-        private readonly ResultRegister<TCommand, TSuccessResult, TReturn> resultRegister;
+        private readonly ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> resultRegisterProcessor;
         private readonly Action<Func<IResult, TReturn>> registerResult;
 
-        public ResultParser(ResultRegister<TCommand, TSuccessResult, TReturn> resultRegister, Action<Func<IResult, TReturn>> registerResult)
+        public ResultParser(ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> resultRegisterProcessor, Action<Func<IResult, TReturn>> registerResult)
         {
-            this.resultRegister = resultRegister;
+            this.resultRegisterProcessor = resultRegisterProcessor;
             this.registerResult = registerResult;
         }
 
-
-        public ResultRegister<TCommand, TSuccessResult, TReturn> Return(Func<TWhen, TReturn> resultParser)
+        public ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> Return(Func<TWhen, TReturn> resultParser)
         {
             registerResult(result => resultParser((TWhen) result));
-            return resultRegister;
+            return resultRegisterProcessor;
+        }
+    }
+
+    public class ResultParser<TReturn, TWhen>
+        where TWhen : IResult
+    {
+        private readonly ResultRegister<TReturn> resultRegisterProcessor;
+        private readonly Action<Func<IResult, TReturn>> registerResult;
+
+        public ResultParser(ResultRegister<TReturn> resultRegisterProcessor, Action<Func<IResult, TReturn>> registerResult)
+        {
+            this.resultRegisterProcessor = resultRegisterProcessor;
+            this.registerResult = registerResult;
+        }
+
+        public ResultRegister<TReturn> Return(Func<TWhen, TReturn> resultParser)
+        {
+            registerResult(result => resultParser((TWhen)result));
+            return resultRegisterProcessor;
         }
     }
 }
