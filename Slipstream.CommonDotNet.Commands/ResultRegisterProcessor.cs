@@ -53,6 +53,7 @@ namespace Slipstream.CommonDotNet.Commands
         // TODO: this should be done in another class
         public async Task<TReturn> ExecuteAsync()
         {
+            // TODO: should this be reused?
             using (var processor = new CommandProcessor(lifetimeScopeService))
             {
                 var result = await processor.ProcessAsync(command);

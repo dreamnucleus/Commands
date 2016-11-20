@@ -22,7 +22,8 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\Projects;Initial Catalog=Slipstream.CommonDotNet.Commands.Debug;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\Projects;Initial Catalog=Slipstream.CommonDotNet.Commands.Debug;Integrated Security=True;Connect Timeout=30;" +
+                                         "Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
 
         public override void Dispose()

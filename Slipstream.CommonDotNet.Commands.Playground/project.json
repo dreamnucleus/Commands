@@ -10,7 +10,8 @@
       "version": "1.0.0"
     },
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
-    "Slipstream.CommonDotNet.Commands.Autofac": "1.0.0-*"
+    "Slipstream.CommonDotNet.Commands.Autofac": "1.0.0-*",
+    "Slipstream.CommonDotNet.Commands.Results": "1.0.0-*"
   },
 
   "frameworks": {
