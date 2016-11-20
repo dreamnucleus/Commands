@@ -62,16 +62,6 @@ namespace Slipstream.CommonDotNet.Commands.Playground
                     .ExecuteAsync().Result;
             }
 
-            // checking it throws the exceptions
-            try
-            {
-                //var throws = commandProcessor.ProcessSuccessAsync(new FakeCommand(-1)).Result;
-            }
-            catch (Exception)
-            {
-                // ignore
-            }
-
             // internal use of command
             var toReturn = resultProcessor.For(new CreatePostCommand(1, "2", "My Blog", "Good day!"))
                 .When(o => o.NotFound()).Return(r => new HttpResult(404))
@@ -88,6 +78,18 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var multipleTwo = resultProcessor.For(new MultipleTwoCommand())
                 .When(o => o.Success()).Return(r => new HttpResult(r.Result))
                 .ExecuteAsync().Result;
+
+
+
+            // checking it throws the exceptions
+            try
+            {
+                var throws = commandProcessor.ProcessSuccessAsync(new FakeCommand(-1)).Result;
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
         }
     }
 
