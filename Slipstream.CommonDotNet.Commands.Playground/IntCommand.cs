@@ -13,9 +13,11 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
     public class IntCommandHandler : IAsyncCommandHandler<IntCommand>
     {
-        public Task<object> ExecuteAsync(IntCommand command)
+        public async Task<object> ExecuteAsync(IntCommand command)
         {
-            return Task.FromResult<object>(command.Id);
+            //return Task.FromResult<object>(command.Id);
+            await Task.Delay(1);
+            return 1;
         }
     }
 }

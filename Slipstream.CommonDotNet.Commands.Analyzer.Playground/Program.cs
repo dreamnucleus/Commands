@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.DotNet.ProjectModel.Workspaces;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Slipstream.CommonDotNet.Commands.Analyzer.Playground
@@ -74,21 +76,63 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer.Playground
             foreach (var returnStatementSyntax in returnStatements)
             {
                 var semanticModel = Solution.GetDocument(methodDeclarationSyntax.SyntaxTree).GetSemanticModelAsync().Result;
+                var nodes = returnStatementSyntax.DescendantNodes().ToList();
+                var firstNode = nodes.First();
+                Console.WriteLine(firstNode.Kind() + " : " + firstNode.GetType().Name +  " : " + firstNode + " : " + nodes.Count());
 
-
-                if (returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Any())
+                // http://source.roslyn.io/#Microsoft.CodeAnalysis.CSharp/Syntax/SyntaxKind.cs,1fe7c08d8ff2a9e9,references
+                switch (firstNode.Kind())
                 {
-                    // then find return statements inside there;
-                    var test = semanticModel.GetSymbolInfo(returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().First());
-                    var check = test.Symbol.DeclaringSyntaxReferences.Single();
-                    AddReturnSymbolInfo(check.GetSyntaxAsync().Result as MethodDeclarationSyntax);
+                    case SyntaxKind.ObjectCreationExpression:
+                        break;
+                    case SyntaxKind.NumericLiteralExpression:
+                    case SyntaxKind.StringLiteralExpression:
+                    case SyntaxKind.CharacterLiteralExpression:
+                    case SyntaxKind.TrueLiteralExpression:
+                    case SyntaxKind.NullLiteralExpression:
+                        break;
+                    case SyntaxKind.SimpleMemberAccessExpression:
+                        break;
+                    case SyntaxKind.IdentifierName:
+                        break;
+
+                    case SyntaxKind.CastExpression:
+                        break;
+                    case SyntaxKind.AsExpression:
+                        break;
+
+
+                    case SyntaxKind.InvocationExpression:
+                        break;
+                    
+                    
+                    case SyntaxKind.EqualsExpression:
+                        // BinaryExpressionSyntax
+                        break;
+                    case SyntaxKind.NotEqualsExpression:
+                        // BinaryExpressionSyntax
+                        break;
+                    case SyntaxKind.ConditionalExpression:
+                        // ConditionalExpressionSyntax
+                        break;
                 }
+
+
+                //if (returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Any())
+                //{
+                //    // then find return statements inside there;
+                //    var test = semanticModel.GetSymbolInfo(returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().First());
+                //    var check = test.Symbol.DeclaringSyntaxReferences.Single();
+                //    AddReturnSymbolInfo(check.GetSyntaxAsync().Result as MethodDeclarationSyntax);
+                //}
 
                 ReturnSymbols.AddRange(returnStatementSyntax.DescendantNodes().OfType<ObjectCreationExpressionSyntax>().SelectMany(c => c.DescendantNodes()
                     .Where(n => n is IdentifierNameSyntax))
                     .Select(i => semanticModel.GetSymbolInfo(i).Symbol as INamedTypeSymbol).ToList());
 
             }
+
+            Console.ReadKey();
         }
     }
 }
