@@ -45,13 +45,13 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSymbolAction(a =>
-            {
-                if (a.Symbol.Name == "ExecuteAsync")
-                {
-                    Debug.WriteLine(a);
-                }
-            }, SymbolKind.Method);
+            //context.RegisterSymbolAction(a =>
+            //{
+            //    if (a.Symbol.Name == "ExecuteAsync")
+            //    {
+            //        Debug.WriteLine(a);
+            //    }
+            //}, SymbolKind.Method);
             context.RegisterCompilationAction(AnalyzeCompilation);
         }
 
@@ -124,22 +124,25 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer
             {
                 var semanticModel = compilation.GetSemanticModel(returnStatementSyntax.SyntaxTree);
 
-                if (returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Any())
-                {
-                    // then find return statements inside there;
-                    var test = semanticModel.GetSymbolInfo(returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().First());
-                    var check = test.Symbol.DeclaringSyntaxReferences.Single();
-                    typeSymbols.AddRange(GetReturnSymbolInfo(compilation, check.GetSyntaxAsync().Result as MethodDeclarationSyntax));
-                }
-                // TODO: need to add in ints semanticModel.GetTypeInfo(test.First())
-                typeSymbols.AddRange(returnStatementSyntax.DescendantNodes().OfType<ObjectCreationExpressionSyntax>().SelectMany(c => c.DescendantNodes()
-                    .Where(n => n is IdentifierNameSyntax))
-                    .Select(i => semanticModel.GetSymbolInfo(i).Symbol as INamedTypeSymbol).ToList());
+                typeSymbols.Add(semanticModel.GetTypeInfo(returnStatementSyntax.Expression).Type);
 
-                // TODO: what types?? this will not be work....??? does not work...
-                typeSymbols.AddRange(returnStatementSyntax.DescendantNodes()
-                    .Where(n => n is LiteralExpressionSyntax)
-                    .Select(n => semanticModel.GetTypeInfo(n).Type));
+                //if (returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Any())
+                //{
+                //    // then find return statements inside there;
+                //    var test = semanticModel.GetSymbolInfo(returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().First());
+                //    var check = test.Symbol.DeclaringSyntaxReferences.Single();
+                //    typeSymbols.AddRange(GetReturnSymbolInfo(compilation, check.GetSyntaxAsync().Result as MethodDeclarationSyntax));
+                //}
+
+                //// TODO: need to add in ints semanticModel.GetTypeInfo(test.First())
+                //typeSymbols.AddRange(returnStatementSyntax.DescendantNodes().OfType<ObjectCreationExpressionSyntax>().SelectMany(c => c.DescendantNodes()
+                //    .Where(n => n is IdentifierNameSyntax))
+                //    .Select(i => semanticModel.GetSymbolInfo(i).Symbol as INamedTypeSymbol).ToList());
+
+                //// TODO: what types?? this will not be work....??? does not work...
+                //typeSymbols.AddRange(returnStatementSyntax.DescendantNodes()
+                //    .Where(n => n is LiteralExpressionSyntax)
+                //    .Select(n => semanticModel.GetTypeInfo(n).Type));
             }
 
             // ignore method invokations

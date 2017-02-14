@@ -47,6 +47,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             // TODO: ExecuteSuccessAsync could be from another Processor? like a non-generic one
             var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(),
                 new LifetimeScopeService(container.BeginLifetimeScope()));
+
             var commandProcessor = new CommandProcessor(new LifetimeScopeService(container.BeginLifetimeScope()));
 
 

@@ -23,8 +23,11 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
     public class FakeCommandHandler : IAsyncCommandHandler<FakeCommand>
     {
-        public FakeCommandHandler()
+        private readonly ICommandProcessor commandProcessor;
+
+        public FakeCommandHandler(ICommandProcessor commandProcessor)
         {
+            this.commandProcessor = commandProcessor;
         }
 
 
@@ -85,11 +88,32 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             {
                 return "" != "";
             }
+            else if (command.Number == 6)
+            {
+                return Test() ?? new NotFoundException();
+            }
+            else if (command.Number == -6)
+            {
+                var getBlogResult = await commandProcessor.ProcessResultAsync(new GetBlogCommand(1));
+                if (getBlogResult.NotSuccess)
+                {
+                    return getBlogResult.Result;
+                }
+                else if (command.Number == 213414)
+                {
+                    return Test();
+                }
+                else
+                {
+                    return getBlogResult.SuccessResult;
+                }
+            }
             else
             {
                 return command.Number == 2 ? Test() : new NotFoundException();
             }
 
+            
             // ??
         }
 

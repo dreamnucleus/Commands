@@ -46,6 +46,9 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer.Playground
                     AddReturnSymbolInfo(methodDeclarationSyntax);
                 }
             }
+
+            Console.ReadKey();
+
             var testas = SymbolFinder.FindReferencesAsync(InterfaceSymbols[1], Solution).Result;
 
 
@@ -78,44 +81,18 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer.Playground
                 var semanticModel = Solution.GetDocument(methodDeclarationSyntax.SyntaxTree).GetSemanticModelAsync().Result;
                 var nodes = returnStatementSyntax.DescendantNodes().ToList();
                 var firstNode = nodes.First();
-                Console.WriteLine(firstNode.Kind() + " : " + firstNode.GetType().Name +  " : " + firstNode + " : " + nodes.Count());
 
-                // http://source.roslyn.io/#Microsoft.CodeAnalysis.CSharp/Syntax/SyntaxKind.cs,1fe7c08d8ff2a9e9,references
-                switch (firstNode.Kind())
+
+                Console.Write(firstNode.Kind() + " : " + firstNode.GetType().Name +  " : " + firstNode + " : " + nodes.Count());
+
+                // this works quite well. if we used another command returned its result... we would need to check that?
+                var typeInfo = semanticModel.GetTypeInfo(returnStatementSyntax.Expression);
+
+                if (typeInfo.Type != null)
                 {
-                    case SyntaxKind.ObjectCreationExpression:
-                        break;
-                    case SyntaxKind.NumericLiteralExpression:
-                    case SyntaxKind.StringLiteralExpression:
-                    case SyntaxKind.CharacterLiteralExpression:
-                    case SyntaxKind.TrueLiteralExpression:
-                    case SyntaxKind.NullLiteralExpression:
-                        break;
-                    case SyntaxKind.SimpleMemberAccessExpression:
-                        break;
-                    case SyntaxKind.IdentifierName:
-                        break;
-
-                    case SyntaxKind.CastExpression:
-                        break;
-                    case SyntaxKind.AsExpression:
-                        break;
-
-
-                    case SyntaxKind.InvocationExpression:
-                        break;
-                    
-                    
-                    case SyntaxKind.EqualsExpression:
-                        // BinaryExpressionSyntax
-                        break;
-                    case SyntaxKind.NotEqualsExpression:
-                        // BinaryExpressionSyntax
-                        break;
-                    case SyntaxKind.ConditionalExpression:
-                        // ConditionalExpressionSyntax
-                        break;
+                    Console.Write("  ||  " + typeInfo.Type.Name);
                 }
+                Console.WriteLine();
 
 
                 //if (returnStatementSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Any())
@@ -126,13 +103,15 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer.Playground
                 //    AddReturnSymbolInfo(check.GetSyntaxAsync().Result as MethodDeclarationSyntax);
                 //}
 
+                
+
                 ReturnSymbols.AddRange(returnStatementSyntax.DescendantNodes().OfType<ObjectCreationExpressionSyntax>().SelectMany(c => c.DescendantNodes()
                     .Where(n => n is IdentifierNameSyntax))
                     .Select(i => semanticModel.GetSymbolInfo(i).Symbol as INamedTypeSymbol).ToList());
 
             }
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

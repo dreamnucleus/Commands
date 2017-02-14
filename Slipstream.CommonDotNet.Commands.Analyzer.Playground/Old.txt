@@ -1,0 +1,36 @@
+﻿// http://source.roslyn.io/#Microsoft.CodeAnalysis.CSharp/Syntax/SyntaxKind.cs,1fe7c08d8ff2a9e9,references
+switch (firstNode.Kind())
+{
+    case SyntaxKind.ObjectCreationExpression:
+        break;
+    case SyntaxKind.NumericLiteralExpression:
+    case SyntaxKind.StringLiteralExpression:
+    case SyntaxKind.CharacterLiteralExpression:
+    case SyntaxKind.TrueLiteralExpression:
+    case SyntaxKind.NullLiteralExpression:
+        break;
+    case SyntaxKind.SimpleMemberAccessExpression:
+        break;
+    case SyntaxKind.IdentifierName:
+        break;
+
+    case SyntaxKind.CastExpression:
+        break;
+    case SyntaxKind.AsExpression:
+        break;
+
+
+    case SyntaxKind.InvocationExpression:
+        break;
+    
+    
+    case SyntaxKind.EqualsExpression:
+        // BinaryExpressionSyntax
+        break;
+    case SyntaxKind.NotEqualsExpression:
+        // BinaryExpressionSyntax
+        break;
+    case SyntaxKind.ConditionalExpression:
+        // ConditionalExpressionSyntax
+        break;
+}
