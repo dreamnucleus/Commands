@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands
 {
-    // TODO: can I do a distinct command, using the bytes of the data or something for a hash
+    // TODO: can I do a distinct command, using the bytes of the data or something for a hash, then could stop duplicate commands in for one processor
     public interface IAsyncCommand
     {
     }
