@@ -58,7 +58,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
 
             // using default handlers 
-            var defultHandlers = resultProcessor.For<FakeCommand, FakeData>(new FakeCommand(1231231))
+            var defultHandlers = resultProcessor.For(new FakeCommand(1231231))
                 //.When(o => o.NotFound()).Return(r => new HttpResult(404))
                 .When(o => o.Conflict()).Return(r => new HttpResult(409))
                 .When(o => o.Success()).Return(r => new HttpResult(200))
