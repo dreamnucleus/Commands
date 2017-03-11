@@ -54,21 +54,32 @@ namespace Slipstream.CommonDotNet.Commands
             // TODO: should this be reused?
             using (var processor = new CommandProcessor(lifetimeScopeService))
             {
-                var result = await processor.ProcessAsync(command);
+                try
+                {
+                    return ProcessResult(await processor.ProcessAsync(command));
+                }
+                catch (Exception exception)
+                {
+                    return ProcessResult(exception);
+                }
+            }
+        }
 
-                if (resultParsers.ContainsKey(result.GetType()))
-                {
-                    return resultParsers[result.GetType()](result);
-                }
-                else if (defualtResultParsers.ContainsKey(result.GetType()))
-                {
-                    return defualtResultParsers[result.GetType()](result);
-                }
-                else
-                {
-                    // TODO: not registered exception
-                    throw new ResultNotRegisteredException(command.GetType(), result.GetType());
-                }
+        // TODO: can we do an exception processor
+        private TReturn ProcessResult(object result)
+        {
+            if (resultParsers.ContainsKey(result.GetType()))
+            {
+                return resultParsers[result.GetType()](result);
+            }
+            else if (defualtResultParsers.ContainsKey(result.GetType()))
+            {
+                return defualtResultParsers[result.GetType()](result);
+            }
+            else
+            {
+                // TODO: not registered exception
+                throw new ResultNotRegisteredException(command.GetType(), result.GetType());
             }
         }
 

@@ -15,10 +15,16 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public static void Main(string[] args)
         {
 
-            using (var db = new BloggingContext())
+            using (var context = new BloggingContext())
             {
-                db.Database.EnsureDeleted();
-                db.Database.EnsureCreated();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+                var blog = new Blog
+                {
+                    Url = "http://vswebessentials.com/blog"
+                };
+                context.Blogs.Add(blog);
+                context.SaveChanges();
             }
 
             var containerBuilder = new ContainerBuilder();

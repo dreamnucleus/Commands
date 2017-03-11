@@ -37,9 +37,9 @@ namespace Slipstream.CommonDotNet.Commands
 
             // TODO: only create with IAsyncCommand, if none then throw a handler not found exception
 
-            var firstRegisteredClassType = allClassTypes.First(t => dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t)));
+            var firstRegisteredClassType = allClassTypes.First(t => dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t, typeof(TSuccessResult))));
 
-            var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType);
+            var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType, typeof(TSuccessResult));
             var handler = dependencyService.Resolve(handlerType);
             var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
             return await task;
@@ -48,7 +48,14 @@ namespace Slipstream.CommonDotNet.Commands
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
+            try
+            {
+                return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
+            }
+            catch (Exception exception)
+            {
+                return new CommandProcessorSuccessResult<TSuccessResult>(exception);
+            }
         }
 
         private static IEnumerable<Type> GetAllConcreteClassTypes(Type type)
