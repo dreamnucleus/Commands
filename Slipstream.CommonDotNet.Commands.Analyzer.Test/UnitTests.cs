@@ -76,7 +76,7 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer.Test
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
-            return new SlipstreamCommonDotNetCommandsAnalyzer();
+            return new SlipstreamCommonDotNetCommandsAnalyzerAnalyzer();
         }
     }
 }
