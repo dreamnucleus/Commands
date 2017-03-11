@@ -12,7 +12,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
     {
     }
 
-    public class TestCommandHandler : IAsyncCommandHandler<TestCommand>
+    public class TestCommandHandler : IAsyncCommandHandler<TestCommand, TestData>
     {
         private readonly BloggingContext context;
 
@@ -21,13 +21,13 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public async Task<object> ExecuteAsync(TestCommand command)
+        public async Task<TestData> ExecuteAsync(TestCommand command)
         {
             await Task.Delay(1);
 
             if (new Random().Next(0, 20) > 15)
             {
-                return new NotFoundException();
+                throw new NotFoundException();
             }
             else
             {
@@ -58,7 +58,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public string Url { get; set; }
     }
 
-    public class GetBlogCommandHandler : IAsyncCommandHandler<GetBlogCommand>
+    public class GetBlogCommandHandler : IAsyncCommandHandler<GetBlogCommand, BlogData>
     {
         private readonly BloggingContext context;
 
@@ -67,13 +67,13 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public async Task<object> ExecuteAsync(GetBlogCommand command)
+        public async Task<BlogData> ExecuteAsync(GetBlogCommand command)
         {
             var blog = await context.Blogs.SingleOrDefaultAsync(b => b.BlogId == command.BlogId);
 
             if (blog == null)
             {
-                return new NotFoundException();
+                throw new NotFoundException();
             }
 
             return new BlogData
@@ -107,7 +107,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
     }
 
 
-    public class CreatePostCommandHandler : IAsyncCommandHandler<CreatePostCommand>
+    public class CreatePostCommandHandler : IAsyncCommandHandler<CreatePostCommand, PostData>
     {
         private readonly ICommandProcessor commandProcessor;
         private readonly BloggingContext context;
@@ -118,17 +118,17 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public async Task<object> ExecuteAsync(CreatePostCommand command)
+        public async Task<PostData> ExecuteAsync(CreatePostCommand command)
         {
             var getBlogResult = await commandProcessor.ProcessResultAsync(new GetBlogCommand(command.BlogId));
-            if (getBlogResult.NotSuccess)
-            {
-                return getBlogResult.Result;
-            }
+            //if (getBlogResult.NotSuccess)
+            //{
+            //    //return getBlogResult.Result;
+            //}
 
             if (await context.Posts.AnyAsync(b => b.PostId == command.PostId))
             {
-                return new ConflictException();
+                throw new ConflictException();
             }
 
             context.Posts.Add(new Post

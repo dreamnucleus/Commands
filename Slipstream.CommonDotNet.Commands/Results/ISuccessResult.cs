@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Slipstream.CommonDotNet.Commands;
+using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Results
 {
     public interface ISuccessResult<TCommand, TResult> : IAsyncCommand
-    where TCommand : IAsyncCommand
+        where TCommand : IAsyncCommand
     {
     }
 
@@ -16,6 +18,10 @@ namespace Slipstream.CommonDotNet.Commands.Results
     {
     }
 
+    //public interface ISuccessResult<TCommand> : IAsyncCommand
+    //    where TCommand : IAsyncCommand
+    //{
+    //}
 
     public static class SuccessResultExtensions
     {
@@ -25,5 +31,9 @@ namespace Slipstream.CommonDotNet.Commands.Results
             return default(TResult);
         }
 
+        //public static void Success<TCommand>(this ISuccessResult<TCommand> result)
+        //   where TCommand : IAsyncCommand
+        //{
+        //}
     }
 }

@@ -10,13 +10,10 @@ namespace Slipstream.CommonDotNet.Commands
     // TODO: IDisposable
     public interface ICommandProcessor : IDisposable
     {
-        Task<object> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand;
 
         Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
-            where TCommand : IAsyncCommand;
-
-        Task<TSuccessResult> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand;
     }
 }

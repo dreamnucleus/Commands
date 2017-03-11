@@ -1,18 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21669A96-4199-4287-896A-5C036F03E346}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Slipstream.CommonDotNet.Commands", "Slipstream.CommonDotNet.Commands\Slipstream.CommonDotNet.Commands.xproj", "{F5FFEF7C-485D-4649-B479-F3A5181EDF8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands", "Slipstream.CommonDotNet.Commands\Slipstream.CommonDotNet.Commands.csproj", "{F5FFEF7C-485D-4649-B479-F3A5181EDF8D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Slipstream.CommonDotNet.Commands.Playground", "Slipstream.CommonDotNet.Commands.Playground\Slipstream.CommonDotNet.Commands.Playground.xproj", "{08E41937-D16C-45D0-8864-85BD68923A1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Playground", "Slipstream.CommonDotNet.Commands.Playground\Slipstream.CommonDotNet.Commands.Playground.csproj", "{08E41937-D16C-45D0-8864-85BD68923A1B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Slipstream.CommonDotNet.Commands.Autofac", "Slipstream.CommonDotNet.Commands.Autofac\Slipstream.CommonDotNet.Commands.Autofac.xproj", "{2933F224-93CE-415C-AD36-89073889D706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Autofac", "Slipstream.CommonDotNet.Commands.Autofac\Slipstream.CommonDotNet.Commands.Autofac.csproj", "{2933F224-93CE-415C-AD36-89073889D706}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Analyzer.Playground", "Slipstream.CommonDotNet.Commands.Analyzer.Playground\Slipstream.CommonDotNet.Commands.Analyzer.Playground.csproj", "{AC7ECB8B-6E56-4AAC-9392-41ACCE92E8B3}"
 EndProject
@@ -20,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Analyzer.Vsix", "Slipstream.CommonDotNet.Commands.Analyzer.Vsix\Slipstream.CommonDotNet.Commands.Analyzer.Vsix.csproj", "{83843B58-00B0-413D-A41D-E83947704726}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Slipstream.CommonDotNet.Commands.Results", "Slipstream.CommonDotNet.Commands.Results\Slipstream.CommonDotNet.Commands.Results.xproj", "{D47C45D0-0961-428E-BF3C-81BD251C8AD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Results", "Slipstream.CommonDotNet.Commands.Results\Slipstream.CommonDotNet.Commands.Results.csproj", "{D47C45D0-0961-428E-BF3C-81BD251C8AD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

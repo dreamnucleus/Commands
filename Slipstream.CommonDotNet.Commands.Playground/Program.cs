@@ -25,16 +25,16 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             containerBuilder.RegisterType<BloggingContext>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand>>();
-            containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand>>();
-            containerBuilder.RegisterType<CreatePostCommandHandler>().As<IAsyncCommandHandler<CreatePostCommand>>();
+            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand, TestData>>();
+            containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand, BlogData>>();
+            containerBuilder.RegisterType<CreatePostCommandHandler>().As<IAsyncCommandHandler<CreatePostCommand, PostData>>();
 
-            containerBuilder.RegisterType<FakeCommandHandler>().As<IAsyncCommandHandler<FakeCommand>>();
+            containerBuilder.RegisterType<FakeCommandHandler>().As<IAsyncCommandHandler<FakeCommand, FakeData>>();
 
-            containerBuilder.RegisterType<MultipleCommandHandler>().As<IAsyncCommandHandler<MultipleCommand>>();
+            containerBuilder.RegisterType<MultipleCommandHandler>().As<IAsyncCommandHandler<MultipleCommand, MultipleData>>();
 
-            containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand>>();
-
+            containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand, int>>();
+            containerBuilder.RegisterType<NoneCommandHandler>().As<IAsyncCommandHandler<NoneCommand, Unit>>();
 
 
             var container = containerBuilder.Build();
@@ -52,7 +52,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
 
             // using default handlers 
-            var defultHandlers = resultProcessor.For(new FakeCommand(1231231))
+            var defultHandlers = resultProcessor.For<FakeCommand, FakeData>(new FakeCommand(1231231))
                 //.When(o => o.NotFound()).Return(r => new HttpResult(404))
                 .When(o => o.Conflict()).Return(r => new HttpResult(409))
                 .When(o => o.Success()).Return(r => new HttpResult(200))
@@ -91,7 +91,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             // checking it throws the exceptions
             try
             {
-                var throws = commandProcessor.ProcessSuccessAsync(new FakeCommand(-1)).Result;
+                var throws = commandProcessor.ProcessAsync(new FakeCommand(-1)).Result;
             }
             catch (Exception)
             {

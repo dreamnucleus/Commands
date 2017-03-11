@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.6</TargetFramework>
+    <AssemblyName>Slipstream.CommonDotNet.Commands.Playground</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Slipstream.CommonDotNet.Commands.Playground</PackageId>
+    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Autofac\Slipstream.CommonDotNet.Commands.Autofac.csproj" />
+    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Results\Slipstream.CommonDotNet.Commands.Results.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.0.3" />
+  </ItemGroup>
+
+</Project>

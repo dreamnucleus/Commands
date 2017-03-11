@@ -32,11 +32,11 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         }
     }
 
-    public class MultipleCommandHandler : IAsyncCommandHandler<MultipleCommand>
+    public class MultipleCommandHandler : IAsyncCommandHandler<MultipleCommand, MultipleData>
     {
-        public Task<object> ExecuteAsync(MultipleCommand command)
+        public Task<MultipleData> ExecuteAsync(MultipleCommand command)
         {
-            return Task.FromResult<object>(new MultipleData
+            return Task.FromResult(new MultipleData
             {
                 Result = command.Id * 10
             });

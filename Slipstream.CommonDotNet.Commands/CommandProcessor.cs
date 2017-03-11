@@ -20,7 +20,7 @@ namespace Slipstream.CommonDotNet.Commands
             this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
-        public async Task<object> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
             //var validationContext = new ValidationContext(command);
@@ -37,11 +37,11 @@ namespace Slipstream.CommonDotNet.Commands
 
             // TODO: only create with IAsyncCommand, if none then throw a handler not found exception
 
-            var firstRegisteredClassType = allClassTypes.First(t => dependencyService.IsRegistered(typeof(IAsyncCommandHandler<>).MakeGenericType(t)));
+            var firstRegisteredClassType = allClassTypes.First(t => dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t)));
 
-            var handlerType = typeof(IAsyncCommandHandler<>).MakeGenericType(firstRegisteredClassType);
+            var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType);
             var handler = dependencyService.Resolve(handlerType);
-            var task = (Task<object>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
+            var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
             return await task;
         }
 
@@ -49,21 +49,6 @@ namespace Slipstream.CommonDotNet.Commands
             where TCommand : IAsyncCommand
         {
             return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
-        }
-
-        public async Task<TSuccessResult> ProcessSuccessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
-            where TCommand : IAsyncCommand
-        {
-            var result = await ProcessAsync(command);
-
-            if (result is TSuccessResult)
-            {
-                return (TSuccessResult)result;
-            }
-            else
-            {
-                throw (Exception)result;
-            }
         }
 
         private static IEnumerable<Type> GetAllConcreteClassTypes(Type type)

@@ -7,10 +7,10 @@ using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands
 {
-    public interface IAsyncCommandHandler<in TCommand>
-        where TCommand : IAsyncCommand
+    public interface IAsyncCommandHandler<in TCommand, TSuccessResult>
+        where TCommand : ISuccessResult<TCommand, TSuccessResult>
     {
-        Task<object> ExecuteAsync(TCommand command);
+        Task<TSuccessResult> ExecuteAsync(TCommand command);
     }
 
 }
