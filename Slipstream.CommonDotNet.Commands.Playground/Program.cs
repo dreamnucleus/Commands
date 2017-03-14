@@ -57,7 +57,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var commandProcessor = new CommandProcessor(new LifetimeScopeService(container.BeginLifetimeScope()));
 
 
-            // using default handlers 
+            // using default handlers
             var defultHandlers = resultProcessor.For(new FakeCommand(1231231))
                 //.When(o => o.NotFound()).Return(r => new HttpResult(404))
                 .When(o => o.Conflict()).Return(r => new HttpResult(409))
