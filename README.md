@@ -5,9 +5,10 @@
 
 ```cs
 
+// the interfaces let us know what will be returned or what exceptions can be thrown
 public class GetBlogCommand : ISuccessResult<GetBlogCommand, BlogData>, INotFoundResult
 {
-    public int BlogId { get; set; }```
+    public int BlogId { get; set; }
 
     public GetBlogCommand(int blogId)
     {
@@ -65,6 +66,7 @@ var containerBuilder = new ContainerBuilder();
 
 containerBuilder.RegisterType<BloggingContext>().InstancePerLifetimeScope();
 
+// these can be found and regsiters automatically
 containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand, BlogData>>();
 
 var container = containerBuilder.Build();
@@ -91,6 +93,7 @@ var containerBuilder = new ContainerBuilder();
 
 containerBuilder.RegisterType<BloggingContext>().InstancePerLifetimeScope();
 
+// these can be found and regsiters automatically
 containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand, BlogData>>();
 
 var container = containerBuilder.Build();
@@ -102,6 +105,7 @@ resultRegister.When<NotFoundException>().Return(r => new HttpResult(404));
 var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(),
     new LifetimeScopeService(container.BeginLifetimeScope()));
 
+// exceptions are caught and processed using the handlers
 var result = await resultProcessor.For(new GetBlogCommand(1))
     .When(o => o.NotFound()).Return(r => new HttpResult(404))
     .When(o => o.Success()).Return(r => new HttpResult(200))
