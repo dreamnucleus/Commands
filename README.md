@@ -8,7 +8,7 @@
 // the interfaces let us know what will be returned or what exceptions can be thrown
 public class GetBlogCommand : ISuccessResult<GetBlogCommand, BlogData>, INotFoundResult
 {
-    public int BlogId { get; set; }
+    public int BlogId { get; }
 
     public GetBlogCommand(int blogId)
     {

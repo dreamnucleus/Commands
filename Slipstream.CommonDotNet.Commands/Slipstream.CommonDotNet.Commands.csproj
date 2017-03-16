@@ -1,18 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyName>Slipstream.CommonDotNet.Commands</AssemblyName>
+    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <PackageId>Slipstream.CommonDotNet.Commands</PackageId>
+    <Title>Slipstream CommonDotNet Commands</Title>
+    <Description>Slipstream CommonDotNet Commands</Description>
+    
+    <PackageVersion>1.0.0-beta1</PackageVersion>
+    <Authors>dreamnucleus</Authors>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageTags>commands</PackageTags>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <PackageProjectUrl>https://github.com/dreamnucleus/commands</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/dreamnucleus/Commands/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.0.1" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\tools\install.ps1" CopyToPublishDirectory="False" PackagePath="tools" />
+    <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\tools\uninstall.ps1" CopyToPublishDirectory="False" PackagePath="tools" />
+    <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\bin\Release\Slipstream.CommonDotNet.Commands.Analyzer.dll" CopyToPublishDirectory="False" PackagePath="analyzers\dotnet\cs" />
+  </ItemGroup>
+  
 </Project>
