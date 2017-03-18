@@ -1,5 +1,33 @@
 # Commands
 
+The aim of this library to help in writing Web API's. In a controller the code will look like the below. There is also the ability to use default handlers for errors such as not found.
+
+```cs
+
+return await resultProcessor.For(new GetBlogCommand(blogId))
+    .When(o => o.NotFound()).Return(r => new HttpResult(404))
+    .When(o => o.Success()).Return(r => new HttpResult(200))
+    .ExecuteAsync();
+    
+```
+
+## NuGet
+
+Packages availble for .NETFramework 4.5 and .NETStandard 1.6
+
+https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
+
+```
+Install-Package Slipstream.CommonDotNet.Commands
+```
+
+https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Autofac/
+
+```
+Install-Package Slipstream.CommonDotNet.Commands.Autofac
+```
+
+# Example
 
 ## Get Blog Command
 
