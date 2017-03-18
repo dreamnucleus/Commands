@@ -11,6 +11,13 @@ return await resultProcessor.For(new GetBlogCommand(blogId))
     
 ```
 
+NuGet:
+
+https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
+
+https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Autofac/
+
+
 ## Get Blog Command
 
 ```cs
