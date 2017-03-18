@@ -13,6 +13,8 @@ return await resultProcessor.For(new GetBlogCommand(blogId))
 
 ## NuGet
 
+*Warning: this is still in development. There is a version 1 of a similar library on NuGet.*
+
 Packages availble for .NETFramework 4.5 and .NETStandard 1.6
 
 https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
