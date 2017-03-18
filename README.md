@@ -1,5 +1,15 @@
 # Commands
 
+The aim of this library to help in writing Web API's. In a controller the code will look like the below. There is also the ability to use default handlers.
+
+```cs
+
+return await resultProcessor.For(new GetBlogCommand(blogId))
+    .When(o => o.NotFound()).Return(r => new HttpResult(404))
+    .When(o => o.Success()).Return(r => new HttpResult(200))
+    .ExecuteAsync();
+    
+```
 
 ## Get Blog Command
 
