@@ -4,12 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C06DC328-B4FD-4D47-A84A-9B3707B11916}</ProjectGuid>
+    <ProjectGuid>{76229F83-2A05-4DD7-AC8D-4724A22260B1}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Slipstream.CommonDotNet.Commands.Playground.Net45</RootNamespace>
-    <AssemblyName>Slipstream.CommonDotNet.Commands.Playground.Net45</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Slipstream.CommonDotNet.Commands.Playground.Net462</RootNamespace>
+    <AssemblyName>Slipstream.CommonDotNet.Commands.Playground.Net462</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -1,4 +1,5 @@
 ﻿# Commands
+msbuild /p:Configuration=Release .\Slipstream.CommonDotNet.Commands.Analyzer\Slipstream.CommonDotNet.Commands.Analyzer.csproj
 msbuild /t:pack /p:Configuration=Release .\Slipstream.CommonDotNet.Commands\Slipstream.CommonDotNet.Commands.csproj
 
 $latestCommands = Get-ChildItem -Path .\Slipstream.CommonDotNet.Commands\bin\Release\ | Sort-Object LastAccessTime -Descending | Select-Object -First 1
