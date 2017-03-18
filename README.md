@@ -13,10 +13,19 @@ return await resultProcessor.For(new GetBlogCommand(blogId))
 
 ## NuGet
 
+Packages availble for .NETFramework 4.5 and .NETStandard 1.6
+
 https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
+
+```
+Install-Package Slipstream.CommonDotNet.Commands
+```
 
 https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Autofac/
 
+```
+Install-Package Slipstream.CommonDotNet.Commands.Autofac
+```
 
 # Example
 
