@@ -1,6 +1,6 @@
 # Commands
 
-The aim of this library to help in writing Web API's. In a controller the code will look like the below. There is also the ability to use default handlers.
+The aim of this library to help in writing Web API's. In a controller the code will look like the below. There is also the ability to use default handlers for errors such as not found.
 
 ```cs
 
