@@ -6,7 +6,7 @@
     <Title>Slipstream CommonDotNet Commands Results</Title>
     <Description>Slipstream CommonDotNet Commands Results</Description>
     
-    <PackageVersion>1.0.0-beta1</PackageVersion>
+    <PackageVersion>2.0.0-beta1</PackageVersion>
     <Authors>dreamnucleus</Authors>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>commands</PackageTags>

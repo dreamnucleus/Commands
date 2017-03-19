@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.0.3" />
-    <PackageReference Include="Slipstream.CommonDotNet.Commands.Autofac" Version="1.0.0-beta1" />
-    <PackageReference Include="Slipstream.CommonDotNet.Commands.Results" Version="1.0.0-beta1" />
+    <PackageReference Include="Slipstream.CommonDotNet.Commands.Autofac" Version="2.0.0-beta1" />
+    <PackageReference Include="Slipstream.CommonDotNet.Commands.Results" Version="2.0.0-beta1" />
   </ItemGroup>
 
 </Project>

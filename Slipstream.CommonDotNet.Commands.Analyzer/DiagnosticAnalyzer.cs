@@ -84,7 +84,7 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer
                         builder.Add("Return", returnSymbol.ToDisplayString(SymbolDisplayFormat));
 
                         var diagnostic = Diagnostic.Create(MissingInterfaceRule, commandSymbol.Locations.Single(), builder.ToImmutable(), iAsyncCommandHandler.Identifier.Text, returnSymbol.Name);
-                        context.ReportDiagnostic(diagnostic);
+                        //context.ReportDiagnostic(diagnostic);
                     }
                 }
 
@@ -93,7 +93,7 @@ namespace Slipstream.CommonDotNet.Commands.Analyzer
                     if (returnSymbols.All(i => !interfaceSymbol.Equals(i)))
                     {
                         var diagnostic = Diagnostic.Create(MissingReturnRule, methodDeclarationSyntax.ReturnType.GetLocation(), iAsyncCommandHandler.Identifier.Text, interfaceSymbol.Name);
-                        context.ReportDiagnostic(diagnostic);
+                        //context.ReportDiagnostic(diagnostic);
                     }
                 }
             }
