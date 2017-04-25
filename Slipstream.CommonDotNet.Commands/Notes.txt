@@ -24,13 +24,16 @@ Could create a SingletonCommand which requires a lock on an internal object or e
 ### Retry logic ###
 Where would this sit.
 
-
+### Caching ###
+Where would this sit.
 
 ## Operation ##
 A group of commands, similar to HEOS.. is it needed? propbably not...
 
 
 
+## RX ##
+Could do RX Noficiation
 
 
 ## Noficiation - like pipelines specific for a command ##
@@ -48,3 +51,6 @@ Checkout of a cart:
   
 What about a pipeline, saw we want to log everything as it goes through the system...
 
+
+## Validation of setup ##
+instead of using Roslyn, could I use runtime checking of the setup?
