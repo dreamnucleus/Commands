@@ -6,9 +6,45 @@ Can we auto generate Enums based on return types and use them with ProcessResult
 
 What if there is a real error then we really do need the .Catch
 
-What about logging?
 
+
+
+## Pipelines ##
 What about a pipeline, saw we want to log everything as it goes through the system...
 
+Add in logging into the pipeline
 
-can we make the parser return nothing? so we can just execute some code... like update something in mvvm. and action not a func
+Add in validation into the pipeline
+
+Could the two below be part of the pipeline?
+
+### Different Types of commands ###
+Could create a SingletonCommand which requires a lock on an internal object or external resource
+
+### Retry logic ###
+Where would this sit.
+
+
+
+## Operation ##
+A group of commands, similar to HEOS.. is it needed? propbably not...
+
+
+
+
+
+## Noficiation - like pipelines specific for a command ##
+Noficiation for a command? Could allow to process something at the start of a command and then something at success.
+
+Create account with a client id:
+  On Started -> Ignore
+  On ClientIdNotFound -> queue to send an email admin about a user attempted to sign up and clientID could not be found
+  On Success -> queue to send out an email to user/admin
+  
+Checkout of a cart:
+  On Started -> Ignore
+  On AnyFailure -> send to insights checkout was attempted
+  On Sucess -> great!
+  
+What about a pipeline, saw we want to log everything as it goes through the system...
+
