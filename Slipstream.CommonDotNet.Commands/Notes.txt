@@ -9,3 +9,6 @@ What if there is a real error then we really do need the .Catch
 What about logging?
 
 What about a pipeline, saw we want to log everything as it goes through the system...
+
+
+can we make the parser return nothing? so we can just execute some code... like update something in mvvm. and action not a func
