@@ -27,6 +27,9 @@ Where would this sit.
 ### Caching ###
 Where would this sit.
 
+### Unique command ###
+So that only one can be executed in a time, for example create new user.
+
 ## Operation ##
 A group of commands, similar to HEOS.. is it needed? propbably not...
 
