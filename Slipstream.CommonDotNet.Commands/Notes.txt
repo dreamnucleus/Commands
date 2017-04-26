@@ -30,6 +30,10 @@ Where would this sit.
 ### Unique command ###
 So that only one can be executed in a time, for example create new user.
 
+
+### Guaranteed command ###
+If a service is not available then save the command for later..
+
 ## Operation ##
 A group of commands, similar to HEOS.. is it needed? propbably not...
 
