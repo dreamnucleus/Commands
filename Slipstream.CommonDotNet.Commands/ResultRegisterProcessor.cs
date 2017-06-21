@@ -83,9 +83,12 @@ namespace Slipstream.CommonDotNet.Commands
             }
         }
 
-        public Task<TSuccessResult> ExecuteSuccessAsync()
+        public async Task<TSuccessResult> ExecuteSuccessAsync()
         {
-            throw new NotImplementedException();
+            using (var processor = new CommandProcessor(lifetimeScopeService))
+            {
+                return await processor.ProcessAsync(command);
+            }
         }
     }
 }
