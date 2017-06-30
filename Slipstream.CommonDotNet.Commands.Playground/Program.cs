@@ -63,7 +63,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var commandProcessor = new CommandProcessor(commandsBuilder, new LifetimeScopeService(container.BeginLifetimeScope()));
             try
             {
-                var throws = commandProcessor.ProcessAsync(new FakeCommand(1231231)).Result;
+                var throws = commandProcessor.ProcessAsync(new FakeCommand(1)).Result;
             }
             catch (Exception)
             {

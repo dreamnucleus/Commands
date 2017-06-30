@@ -34,7 +34,7 @@ namespace Slipstream.CommonDotNet.Commands
         {
             foreach (var pipeline in commandsBuilder.Pipelines)
             {
-                await ((Pipeline) dependencyService.Resolve(pipeline)).Incoming();
+                await ((Pipeline) dependencyService.Resolve(pipeline)).Incoming(command);
             }
 
             var allClassTypes = GetAllConcreteClassTypes(typeof(TCommand));
@@ -46,12 +46,26 @@ namespace Slipstream.CommonDotNet.Commands
             var handler = dependencyService.Resolve(handlerType);
             var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
 
-            foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
+            try
             {
-                await ((Pipeline)dependencyService.Resolve(pipeline)).Outgoing();
-            }
+                var result = await task;
 
-            return await task;
+                foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
+                {
+                    await ((Pipeline)dependencyService.Resolve(pipeline)).Outgoing(command, result);
+                }
+
+                return await task;
+            }
+            catch (Exception exception)
+            {
+                foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
+                {
+                    await ((Pipeline)dependencyService.Resolve(pipeline)).Exception(command, exception);
+                }
+
+                throw;
+            }
         }
 
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)

@@ -35,6 +35,11 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public async Task<FakeData> ExecuteAsync(FakeCommand command)
         {
+            if (command.Number == -1)
+            {
+                throw new Exception("Test");
+            }
+
             await Task.Delay(1);
 
             return new FakeData();
