@@ -17,16 +17,16 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public override Task Incoming(IAsyncCommand command)
+        public override Task ExecutingAsync(IAsyncCommand command)
         {
             Console.WriteLine("Incoming with context: " + context.Id);
-            return base.Incoming(command);
+            return base.ExecutingAsync(command);
         }
 
-        public override Task Outgoing(IAsyncCommand command, object result)
+        public override Task ExecutedAsync(IAsyncCommand command, object result)
         {
             Console.WriteLine("Outgoing with context: " + context.Id);
-            return base.Outgoing(command, result);
+            return base.ExecutedAsync(command, result);
         }
 
     }
@@ -41,22 +41,22 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public override Task Incoming(IAsyncCommand command)
+        public override Task ExecutingAsync(IAsyncCommand command)
         {
             Console.WriteLine("Incoming with command: " + command.GetType().Name);
-            return base.Incoming(command);
+            return base.ExecutingAsync(command);
         }
 
-        public override Task Outgoing(IAsyncCommand command, object result)
+        public override Task ExecutedAsync(IAsyncCommand command, object result)
         {
             Console.WriteLine("Outgoing (Second) with command: " + command.GetType().Name + " and result: " + result.GetType().Name);
-            return base.Outgoing(command, result);
+            return base.ExecutedAsync(command, result);
         }
 
-        public override Task Exception(IAsyncCommand command, Exception exception)
+        public override Task ExceptionAsync(IAsyncCommand command, Exception exception)
         {
             Console.WriteLine("Exception (Second) with command: " + command.GetType().Name + " and exception: " + exception.GetType().Name);
-            return base.Exception(command, exception);
+            return base.ExceptionAsync(command, exception);
         }
     }
 }

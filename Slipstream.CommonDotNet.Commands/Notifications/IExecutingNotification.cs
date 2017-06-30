@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Notifications
 {
-    public interface IExecuteExceptionNotification<in TCommand>
+    public interface IExecutingNotification<in TCommand>
     {
-        Task OnExecutedAsync(TCommand command, Exception exception);
+        Task OnExecutingAsync(TCommand command);
 
     }
 }

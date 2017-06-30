@@ -34,7 +34,7 @@ namespace Slipstream.CommonDotNet.Commands
         {
             foreach (var pipeline in commandsBuilder.Pipelines)
             {
-                await ((Pipeline) dependencyService.Resolve(pipeline)).Incoming(command);
+                await ((Pipeline) dependencyService.Resolve(pipeline)).ExecutingAsync(command);
             }
 
             var allClassTypes = GetAllConcreteClassTypes(typeof(TCommand));
@@ -52,7 +52,7 @@ namespace Slipstream.CommonDotNet.Commands
 
                 foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
                 {
-                    await ((Pipeline)dependencyService.Resolve(pipeline)).Outgoing(command, result);
+                    await ((Pipeline)dependencyService.Resolve(pipeline)).ExecutedAsync(command, result);
                 }
 
                 return await task;
@@ -61,7 +61,7 @@ namespace Slipstream.CommonDotNet.Commands
             {
                 foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
                 {
-                    await ((Pipeline)dependencyService.Resolve(pipeline)).Exception(command, exception);
+                    await ((Pipeline)dependencyService.Resolve(pipeline)).ExceptionAsync(command, exception);
                 }
 
                 throw;
