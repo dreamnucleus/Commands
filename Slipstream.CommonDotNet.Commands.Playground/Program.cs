@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Slipstream.CommonDotNet.Commands;
 using Slipstream.CommonDotNet.Commands.Autofac;
+using Slipstream.CommonDotNet.Commands.Builder;
 using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Playground
@@ -15,17 +16,17 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public static void Main(string[] args)
         {
 
-            using (var context = new BloggingContext())
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-                var blog = new Blog
-                {
-                    Url = "http://vswebessentials.com/blog"
-                };
-                context.Blogs.Add(blog);
-                context.SaveChanges();
-            }
+            //using (var context = new BloggingContext())
+            //{
+            //    context.Database.EnsureDeleted();
+            //    context.Database.EnsureCreated();
+            //    var blog = new Blog
+            //    {
+            //        Url = "http://vswebessentials.com/blog"
+            //    };
+            //    context.Blogs.Add(blog);
+            //    context.SaveChanges();
+            //}
 
             var containerBuilder = new ContainerBuilder();
 
@@ -42,6 +43,9 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand, int>>();
             containerBuilder.RegisterType<NoneCommandHandler>().As<IAsyncCommandHandler<NoneCommand, Unit>>();
 
+            var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
+            commandsBuilder.Use<TestPipeline>();
+            commandsBuilder.Use<SecondTestPipeline>();
 
             var container = containerBuilder.Build();
 
@@ -54,8 +58,17 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(),
                 new LifetimeScopeService(container.BeginLifetimeScope()));
 
-            var commandProcessor = new CommandProcessor(new LifetimeScopeService(container.BeginLifetimeScope()));
+            
 
+            var commandProcessor = new CommandProcessor(commandsBuilder, new LifetimeScopeService(container.BeginLifetimeScope()));
+            try
+            {
+                var throws = commandProcessor.ProcessAsync(new FakeCommand(1231231)).Result;
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
 
             // using default handlers
             var defultHandlers = resultProcessor.For(new FakeCommand(1231231))
