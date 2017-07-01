@@ -47,6 +47,10 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             commandsBuilder.Use<TestPipeline>();
             commandsBuilder.Use<SecondTestPipeline>();
 
+            commandsBuilder.Use<ExecutingNotification>();
+            commandsBuilder.Use<ExecutedNotification>();
+            commandsBuilder.Use<ExceptionNotification>();
+
             var container = containerBuilder.Build();
 
 
@@ -63,7 +67,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var commandProcessor = new CommandProcessor(commandsBuilder, new LifetimeScopeService(container.BeginLifetimeScope()));
             try
             {
-                var throws = commandProcessor.ProcessAsync(new FakeCommand(1)).Result;
+                var throws = commandProcessor.ProcessAsync(new FakeCommand(-1)).Result;
             }
             catch (Exception)
             {

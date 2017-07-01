@@ -16,10 +16,11 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
         {
             this.containerBuilder = containerBuilder;
         }
-        public override ICommandsBuilder Use<TPipeline>()
+
+        public override ICommandsBuilder Use<TItem>()
         {
-            containerBuilder.RegisterType<TPipeline>().InstancePerLifetimeScope();
-            return base.Use<TPipeline>();
+            containerBuilder.RegisterType<TItem>().InstancePerLifetimeScope();
+            return base.Use<TItem>();
         }
     }
 }

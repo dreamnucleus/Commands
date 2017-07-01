@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Notifications
 {
-    public interface IExecutingNotification<in TCommand>
+    public interface IExecutingNotification<in TCommand> : IUseCommandsBuilder
     {
         Task OnExecutingAsync(TCommand command);
-
     }
 }

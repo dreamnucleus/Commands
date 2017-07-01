@@ -43,7 +43,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public override Task ExecutingAsync(IAsyncCommand command)
         {
-            Console.WriteLine("Incoming with command: " + command.GetType().Name);
+            Console.WriteLine("Incoming (Second) with command: " + command.GetType().Name);
             return base.ExecutingAsync(command);
         }
 

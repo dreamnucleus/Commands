@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Slipstream.CommonDotNet.Commands.Notifications;
 
 namespace Slipstream.CommonDotNet.Commands.Builder
 {
@@ -12,7 +13,14 @@ namespace Slipstream.CommonDotNet.Commands.Builder
     {
         IReadOnlyCollection<Type> Pipelines { get; }
 
-        ICommandsBuilder Use<TPipeline>()
-            where TPipeline : Pipeline;
+        IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutingNotifications { get; }
+        IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutedNotifications { get; }
+        IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExceptionNotifications { get; }
+
+
+        ICommandsBuilder Use<TItem>()
+            where TItem : IUseCommandsBuilder;
+
+
     }
 }

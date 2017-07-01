@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Pipelines
 {
-    public abstract class Pipeline
+    public abstract class Pipeline : IUseCommandsBuilder
     {
         public virtual Task ExecutingAsync(IAsyncCommand command)
         {
