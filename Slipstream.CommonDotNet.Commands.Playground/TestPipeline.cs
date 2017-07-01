@@ -7,6 +7,7 @@ using Slipstream.CommonDotNet.Commands.Pipelines;
 
 namespace Slipstream.CommonDotNet.Commands.Playground
 {
+    [Singleton]
     public class TestPipeline : Pipeline
     {
         private readonly BloggingContext context;
@@ -19,13 +20,13 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public override Task ExecutingAsync(IAsyncCommand command)
         {
-            Console.WriteLine("Incoming with context: " + context.Id);
+            Console.WriteLine("Incoming (Singleton) with context: " + context.Id);
             return base.ExecutingAsync(command);
         }
 
         public override Task ExecutedAsync(IAsyncCommand command, object result)
         {
-            Console.WriteLine("Outgoing with context: " + context.Id);
+            Console.WriteLine("Outgoing (Singleton) with context: " + context.Id);
             return base.ExecutedAsync(command, result);
         }
 

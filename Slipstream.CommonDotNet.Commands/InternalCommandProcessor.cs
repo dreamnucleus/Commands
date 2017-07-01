@@ -26,6 +26,8 @@ namespace Slipstream.CommonDotNet.Commands
             this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
+
+
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
@@ -39,12 +41,14 @@ namespace Slipstream.CommonDotNet.Commands
             var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType, typeof(TSuccessResult));
             var handler = dependencyService.Resolve(handlerType);
 
+            var pipelines = commandsBuilder.Pipelines.Select(p => (Pipeline)dependencyService.Resolve(p)).ToList();
+
             // run executing pipeline and notification
-            foreach (var pipeline in commandsBuilder.Pipelines)
+            foreach (var pipeline in pipelines)
             {
-                if (pipeline.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
+                if (pipeline.GetType().GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                 {
-                    await ((Pipeline)dependencyService.Resolve(pipeline)).ExecutingAsync(command);
+                    await pipeline.ExecutingAsync(command);
                 }
             }
 
@@ -74,12 +78,12 @@ namespace Slipstream.CommonDotNet.Commands
                     }
                 }
 
-
-                foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
+                pipelines.Reverse();
+                foreach (var pipeline in pipelines)
                 {
-                    if (pipeline.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
+                    if (pipeline.GetType().GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                     {
-                        await ((Pipeline)dependencyService.Resolve(pipeline)).ExecutedAsync(command, result);
+                        await pipeline.ExecutedAsync(command, result);
                     }
                 }
 
@@ -98,11 +102,12 @@ namespace Slipstream.CommonDotNet.Commands
                     }
                 }
 
-                foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
+                pipelines.Reverse();
+                foreach (var pipeline in pipelines)
                 {
-                    if (pipeline.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
+                    if (pipeline.GetType().GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                     {
-                        await ((Pipeline)dependencyService.Resolve(pipeline)).ExceptionAsync(command, exception);
+                        await pipeline.ExceptionAsync(command, exception);
                     }
                 }
 
