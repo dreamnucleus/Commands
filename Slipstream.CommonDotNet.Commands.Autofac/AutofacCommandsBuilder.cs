@@ -15,6 +15,8 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
         public AutofacCommandsBuilder(ContainerBuilder containerBuilder)
         {
             this.containerBuilder = containerBuilder;
+
+            containerBuilder.RegisterInstance(this).As<ICommandsBuilder>().SingleInstance();
         }
 
         public override ICommandsBuilder Use<TItem>()

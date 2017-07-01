@@ -8,7 +8,7 @@ using Slipstream.CommonDotNet.Commands.Results;
 namespace Slipstream.CommonDotNet.Commands
 {
     // TODO: IDisposable
-    public interface ICommandProcessor : IDisposable
+    public interface ICommandProcessor
     {
         Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand;

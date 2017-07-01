@@ -36,6 +36,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public async Task<FakeData> ExecuteAsync(FakeCommand command)
         {
             Console.WriteLine("ExecuteAsync");
+            var getBlogResult = await commandProcessor.ProcessResultAsync(new GetBlogCommand(1));
             if (command.Number == -1)
             {
                 throw new Exception("Test");

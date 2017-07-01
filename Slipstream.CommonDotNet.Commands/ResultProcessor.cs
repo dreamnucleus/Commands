@@ -7,33 +7,30 @@ using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands
 {
-    public class ResultProcessor<TReturn>// : IDisposable
+    public class ResultProcessor<TReturn>
     {
         private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> resultParsers;
-        private readonly ICommandsBuilder commandsBuilder;
-        private readonly ILifetimeScopeService lifetimeScopeService;
+
+        private readonly ICommandProcessor commandProcessor;
 
         public ResultProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
             : this(new Dictionary<Type, Func<object, TReturn>>(), commandsBuilder, lifetimeScopeService)
         {
         }
 
-        public ResultProcessor(Dictionary<Type, Func<object, TReturn>> resultParsers, ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
+        public ResultProcessor(Dictionary<Type, Func<object, TReturn>> resultParsers, 
+            ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
             this.resultParsers = resultParsers;
-            this.commandsBuilder = commandsBuilder;
-            this.lifetimeScopeService = lifetimeScopeService;
+            this.commandProcessor = new CommandProcessor(commandsBuilder, lifetimeScopeService);
         }
 
         // can i make one which only returns the success
         public ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> For<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            return new ResultRegisterProcessor<TCommand, TSuccessResult, TReturn>(command, resultParsers, commandsBuilder, lifetimeScopeService);
+            return new ResultRegisterProcessor<TCommand, TSuccessResult, TReturn>
+                (command, resultParsers, commandProcessor);
         }
-
-        //public void Dispose()
-        //{
-        //}
     }
 }

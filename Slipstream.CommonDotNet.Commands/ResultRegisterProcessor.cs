@@ -17,21 +17,19 @@ namespace Slipstream.CommonDotNet.Commands
         private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers;
         private readonly Dictionary<Type, Func<object, TReturn>> resultParsers = new Dictionary<Type, Func<object, TReturn>>();
 
-        private readonly ICommandsBuilder commandsBuilder;
-        private readonly ILifetimeScopeService lifetimeScopeService;
+
+        private readonly ICommandProcessor commandProcessor;
 
         public ResultRegisterProcessor(ISuccessResult<TCommand, TSuccessResult> command, IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers,
-            ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
+            ICommandProcessor commandProcessor)
         {
             Contract.Requires(command != null);
             Contract.Requires(defualtResultParsers != null);
-            Contract.Requires(commandsBuilder != null);
-            Contract.Requires(lifetimeScopeService != null);
+            Contract.Requires(commandProcessor != null);
 
             this.command = command;
             this.defualtResultParsers = defualtResultParsers;
-            this.commandsBuilder = commandsBuilder;
-            this.lifetimeScopeService = lifetimeScopeService;
+            this.commandProcessor = commandProcessor;
         }
 
 
@@ -57,16 +55,13 @@ namespace Slipstream.CommonDotNet.Commands
         public async Task<TReturn> ExecuteAsync()
         {
             // TODO: should this be reused?
-            using (var processor = new CommandProcessor(commandsBuilder, lifetimeScopeService))
+            try
             {
-                try
-                {
-                    return ProcessResult(await processor.ProcessAsync(command));
-                }
-                catch (Exception exception)
-                {
-                    return ProcessResult(exception);
-                }
+                return ProcessResult(await commandProcessor.ProcessAsync(command));
+            }
+            catch (Exception exception)
+            {
+                return ProcessResult(exception);
             }
         }
 
@@ -90,10 +85,7 @@ namespace Slipstream.CommonDotNet.Commands
 
         public async Task<TSuccessResult> ExecuteSuccessAsync()
         {
-            using (var processor = new CommandProcessor(commandsBuilder, lifetimeScopeService))
-            {
-                return await processor.ProcessAsync(command);
-            }
+            return await commandProcessor.ProcessAsync(command);
         }
     }
 }

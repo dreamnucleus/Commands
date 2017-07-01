@@ -42,6 +42,7 @@ Similar to notification below
 
 ## RX ##
 Could do RX Noficiation
+This could be a pipeline of sort? Where you create a RX pipeline and just get events pushed to you
 
 
 ## Noficiation - like pipelines specific for a command ##

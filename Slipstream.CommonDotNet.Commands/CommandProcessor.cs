@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -16,123 +15,33 @@ namespace Slipstream.CommonDotNet.Commands
         public Guid Id { get; } = Guid.NewGuid();
 
         private readonly ICommandsBuilder commandsBuilder;
-        private readonly ILifetimeScopeDependencyService dependencyService;
+        private readonly ILifetimeScopeService lifetimeScopeService;
 
         public CommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
             Console.WriteLine("CommandProcessor created " + Id);
             this.commandsBuilder = commandsBuilder;
-            this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
+            this.lifetimeScopeService = lifetimeScopeService;
         }
 
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            var allClassTypes = GetAllConcreteClassTypes(typeof(TCommand));
-
-            // TODO: only create with IAsyncCommand, if none then throw a handler not found exception
-            var firstRegisteredClassType = allClassTypes.First(t => dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t, typeof(TSuccessResult))));
-
-            var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType, typeof(TSuccessResult));
-            var handler = dependencyService.Resolve(handlerType);
-
-            // run executing pipeline and notification
-            foreach (var pipeline in commandsBuilder.Pipelines)
+            using (var internalCommandProcessor =
+                new InternalCommandProcessor(commandsBuilder, lifetimeScopeService, command))
             {
-                await ((Pipeline)dependencyService.Resolve(pipeline)).ExecutingAsync(command);
-            }
-
-            if (commandsBuilder.ExecutingNotifications.TryGetValue(typeof(TCommand), out var executingNotifications))
-            {
-                foreach (var executingNotification in executingNotifications)
-                {
-                    typeof(IExecutingNotification<>).MakeGenericType(typeof(TCommand))
-                        .GetTypeInfo().GetMethod("OnExecutingAsync", new[] { command.GetType() })
-                        .Invoke(dependencyService.Resolve(executingNotification), new object[] { command });
-                }
-            }
-
-            var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
-
-            try
-            {
-                var result = await task;
-
-                if (commandsBuilder.ExecutedNotifications.TryGetValue(typeof(TCommand), out var executedNotifications))
-                {
-                    foreach (var executedNotification in executedNotifications)
-                    {
-                        typeof(IExecutedNotification<,>).MakeGenericType(typeof(TCommand), typeof(TSuccessResult))
-                            .GetTypeInfo().GetMethod("OnExecutedAsync", new[] { command.GetType(), typeof(TSuccessResult) })
-                            .Invoke(dependencyService.Resolve(executedNotification), new object[] { command, result });
-                    }
-                }
-
-
-                foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
-                {
-                    await ((Pipeline)dependencyService.Resolve(pipeline)).ExecutedAsync(command, result);
-                }
-
-                return await task;
-            }
-            catch (Exception exception)
-            {
-                // run exception notification and pipeline
-                if (commandsBuilder.ExceptionNotifications.TryGetValue(typeof(TCommand), out var exceptionNotifications))
-                {
-                    foreach (var exceptionNotification in exceptionNotifications)
-                    {
-                        typeof(IExceptionNotification<>).MakeGenericType(typeof(TCommand))
-                            .GetTypeInfo().GetMethod("OnExecptionAsync", new[] { command.GetType(), typeof(Exception) })
-                            .Invoke(dependencyService.Resolve(exceptionNotification), new object[] { command, exception });
-                    }
-                }
-
-                foreach (var pipeline in commandsBuilder.Pipelines.Reverse())
-                {
-                    await ((Pipeline)dependencyService.Resolve(pipeline)).ExceptionAsync(command, exception);
-                }
-
-                throw;
+                return await internalCommandProcessor.ProcessAsync(command);
             }
         }
 
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            try
+            using (var internalCommandProcessor =
+                new InternalCommandProcessor(commandsBuilder, lifetimeScopeService, command))
             {
-                return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
+                return await internalCommandProcessor.ProcessResultAsync(command);
             }
-            catch (Exception exception)
-            {
-                return new CommandProcessorSuccessResult<TSuccessResult>(exception);
-            }
-        }
-
-        private static IEnumerable<Type> GetAllConcreteClassTypes(Type type)
-        {
-            var types = new List<Type>
-            {
-                type
-            };
-            while (type.GetTypeInfo().BaseType != null)
-            {
-                type = type.GetTypeInfo().BaseType;
-
-                if (!type.GetTypeInfo().IsAbstract)
-                {
-                    types.Add(type);
-                }
-            }
-            return types;
-        }
-
-        public void Dispose()
-        {
-            dependencyService.Dispose();
-            Console.WriteLine("CommandProcessor disposed " + Id);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21669A96-4199-4287-896A-5C036F03E346}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Analyzer.Vsix", "Slipstream.CommonDotNet.Commands.Analyzer.Vsix\Slipstream.CommonDotNet.Commands.Analyzer.Vsix.csproj", "{9CEB2EFE-BCD4-4275-99A2-955BDB9E4B78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Playground.NetCore", "Slipstream.CommonDotNet.Commands.Playground.NetCore\Slipstream.CommonDotNet.Commands.Playground.NetCore.csproj", "{D47FE132-5914-45D7-8B2F-228BF4E1EEAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Playground.NetCore", "Slipstream.CommonDotNet.Commands.Playground.NetCore\Slipstream.CommonDotNet.Commands.Playground.NetCore.csproj", "{D47FE132-5914-45D7-8B2F-228BF4E1EEAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Playground.Net45", "Slipstream.CommonDotNet.Commands.Playground.Net45\Slipstream.CommonDotNet.Commands.Playground.Net45.csproj", "{C06DC328-B4FD-4D47-A84A-9B3707B11916}"
 EndProject

@@ -54,6 +54,15 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var container = containerBuilder.Build();
 
 
+            var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+
+            var test = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
+            Console.WriteLine();
+            Console.WriteLine();
+            var test1 = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
+            Console.WriteLine();
+
+
             var resultRegister = new ResultRegister<HttpResult>();
             resultRegister.When<NotFoundException>().Return(r => new HttpResult(444444444));
 
@@ -64,9 +73,11 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             
 
-            var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+
+
             try
             {
+
                 var throws = commandProcessor.ProcessAsync(new FakeCommand(-1)).Result;
             }
             catch (Exception)
