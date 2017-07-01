@@ -51,10 +51,15 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             commandsBuilder.Use<ExecutedNotification>();
             commandsBuilder.Use<ExceptionNotification>();
 
+            containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
+            containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
+
+            containerBuilder.RegisterType<CommandProcessor>().As<ICommandProcessor>();
+
             var container = containerBuilder.Build();
 
-
-            var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+            var commandProcessor = container.Resolve<ICommandProcessor>();
+            //var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
             var test = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
             Console.WriteLine();
@@ -71,7 +76,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(), commandsBuilder,
                 new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
-            
+
 
 
 
