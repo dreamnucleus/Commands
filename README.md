@@ -88,6 +88,42 @@ public class GetBlogCommandHandler : IAsyncCommandHandler<GetBlogCommand, BlogDa
 ```
 
 
+## Audit Log Pipeline
+
+```cs
+
+public class AuditLogPipeline : Pipeline
+{
+    private readonly BloggingContext context;
+
+    public AuditLogPipeline(BloggingContext context)
+    {
+        this.context = context;
+    }
+    
+    public override Task ExecutingAsync(IAsyncCommand command)
+    {
+        // log the incoming command
+        return base.ExecutingAsync(command);
+    }
+
+    public override async Task ExecutedAsync(IAsyncCommand command, object result)
+    {
+        // log the completed command and result
+        return base.ExecutedAsync(command, result);
+    }
+    
+    public override Task ExceptionAsync(IAsyncCommand command, Exception exception)
+    {
+        // log an exception in the command
+        return base.ExceptionAsync(command, exception);
+    }
+
+}
+
+
+```
+
 ## Using Command Processor (with Autofac)
 
 ```cs
