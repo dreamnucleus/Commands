@@ -6,11 +6,11 @@ using Autofac;
 
 namespace Slipstream.CommonDotNet.Commands.Autofac
 {
-    public class DependencyService : ILifetimeScopeDependencyService
+    public class AutofacDependencyService : ILifetimeScopeDependencyService
     {
         private readonly ILifetimeScope lifetimeScope;
 
-        public DependencyService(ILifetimeScope lifetimeScope)
+        public AutofacDependencyService(ILifetimeScope lifetimeScope)
         {
             this.lifetimeScope = lifetimeScope;
         }
@@ -52,7 +52,7 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
 
         public ILifetimeScopeDependencyService BeginLifetimeScope(ICommandProcessor commandProcessor)
         {
-            return new DependencyService(lifetimeScope.BeginLifetimeScope(c =>
+            return new AutofacDependencyService(lifetimeScope.BeginLifetimeScope(c =>
             {
                 c.RegisterInstance(commandProcessor).As<ICommandProcessor>().ExternallyOwned();
             }));
