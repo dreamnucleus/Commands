@@ -41,11 +41,11 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
         }
     }
 
-    public class LifetimeScopeService : ILifetimeScopeService
+    public class AutofacLifetimeScopeService : ILifetimeScopeService
     {
         private readonly ILifetimeScope lifetimeScope;
 
-        public LifetimeScopeService(ILifetimeScope lifetimeScope)
+        public AutofacLifetimeScopeService(ILifetimeScope lifetimeScope)
         {
             this.lifetimeScope = lifetimeScope;
         }
