@@ -59,7 +59,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             // TODO: need to be able to add in global stuff
             // TODO: ExecuteSuccessAsync could be from another Processor? like a non-generic one
-            var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(),
+            var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(), commandsBuilder,
                 new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
             

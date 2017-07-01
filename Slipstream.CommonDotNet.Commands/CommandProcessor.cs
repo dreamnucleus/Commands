@@ -18,11 +18,6 @@ namespace Slipstream.CommonDotNet.Commands
         private readonly ICommandsBuilder commandsBuilder;
         private readonly ILifetimeScopeDependencyService dependencyService;
 
-        public CommandProcessor(ILifetimeScopeService lifetimeScopeService)
-            : this(new CommandsBuilder(), lifetimeScopeService)
-        {
-        }
-
         public CommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
             Console.WriteLine("CommandProcessor created " + Id);

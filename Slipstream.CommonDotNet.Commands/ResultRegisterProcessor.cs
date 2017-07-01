@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using Slipstream.CommonDotNet.Commands.Builder;
 using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands
@@ -16,16 +17,20 @@ namespace Slipstream.CommonDotNet.Commands
         private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers;
         private readonly Dictionary<Type, Func<object, TReturn>> resultParsers = new Dictionary<Type, Func<object, TReturn>>();
 
+        private readonly ICommandsBuilder commandsBuilder;
         private readonly ILifetimeScopeService lifetimeScopeService;
 
-        public ResultRegisterProcessor(ISuccessResult<TCommand, TSuccessResult> command, IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers, ILifetimeScopeService lifetimeScopeService)
+        public ResultRegisterProcessor(ISuccessResult<TCommand, TSuccessResult> command, IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers,
+            ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
             Contract.Requires(command != null);
             Contract.Requires(defualtResultParsers != null);
+            Contract.Requires(commandsBuilder != null);
             Contract.Requires(lifetimeScopeService != null);
 
             this.command = command;
             this.defualtResultParsers = defualtResultParsers;
+            this.commandsBuilder = commandsBuilder;
             this.lifetimeScopeService = lifetimeScopeService;
         }
 
@@ -52,7 +57,7 @@ namespace Slipstream.CommonDotNet.Commands
         public async Task<TReturn> ExecuteAsync()
         {
             // TODO: should this be reused?
-            using (var processor = new CommandProcessor(lifetimeScopeService))
+            using (var processor = new CommandProcessor(commandsBuilder, lifetimeScopeService))
             {
                 try
                 {
@@ -85,7 +90,7 @@ namespace Slipstream.CommonDotNet.Commands
 
         public async Task<TSuccessResult> ExecuteSuccessAsync()
         {
-            using (var processor = new CommandProcessor(lifetimeScopeService))
+            using (var processor = new CommandProcessor(commandsBuilder, lifetimeScopeService))
             {
                 return await processor.ProcessAsync(command);
             }
