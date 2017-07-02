@@ -121,6 +121,8 @@ public class AuditLogPipeline : Pipeline
     }
 
 }
+```
+
 
 ## Executed Notification
 
@@ -136,7 +138,6 @@ public class ExecutedNotification : IExecutedNotification<GetBlogCommand, BlogDa
 }
 ```
 
-```
 
 ## Using Command Processor (with Autofac)
 
