@@ -1,6 +1,7 @@
 # Commands
 
-The aim of this library to help in writing Web API's. In a controller the code will look like the below. There is also the ability to use default handlers for errors such as not found.
+The aim of this library to help in writing a business layer for applications. It includes a pipeline and notifcations (specific to a type of command) to wrap incoming commands, outgoing results and exceptions.
+
 
 ```cs
 
@@ -91,7 +92,7 @@ public class GetBlogCommandHandler : IAsyncCommandHandler<GetBlogCommand, BlogDa
 ## Audit Log Pipeline
 
 ```cs
-
+// this could be used to write all incoming commands to a audit log
 public class AuditLogPipeline : Pipeline
 {
     private readonly BloggingContext context;
@@ -121,6 +122,19 @@ public class AuditLogPipeline : Pipeline
 
 }
 
+## Executed Notification
+
+```cs
+// this could be used to send an email to the owner... maybe good if you get one visitor a day
+public class ExecutedNotification : IExecutedNotification<GetBlogCommand, BlogData>
+{
+    public Task OnExecutedAsync(GetBlogCommand command, BlogData result)
+    {
+        // add email request to a queue
+        return Task.FromResult(0);
+    }
+}
+```
 
 ```
 
