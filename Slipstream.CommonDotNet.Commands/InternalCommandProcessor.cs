@@ -56,7 +56,7 @@ namespace Slipstream.CommonDotNet.Commands
             {
                 foreach (var executingNotification in executingNotifications)
                 {
-                    typeof(IExecutingNotification<>).MakeGenericType(typeof(TCommand))
+                    await (Task)typeof(IExecutingNotification<>).MakeGenericType(typeof(TCommand))
                         .GetTypeInfo().GetMethod("OnExecutingAsync", new[] { command.GetType() })
                         .Invoke(dependencyService.Resolve(executingNotification), new object[] { command });
                 }
@@ -72,7 +72,7 @@ namespace Slipstream.CommonDotNet.Commands
                 {
                     foreach (var executedNotification in executedNotifications)
                     {
-                        typeof(IExecutedNotification<,>).MakeGenericType(typeof(TCommand), typeof(TSuccessResult))
+                        await (Task)typeof(IExecutedNotification<,>).MakeGenericType(typeof(TCommand), typeof(TSuccessResult))
                             .GetTypeInfo().GetMethod("OnExecutedAsync", new[] { command.GetType(), typeof(TSuccessResult) })
                             .Invoke(dependencyService.Resolve(executedNotification), new object[] { command, result });
                     }
@@ -96,7 +96,7 @@ namespace Slipstream.CommonDotNet.Commands
                 {
                     foreach (var exceptionNotification in exceptionNotifications)
                     {
-                        typeof(IExceptionNotification<>).MakeGenericType(typeof(TCommand))
+                        await (Task)typeof(IExceptionNotification<>).MakeGenericType(typeof(TCommand))
                             .GetTypeInfo().GetMethod("OnExecptionAsync", new[] { command.GetType(), typeof(Exception) })
                             .Invoke(dependencyService.Resolve(exceptionNotification), new object[] { command, exception });
                     }
