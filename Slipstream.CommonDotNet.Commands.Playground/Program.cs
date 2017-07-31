@@ -32,7 +32,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             containerBuilder.RegisterType<BloggingContext>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand, TestData>>();
+            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand, ICollection<TestData>>>();
             containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand, BlogData>>();
             containerBuilder.RegisterType<CreatePostCommandHandler>().As<IAsyncCommandHandler<CreatePostCommand, PostData>>();
 
@@ -83,7 +83,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             try
             {
 
-                var throws = commandProcessor.ProcessAsync(new FakeCommand(-1)).Result;
+                var throws = commandProcessor.ProcessAsync(new TestCommand()).Result;
             }
             catch (Exception)
             {
@@ -91,7 +91,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             }
 
             // using default handlers
-            var defultHandlers = resultProcessor.For(new FakeCommand(1231231))
+            var defultHandlers = resultProcessor.For(new TestCommand())
                 //.When(o => o.NotFound()).Return(r => new HttpResult(404))
                 .When(o => o.Conflict()).Return(r => new HttpResult(409))
                 .When(o => o.Success()).Return(r => new HttpResult(200))

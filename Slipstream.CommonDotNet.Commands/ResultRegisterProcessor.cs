@@ -66,6 +66,7 @@ namespace Slipstream.CommonDotNet.Commands
         }
 
         // TODO: can we do an exception processor
+        // TODO: if exception is not found maybe we should throw that exception? makes more sense
         private TReturn ProcessResult(object result)
         {
             if (resultParsers.ContainsKey(result.GetType()))

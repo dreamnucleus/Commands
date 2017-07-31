@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Playground
 {
-    public class TestCommand : ISuccessResult<TestCommand, TestData>, INotFoundResult, IConflictResult
+    public class TestCommand : ISuccessResult<TestCommand, ICollection<TestData>>, INotFoundResult, IConflictResult
     {
     }
 
-    public class TestCommandHandler : IAsyncCommandHandler<TestCommand, TestData>
+    public class TestCommandHandler : IAsyncCommandHandler<TestCommand, ICollection<TestData>>
     {
         private readonly BloggingContext context;
 
@@ -21,17 +21,20 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             this.context = context;
         }
 
-        public async Task<TestData> ExecuteAsync(TestCommand command)
+        public async Task<ICollection<TestData>> ExecuteAsync(TestCommand command)
         {
             await Task.Delay(1);
 
-            if (new Random().Next(0, 20) > 15)
+            //if (new Random().Next(0, 20) > 15)
+            //{
+            //    throw new NotFoundException();
+            //}
+            //else
             {
-                throw new NotFoundException();
-            }
-            else
-            {
-                return new TestData();
+                return new List<TestData>
+                {
+                    new TestData()
+                };
             }
         }
     }
