@@ -79,8 +79,14 @@ namespace Slipstream.CommonDotNet.Commands
             }
             else
             {
-                // TODO: not registered exception
-                throw new ResultNotRegisteredException(command.GetType(), result.GetType());
+                if (result is Exception exception)
+                {
+                    throw exception;
+                }
+                else
+                {
+                    throw new ResultNotRegisteredException(command.GetType(), result.GetType());
+                }
             }
         }
 
