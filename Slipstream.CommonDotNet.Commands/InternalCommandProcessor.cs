@@ -12,15 +12,12 @@ namespace Slipstream.CommonDotNet.Commands
 {
     internal class InternalCommandProcessor : ICommandProcessor, IDisposable
     {
-        public Guid Id { get; } = Guid.NewGuid();
-
         private readonly ICommandsBuilder commandsBuilder;
         private readonly IAsyncCommand initialCommand;
         private readonly ILifetimeScopeDependencyService dependencyService;
 
         public InternalCommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService, IAsyncCommand initialCommand)
         {
-            Console.WriteLine("InternalCommandProcessor created " + Id);
             this.commandsBuilder = commandsBuilder;
             this.initialCommand = initialCommand;
             this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
@@ -62,10 +59,11 @@ namespace Slipstream.CommonDotNet.Commands
                 }
             }
 
-            var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
 
             try
             {
+                var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
+
                 var result = await task;
 
                 if (commandsBuilder.ExecutedNotifications.TryGetValue(typeof(TCommand), out var executedNotifications))
@@ -91,6 +89,12 @@ namespace Slipstream.CommonDotNet.Commands
             }
             catch (Exception exception)
             {
+                // if the command was not async, we will need to get the inner exception
+                if (exception is TargetInvocationException targetInvocationException)
+                {
+                    exception = targetInvocationException.InnerException;
+                }
+
                 // run exception notification and pipeline
                 if (commandsBuilder.ExceptionNotifications.TryGetValue(typeof(TCommand), out var exceptionNotifications))
                 {
@@ -111,7 +115,8 @@ namespace Slipstream.CommonDotNet.Commands
                     }
                 }
 
-                throw;
+                // ReSharper disable once PossibleIntendedRethrow
+                throw exception;
             }
         }
 
@@ -149,7 +154,6 @@ namespace Slipstream.CommonDotNet.Commands
         public void Dispose()
         {
             dependencyService.Dispose();
-            Console.WriteLine("InternalCommandProcessor disposed " + Id);
         }
     }
 }
