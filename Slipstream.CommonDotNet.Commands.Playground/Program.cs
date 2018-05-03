@@ -4,18 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
-using Slipstream.CommonDotNet.Commands;
 using Slipstream.CommonDotNet.Commands.Autofac;
-using Slipstream.CommonDotNet.Commands.Builder;
 using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Playground
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-
             //using (var context = new BloggingContext())
             //{
             //    context.Database.EnsureDeleted();
@@ -32,11 +29,13 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             containerBuilder.RegisterType<BloggingContext>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand, ICollection<TestData>>>();
+            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand, List<TestData>>>();
             containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand, BlogData>>();
             containerBuilder.RegisterType<CreatePostCommandHandler>().As<IAsyncCommandHandler<CreatePostCommand, PostData>>();
 
             containerBuilder.RegisterType<FakeCommandHandler>().As<IAsyncCommandHandler<FakeCommand, FakeData>>();
+
+            containerBuilder.RegisterType<GenericCommandHandler<object>>().As<IAsyncCommandHandler<GenericCommand<object>, object>>();
 
             containerBuilder.RegisterType<MultipleCommandHandler>().As<IAsyncCommandHandler<MultipleCommand, MultipleData>>();
 
@@ -58,14 +57,35 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             var container = containerBuilder.Build();
 
+
             var commandProcessor = container.Resolve<ICommandProcessor>();
             //var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+            //try
+            //{
+            //    var test = await commandProcessor.ProcessAsync(new FakeCommand(10));
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //}
 
-            var test = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
-            Console.WriteLine();
-            Console.WriteLine();
-            var test1 = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
-            Console.WriteLine();
+            try
+            {
+
+                var throws = commandProcessor.ProcessAsync(new TestCommand()).Result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                // ignore
+            }
+
+            //var generic = commandProcessor.ProcessAsync(new GenericCommand<object>()).Result;
+
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //var test1 = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
+            //Console.WriteLine();
 
 
             var resultRegister = new ResultRegister<HttpResult>();
@@ -77,25 +97,12 @@ namespace Slipstream.CommonDotNet.Commands.Playground
                 new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
 
-
-
-
-            try
-            {
-
-                var throws = commandProcessor.ProcessAsync(new TestCommand()).Result;
-            }
-            catch (Exception)
-            {
-                // ignore
-            }
-
             // using default handlers
-            var defultHandlers = resultProcessor.For(new TestCommand())
+            var defultHandlers = await resultProcessor.For(new TestCommand())
                 //.When(o => o.NotFound()).Return(r => new HttpResult(404))
                 .When(o => o.Conflict()).Return(r => new HttpResult(409))
                 .When(o => o.Success()).Return(r => new HttpResult(200))
-                .ExecuteAsync().Result;
+                .ExecuteAsync();
 
             // checking lifetime
             for (int i = 0; i < 2; i++)
