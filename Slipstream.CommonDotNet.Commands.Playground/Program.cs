@@ -13,7 +13,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
 
             //using (var context = new BloggingContext())
@@ -61,28 +61,34 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             var commandProcessor = container.Resolve<ICommandProcessor>();
             //var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
-            var test = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
+            var resultRegister = new ResultRegister<HttpResult>();
+            resultRegister.When<NotFoundException>().Return(r => new HttpResult(444444444));
+            var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(), commandsBuilder,
+                new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+
+            try
+            {
+                var throws = await resultProcessor.For(new FakeCommand(-1)).ExecuteAsync();
+                var test = await commandProcessor.ProcessAsync(new FakeCommand(-1));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             Console.WriteLine();
             Console.WriteLine();
             var test1 = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
             Console.WriteLine();
 
 
-            var resultRegister = new ResultRegister<HttpResult>();
-            resultRegister.When<NotFoundException>().Return(r => new HttpResult(444444444));
 
             // TODO: need to be able to add in global stuff
             // TODO: ExecuteSuccessAsync could be from another Processor? like a non-generic one
-            var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(), commandsBuilder,
-                new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
-
-
-
 
 
             try
             {
-
                 var throws = commandProcessor.ProcessAsync(new TestCommand()).Result;
             }
             catch (Exception)

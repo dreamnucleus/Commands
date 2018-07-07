@@ -77,6 +77,10 @@ namespace Slipstream.CommonDotNet.Commands
             {
                 return defualtResultParsers[result.GetType()](result);
             }
+            else if (result is Exception exception)
+            {
+                throw exception;
+            }
             else
             {
                 // TODO: not registered exception
