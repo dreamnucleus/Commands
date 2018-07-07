@@ -12,14 +12,11 @@ namespace Slipstream.CommonDotNet.Commands
 {
     public class CommandProcessor : ICommandProcessor
     {
-        public Guid Id { get; } = Guid.NewGuid();
-
         private readonly ICommandsBuilder commandsBuilder;
         private readonly ILifetimeScopeService lifetimeScopeService;
 
         public CommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
-            Console.WriteLine("CommandProcessor created " + Id);
             this.commandsBuilder = commandsBuilder;
             this.lifetimeScopeService = lifetimeScopeService;
         }

@@ -5,8 +5,9 @@
     <PackageId>Slipstream.CommonDotNet.Commands</PackageId>
     <Title>Slipstream CommonDotNet Commands</Title>
     <Description>Slipstream CommonDotNet Commands</Description>
-    
-    <PackageVersion>2.0.0-beta7</PackageVersion>
+
+    <Version>2.0.0</Version>
+    <PackageVersion>2.0.0</PackageVersion>
     <Authors>dreamnucleus</Authors>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>commands</PackageTags>
@@ -16,6 +17,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <PackageProjectUrl>https://github.com/dreamnucleus/commands</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/dreamnucleus/Commands/blob/master/LICENSE</PackageLicenseUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
