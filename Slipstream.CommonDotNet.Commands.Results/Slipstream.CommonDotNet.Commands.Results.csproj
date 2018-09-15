@@ -17,6 +17,9 @@
     <IncludeSymbols>true</IncludeSymbols>
     <PackageProjectUrl>https://github.com/dreamnucleus/commands</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/dreamnucleus/Commands/blob/master/LICENSE</PackageLicenseUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/dreamnucleus/Commands.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

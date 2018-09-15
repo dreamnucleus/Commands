@@ -17,17 +17,24 @@
     <IncludeSymbols>true</IncludeSymbols>
     <PackageProjectUrl>https://github.com/dreamnucleus/commands</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/dreamnucleus/Commands/blob/master/LICENSE</PackageLicenseUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/dreamnucleus/Commands.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All" />
+  </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.0.1" />
   </ItemGroup>
-  
-  <ItemGroup>
+
+  <!--<ItemGroup>
     <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\tools\install.ps1" CopyToPublishDirectory="False" PackagePath="tools" />
     <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\tools\uninstall.ps1" CopyToPublishDirectory="False" PackagePath="tools" />
     <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\bin\Release\Slipstream.CommonDotNet.Commands.Analyzer.dll" CopyToPublishDirectory="False" PackagePath="analyzers\dotnet\cs" />
-  </ItemGroup>
+  </ItemGroup>-->
   
 </Project>

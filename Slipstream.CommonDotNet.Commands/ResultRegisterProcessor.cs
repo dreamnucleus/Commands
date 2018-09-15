@@ -83,14 +83,7 @@ namespace Slipstream.CommonDotNet.Commands
             }
             else
             {
-                if (result is Exception exception)
-                {
-                    throw exception;
-                }
-                else
-                {
-                    throw new ResultNotRegisteredException(command.GetType(), result.GetType());
-                }
+                throw new ResultNotRegisteredException(command.GetType(), result.GetType());
             }
         }
 

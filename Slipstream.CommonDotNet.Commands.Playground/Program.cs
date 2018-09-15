@@ -32,7 +32,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
             containerBuilder.RegisterType<BloggingContext>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand, ICollection<TestData>>>();
+            containerBuilder.RegisterType<TestCommandHandler>().As<IAsyncCommandHandler<TestCommand, List<TestData>>>();
             containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand, BlogData>>();
             containerBuilder.RegisterType<CreatePostCommandHandler>().As<IAsyncCommandHandler<CreatePostCommand, PostData>>();
 

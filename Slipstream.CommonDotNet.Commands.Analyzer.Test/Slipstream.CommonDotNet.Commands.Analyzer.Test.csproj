@@ -103,12 +103,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Analyzer\Slipstream.CommonDotNet.Commands.Analyzer.csproj">
-      <Project>{A5CDC4B8-C901-4802-8889-1DC5CC5C5D0B}</Project>
-      <Name>Slipstream.CommonDotNet.Commands.Analyzer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
