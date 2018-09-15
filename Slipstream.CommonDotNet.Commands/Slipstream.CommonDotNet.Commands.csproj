@@ -30,11 +30,5 @@
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.0.1" />
   </ItemGroup>
-
-  <!--<ItemGroup>
-    <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\tools\install.ps1" CopyToPublishDirectory="False" PackagePath="tools" />
-    <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\tools\uninstall.ps1" CopyToPublishDirectory="False" PackagePath="tools" />
-    <Content Include="..\Slipstream.CommonDotNet.Commands.Analyzer\bin\Release\Slipstream.CommonDotNet.Commands.Analyzer.dll" CopyToPublishDirectory="False" PackagePath="analyzers\dotnet\cs" />
-  </ItemGroup>-->
   
 </Project>
