@@ -1,3 +1,6 @@
+[![Build status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands%20-%20CI)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=5)
+
+
 # Commands
 
 The aim of this library to help in writing a business layer for applications. It includes a pipeline and notifcations (specific to a type of command) to wrap incoming commands, outgoing results and exceptions.
