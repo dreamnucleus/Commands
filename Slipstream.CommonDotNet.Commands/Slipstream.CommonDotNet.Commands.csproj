@@ -6,8 +6,6 @@
     <Title>Slipstream CommonDotNet Commands</Title>
     <Description>Slipstream CommonDotNet Commands</Description>
 
-    <Version>2.0.0</Version>
-    <PackageVersion>2.0.0</PackageVersion>
     <Authors>dreamnucleus</Authors>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>commands</PackageTags>
