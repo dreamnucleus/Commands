@@ -34,9 +34,9 @@ namespace Slipstream.CommonDotNet.Commands.Azure
         public async Task<Lock> AcquireAsync(string resourceId, CancellationToken cancellationToken)
         {
             var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(resourceId);
-            if (!await cloudBlockBlob.ExistsAsync(cancellationToken))
+            if (!await cloudBlockBlob.ExistsAsync(null, null, cancellationToken))
             {
-                await cloudBlockBlob.UploadFromByteArrayAsync(new byte[0], 0, 0, cancellationToken);
+                await cloudBlockBlob.UploadFromByteArrayAsync(new byte[0], 0, 0, null, null, null, cancellationToken);
             }
             var leaseId = await cloudBlockBlob.AcquireLeaseAsync(LeaseTime, null, null, null, null, cancellationToken);
 
