@@ -34,11 +34,12 @@ namespace Slipstream.CommonDotNet.Commands.Azure
         public async Task<Lock> AcquireAsync(string resourceId, CancellationToken cancellationToken)
         {
             var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(resourceId);
-            if (!await cloudBlockBlob.ExistsAsync())
+            if (!await cloudBlockBlob.ExistsAsync(cancellationToken))
             {
-                await cloudBlockBlob.UploadFromByteArrayAsync(new byte[0], 0, 0);
+                await cloudBlockBlob.UploadFromByteArrayAsync(new byte[0], 0, 0, cancellationToken);
             }
             var leaseId = await cloudBlockBlob.AcquireLeaseAsync(LeaseTime, null, null, null, null, cancellationToken);
+
             return new Lock(leaseId, LeaseTime, DateTimeOffset.UtcNow);
         }
 
@@ -46,6 +47,7 @@ namespace Slipstream.CommonDotNet.Commands.Azure
         {
             var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(resourceId);
             await cloudBlockBlob.RenewLeaseAsync(AccessCondition.GenerateLeaseCondition(leaseId), null, null, cancellationToken);
+
             return new Lock(leaseId, LeaseTime, DateTimeOffset.UtcNow);
         }
 
