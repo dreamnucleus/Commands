@@ -14,13 +14,18 @@ namespace Slipstream.CommonDotNet.Commands.Tests
         public CommandProcessorTests()
         {
             var containerBuilder = new ContainerBuilder();
+
             containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand, int>>();
             containerBuilder.RegisterType<ExceptionCommandHandler>().As<IAsyncCommandHandler<ExceptionCommand, Unit>>();
 
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
+
+            commandsBuilder.Use<TestPipeline>();
+
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
             containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
             containerBuilder.RegisterType<CommandProcessor>().As<ICommandProcessor>();
+
             var container = containerBuilder.Build();
 
             _commandProcessor = container.Resolve<ICommandProcessor>();
