@@ -13,7 +13,8 @@
     <PackageTags>commands</PackageTags>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IncludeSymbols>true</IncludeSymbols>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
     <PackageProjectUrl>https://github.com/dreamnucleus/commands</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/dreamnucleus/Commands/blob/master/LICENSE</PackageLicenseUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
