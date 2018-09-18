@@ -4,20 +4,7 @@
     <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <PackageId>Slipstream.CommonDotNet.Commands.Azure</PackageId>
     <Title>Slipstream CommonDotNet Commands.Azure</Title>
-    <Description>Slipstream CommonDotNet Commands.Azure</Description>
-
-    <Version>2.0.0</Version>
-    <PackageVersion>2.0.0</PackageVersion>
-    <Authors>dreamnucleus</Authors>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>commands</PackageTags>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IncludeSymbols>true</IncludeSymbols>
-    <PackageProjectUrl>https://github.com/dreamnucleus/commands</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/dreamnucleus/Commands/blob/master/LICENSE</PackageLicenseUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Slipstream CommonDotNet Commands Azure</Description>
   </PropertyGroup>
 
   <ItemGroup>
