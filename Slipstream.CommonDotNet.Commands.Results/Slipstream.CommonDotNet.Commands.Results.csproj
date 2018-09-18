@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <PackageId>Slipstream.CommonDotNet.Commands.Results</PackageId>
     <Title>Slipstream CommonDotNet Commands Results</Title>
     <Description>Slipstream CommonDotNet Commands Results</Description>

@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <PackageId>Slipstream.CommonDotNet.Commands</PackageId>
     <Title>Slipstream CommonDotNet Commands</Title>
     <Description>Slipstream CommonDotNet Commands</Description>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-    <PackageReference Include="System.Diagnostics.Contracts" Version="4.0.1" />
-  </ItemGroup>
   
 </Project>
