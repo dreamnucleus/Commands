@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- File name extension must be .runsettings -->
 <RunSettings>
   <DataCollectionRunSettings>
     <DataCollectors>
@@ -17,9 +16,9 @@ Included items must then not match any entries in the exclude list to remain inc
 
             <!-- Match assembly file paths: -->
             <ModulePaths>
-              <Include>
+              <!--<Include>
                 <ModulePath>.*Slipstream\.CommonDotNet\.Commands.*\.dll$</ModulePath>
-              </Include>
+              </Include>-->
               <Exclude>
                 <ModulePath>.*Tests.*</ModulePath>
                 <ModulePath>.*Playground.*</ModulePath>
