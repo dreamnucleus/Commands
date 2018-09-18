@@ -12,10 +12,4 @@
     <ProjectReference Include="..\Slipstream.CommonDotNet.Commands\Slipstream.CommonDotNet.Commands.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="xunit.runner.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
