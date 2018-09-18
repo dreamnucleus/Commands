@@ -17,8 +17,6 @@ return await resultProcessor.For(new GetBlogCommand(blogId))
 
 ## NuGet
 
-*Warning: this is still in development. There is a version 1 of a similar library on NuGet.*
-
 Packages availble for .NETFramework 4.5 and .NETStandard 1.6
 
 https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
@@ -26,11 +24,28 @@ https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
 ```
 Install-Package Slipstream.CommonDotNet.Commands
 ```
+```
+dotnet add package Slipstream.CommonDotNet.Commands
+```
+
+
+https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Results/
+
+```
+Install-Package Slipstream.CommonDotNet.Commands.Results
+```
+```
+dotnet add package Slipstream.CommonDotNet.Commands.Results
+```
+
 
 https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Autofac/
 
 ```
 Install-Package Slipstream.CommonDotNet.Commands.Autofac
+```
+```
+dotnet add package Slipstream.CommonDotNet.Commands.Autofac
 ```
 
 # Example
