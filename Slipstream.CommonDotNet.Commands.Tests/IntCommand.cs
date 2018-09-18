@@ -7,19 +7,19 @@ using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Tests
 {
-    public class TestCommand : ISuccessResult<TestCommand, int>
+    public class IntCommand : ISuccessResult<IntCommand, int>
     {
         public int Input { get; }
 
-        public TestCommand(int input)
+        public IntCommand(int input)
         {
             Input = input;
         }
     }
 
-    public class TestCommandHandler : IAsyncCommandHandler<TestCommand, int>
+    public class IntCommandHandler : IAsyncCommandHandler<IntCommand, int>
     {
-        public Task<int> ExecuteAsync(TestCommand command)
+        public Task<int> ExecuteAsync(IntCommand command)
         {
             return Task.FromResult(command.Input);
         }
