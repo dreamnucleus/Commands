@@ -16,9 +16,9 @@ Included items must then not match any entries in the exclude list to remain inc
 
             <!-- Match assembly file paths: -->
             <ModulePaths>
-              <!--<Include>
-                <ModulePath>.*Slipstream\.CommonDotNet\.Commands.*\.dll$</ModulePath>
-              </Include>-->
+              <Include>
+                <ModulePath>.*Commands.*</ModulePath>
+              </Include>
               <Exclude>
                 <ModulePath>.*Tests.*</ModulePath>
                 <ModulePath>.*Playground.*</ModulePath>
