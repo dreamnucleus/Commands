@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Azure", "Slipstream.CommonDotNet.Commands.Azure\Slipstream.CommonDotNet.Commands.Azure.csproj", "{9757238F-3259-4E45-B46C-B5321E5E2D41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Tests", "Slipstream.CommonDotNet.Commands.Tests\Slipstream.CommonDotNet.Commands.Tests.csproj", "{C870F335-A0FC-4C3D-956A-A30470D336E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{9757238F-3259-4E45-B46C-B5321E5E2D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9757238F-3259-4E45-B46C-B5321E5E2D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9757238F-3259-4E45-B46C-B5321E5E2D41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C870F335-A0FC-4C3D-956A-A30470D336E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C870F335-A0FC-4C3D-956A-A30470D336E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C870F335-A0FC-4C3D-956A-A30470D336E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C870F335-A0FC-4C3D-956A-A30470D336E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
