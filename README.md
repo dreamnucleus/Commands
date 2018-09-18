@@ -1,4 +1,4 @@
-[![Build status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands%20-%20CI)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=5)
+[![Build status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands%20-%20CI)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=5) [![NuGet](https://img.shields.io/nuget/v/Slipstream.CommonDotNet.Commands.svg)](https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/)
 
 
 # Commands
@@ -24,11 +24,28 @@ https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
 ```
 Install-Package Slipstream.CommonDotNet.Commands
 ```
+```
+dotnet add package Slipstream.CommonDotNet.Commands
+```
+
+
+https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Results/
+
+```
+Install-Package Slipstream.CommonDotNet.Commands.Results
+```
+```
+dotnet add package Slipstream.CommonDotNet.Commands.Results
+```
+
 
 https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Autofac/
 
 ```
 Install-Package Slipstream.CommonDotNet.Commands.Autofac
+```
+```
+dotnet add package Slipstream.CommonDotNet.Commands.Autofac
 ```
 
 # Example

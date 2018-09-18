@@ -1,23 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <PackageId>Slipstream.CommonDotNet.Commands.Results</PackageId>
     <Title>Slipstream CommonDotNet Commands Results</Title>
     <Description>Slipstream CommonDotNet Commands Results</Description>
-
-    <Authors>dreamnucleus</Authors>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>commands</PackageTags>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IncludeSymbols>true</IncludeSymbols>
-    <PackageProjectUrl>https://github.com/dreamnucleus/commands</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/dreamnucleus/Commands/blob/master/LICENSE</PackageLicenseUrl>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryUrl>https://github.com/dreamnucleus/Commands.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
