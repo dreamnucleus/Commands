@@ -1,5 +1,7 @@
 [![Build status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands%20-%20CI)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=5)
 
+[![#](https://img.shields.io/nuget/v/Slipstream.CommonDotNet.Commands.svg)](https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/)
+
 
 # Commands
 
