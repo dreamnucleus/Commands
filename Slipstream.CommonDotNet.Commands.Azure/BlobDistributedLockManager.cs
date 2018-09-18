@@ -13,7 +13,7 @@ namespace Slipstream.CommonDotNet.Commands.Azure
     {
         public TimeSpan LeaseTime { get; }
 
-        private readonly CloudBlobContainer cloudBlobContainer;
+        private readonly CloudBlobContainer _cloudBlobContainer;
 
         public BlobDistributedLockManager(CloudBlobContainer cloudBlobContainer, TimeSpan leaseTime)
         {
@@ -28,12 +28,12 @@ namespace Slipstream.CommonDotNet.Commands.Azure
 
             LeaseTime = leaseTime;
 
-            this.cloudBlobContainer = cloudBlobContainer;
+            this._cloudBlobContainer = cloudBlobContainer;
         }
 
         public async Task<Lock> AcquireAsync(string resourceId, CancellationToken cancellationToken)
         {
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(resourceId);
+            var cloudBlockBlob = _cloudBlobContainer.GetBlockBlobReference(resourceId);
             if (!await cloudBlockBlob.ExistsAsync(null, null, cancellationToken))
             {
                 await cloudBlockBlob.UploadFromByteArrayAsync(new byte[0], 0, 0, null, null, null, cancellationToken);
@@ -45,7 +45,7 @@ namespace Slipstream.CommonDotNet.Commands.Azure
 
         public async Task<Lock> RenewAsync(string resourceId, string leaseId, CancellationToken cancellationToken)
         {
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(resourceId);
+            var cloudBlockBlob = _cloudBlobContainer.GetBlockBlobReference(resourceId);
             await cloudBlockBlob.RenewLeaseAsync(AccessCondition.GenerateLeaseCondition(leaseId), null, null, cancellationToken);
 
             return new Lock(leaseId, LeaseTime, DateTimeOffset.UtcNow);
@@ -53,7 +53,7 @@ namespace Slipstream.CommonDotNet.Commands.Azure
 
         public async Task ReleaseAsync(string resourceId, string leaseId, CancellationToken cancellationToken)
         {
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(resourceId);
+            var cloudBlockBlob = _cloudBlobContainer.GetBlockBlobReference(resourceId);
             await cloudBlockBlob.ReleaseLeaseAsync(AccessCondition.GenerateLeaseCondition(leaseId), null, null, cancellationToken);
         }
     }

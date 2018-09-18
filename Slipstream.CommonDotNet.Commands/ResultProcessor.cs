@@ -9,9 +9,9 @@ namespace Slipstream.CommonDotNet.Commands
 {
     public class ResultProcessor<TReturn>
     {
-        private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> resultParsers;
+        private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> _resultParsers;
 
-        private readonly ICommandProcessor commandProcessor;
+        private readonly ICommandProcessor _commandProcessor;
 
         public ResultProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
             : this(new Dictionary<Type, Func<object, TReturn>>(), commandsBuilder, lifetimeScopeService)
@@ -21,8 +21,8 @@ namespace Slipstream.CommonDotNet.Commands
         public ResultProcessor(Dictionary<Type, Func<object, TReturn>> resultParsers, 
             ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
-            this.resultParsers = resultParsers;
-            this.commandProcessor = new CommandProcessor(commandsBuilder, lifetimeScopeService);
+            this._resultParsers = resultParsers;
+            this._commandProcessor = new CommandProcessor(commandsBuilder, lifetimeScopeService);
         }
 
         // can i make one which only returns the success
@@ -30,7 +30,7 @@ namespace Slipstream.CommonDotNet.Commands
             where TCommand : IAsyncCommand
         {
             return new ResultRegisterProcessor<TCommand, TSuccessResult, TReturn>
-                (command, resultParsers, commandProcessor);
+                (command, _resultParsers, _commandProcessor);
         }
     }
 }

@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Autofac\Slipstream.CommonDotNet.Commands.Autofac.csproj" />
+    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Azure\Slipstream.CommonDotNet.Commands.Azure.csproj" />
+    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Results\Slipstream.CommonDotNet.Commands.Results.csproj" />
     <ProjectReference Include="..\Slipstream.CommonDotNet.Commands\Slipstream.CommonDotNet.Commands.csproj" />
   </ItemGroup>
 

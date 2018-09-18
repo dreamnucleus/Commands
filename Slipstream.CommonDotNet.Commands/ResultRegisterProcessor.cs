@@ -12,13 +12,13 @@ namespace Slipstream.CommonDotNet.Commands
         where TCommand : IAsyncCommand
     {
 
-        private readonly ISuccessResult<TCommand, TSuccessResult> command;
+        private readonly ISuccessResult<TCommand, TSuccessResult> _command;
 
-        private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers;
-        private readonly Dictionary<Type, Func<object, TReturn>> resultParsers = new Dictionary<Type, Func<object, TReturn>>();
+        private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> _defualtResultParsers;
+        private readonly Dictionary<Type, Func<object, TReturn>> _resultParsers = new Dictionary<Type, Func<object, TReturn>>();
 
 
-        private readonly ICommandProcessor commandProcessor;
+        private readonly ICommandProcessor _commandProcessor;
 
         public ResultRegisterProcessor(ISuccessResult<TCommand, TSuccessResult> command, IReadOnlyDictionary<Type, Func<object, TReturn>> defualtResultParsers,
             ICommandProcessor commandProcessor)
@@ -27,9 +27,9 @@ namespace Slipstream.CommonDotNet.Commands
             Contract.Requires(defualtResultParsers != null);
             Contract.Requires(commandProcessor != null);
 
-            this.command = command;
-            this.defualtResultParsers = defualtResultParsers;
-            this.commandProcessor = commandProcessor;
+            this._command = command;
+            this._defualtResultParsers = defualtResultParsers;
+            this._commandProcessor = commandProcessor;
         }
 
 
@@ -37,7 +37,7 @@ namespace Slipstream.CommonDotNet.Commands
         {
             return new ResultParser<TCommand, TSuccessResult, TReturn, TWhen>(this, func =>
             {
-                resultParsers.Add(typeof(TWhen), func);
+                _resultParsers.Add(typeof(TWhen), func);
             });
         }
 
@@ -57,7 +57,7 @@ namespace Slipstream.CommonDotNet.Commands
             // TODO: should this be reused?
             try
             {
-                return ProcessResult(await commandProcessor.ProcessAsync(command));
+                return ProcessResult(await _commandProcessor.ProcessAsync(_command));
             }
             catch (Exception exception)
             {
@@ -69,13 +69,13 @@ namespace Slipstream.CommonDotNet.Commands
         // TODO: if exception is not found maybe we should throw that exception? makes more sense
         private TReturn ProcessResult(object result)
         {
-            if (resultParsers.ContainsKey(result.GetType()))
+            if (_resultParsers.ContainsKey(result.GetType()))
             {
-                return resultParsers[result.GetType()](result);
+                return _resultParsers[result.GetType()](result);
             }
-            else if (defualtResultParsers.ContainsKey(result.GetType()))
+            else if (_defualtResultParsers.ContainsKey(result.GetType()))
             {
-                return defualtResultParsers[result.GetType()](result);
+                return _defualtResultParsers[result.GetType()](result);
             }
             else if (result is Exception exception)
             {
@@ -83,13 +83,13 @@ namespace Slipstream.CommonDotNet.Commands
             }
             else
             {
-                throw new ResultNotRegisteredException(command.GetType(), result.GetType());
+                throw new ResultNotRegisteredException(_command.GetType(), result.GetType());
             }
         }
 
         public async Task<TSuccessResult> ExecuteSuccessAsync()
         {
-            return await commandProcessor.ProcessAsync(command);
+            return await _commandProcessor.ProcessAsync(_command);
         }
     }
 }

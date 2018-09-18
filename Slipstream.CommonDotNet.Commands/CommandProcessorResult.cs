@@ -11,14 +11,14 @@ namespace Slipstream.CommonDotNet.Commands
     {
         public bool Success { get; }
 
-        public readonly TSuccessResult result;
+        private readonly TSuccessResult _result;
         public TSuccessResult Result
         {
             get
             {
                 if (Success)
                 {
-                    return Result;
+                    return _result;
                 }
                 else
                 {
@@ -28,14 +28,14 @@ namespace Slipstream.CommonDotNet.Commands
             }
         }
 
-        public readonly Exception exception;
+        private readonly Exception _exception;
         public Exception Exception
         {
             get
             {
                 if (!Success)
                 {
-                    return Exception;
+                    return _exception;
                 }
                 else
                 {
@@ -47,13 +47,13 @@ namespace Slipstream.CommonDotNet.Commands
 
         public CommandProcessorSuccessResult(TSuccessResult result)
         {
-            this.result = result;
+            this._result = result;
             Success = true;
         }
 
         public CommandProcessorSuccessResult(Exception exception)
         {
-            this.exception = exception;
+            this._exception = exception;
             Success = false;
         }
     }

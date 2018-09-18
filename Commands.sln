@@ -21,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Azure", "Slipstream.CommonDotNet.Commands.Azure\Slipstream.CommonDotNet.Commands.Azure.csproj", "{9757238F-3259-4E45-B46C-B5321E5E2D41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Tests", "Slipstream.CommonDotNet.Commands.Tests\Slipstream.CommonDotNet.Commands.Tests.csproj", "{C870F335-A0FC-4C3D-956A-A30470D336E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Tests", "Slipstream.CommonDotNet.Commands.Tests\Slipstream.CommonDotNet.Commands.Tests.csproj", "{C870F335-A0FC-4C3D-956A-A30470D336E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{896885BA-6991-4275-AAEE-40957622E790}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{08E41937-D16C-45D0-8864-85BD68923A1B} = {5D9CE31E-9D1F-4656-82FA-FB4FFC25D1A9}
+		{C870F335-A0FC-4C3D-956A-A30470D336E1} = {896885BA-6991-4275-AAEE-40957622E790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {957683AB-D391-45B5-9BF4-F5FE607578CB}

@@ -23,11 +23,11 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
     public class FakeCommandHandler : IAsyncCommandHandler<FakeCommand, FakeData>
     {
-        private readonly ICommandProcessor commandProcessor;
+        private readonly ICommandProcessor _commandProcessor;
 
         public FakeCommandHandler(ICommandProcessor commandProcessor)
         {
-            this.commandProcessor = commandProcessor;
+            this._commandProcessor = commandProcessor;
         }
 
 
@@ -36,7 +36,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public async Task<FakeData> ExecuteAsync(FakeCommand command)
         {
             Console.WriteLine("ExecuteAsync");
-            var getBlogResult = await commandProcessor.ProcessResultAsync(new GetBlogCommand(1));
+            var getBlogResult = await _commandProcessor.ProcessResultAsync(new GetBlogCommand(1));
             if (command.Number == -1)
             {
                 throw new Exception("Test");

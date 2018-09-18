@@ -10,18 +10,18 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
 {
     public class AutofacCommandsBuilder : CommandsBuilder
     {
-        private readonly ContainerBuilder containerBuilder;
+        private readonly ContainerBuilder _containerBuilder;
 
         public AutofacCommandsBuilder(ContainerBuilder containerBuilder)
         {
-            this.containerBuilder = containerBuilder;
+            this._containerBuilder = containerBuilder;
 
             containerBuilder.RegisterInstance(this).As<ICommandsBuilder>().SingleInstance();
         }
 
         public override ICommandsBuilder Use<TItem>()
         {
-            containerBuilder.RegisterType<TItem>().InstancePerLifetimeScope();
+            _containerBuilder.RegisterType<TItem>().InstancePerLifetimeScope();
             return base.Use<TItem>();
         }
 
@@ -31,13 +31,13 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
             switch (autofacLifetime)
             {
                 case AutofacLifetime.Dependancy:
-                    containerBuilder.RegisterType<TItem>().InstancePerDependency();
+                    _containerBuilder.RegisterType<TItem>().InstancePerDependency();
                     break;
                 case AutofacLifetime.Pipeline:
-                    containerBuilder.RegisterType<TItem>().InstancePerLifetimeScope();
+                    _containerBuilder.RegisterType<TItem>().InstancePerLifetimeScope();
                     break;
                 case AutofacLifetime.Singleton:
-                    containerBuilder.RegisterType<TItem>().SingleInstance();
+                    _containerBuilder.RegisterType<TItem>().SingleInstance();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(autofacLifetime), autofacLifetime, null);

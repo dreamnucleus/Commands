@@ -10,23 +10,23 @@ namespace Slipstream.CommonDotNet.Commands.Playground
     [Singleton]
     public class TestPipeline : Pipeline
     {
-        private readonly BloggingContext context;
+        private readonly BloggingContext _context;
 
         public TestPipeline(BloggingContext context)
         {
             Console.WriteLine("TestPipeline was created");
-            this.context = context;
+            this._context = context;
         }
 
         public override Task ExecutingAsync(IAsyncCommand command)
         {
-            Console.WriteLine("Incoming (Singleton) with context: " + context.Id);
+            Console.WriteLine("Incoming (Singleton) with context: " + _context.Id);
             return base.ExecutingAsync(command);
         }
 
         public override Task ExecutedAsync(IAsyncCommand command, object result)
         {
-            Console.WriteLine("Outgoing (Singleton) with context: " + context.Id);
+            Console.WriteLine("Outgoing (Singleton) with context: " + _context.Id);
             return base.ExecutedAsync(command, result);
         }
 
@@ -34,12 +34,12 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
     public class SecondTestPipeline : Pipeline
     {
-        private readonly BloggingContext context;
+        private readonly BloggingContext _context;
 
         public SecondTestPipeline(BloggingContext context)
         {
             Console.WriteLine("SecondTestPipeline was created");
-            this.context = context;
+            this._context = context;
         }
 
         public override Task ExecutingAsync(IAsyncCommand command)

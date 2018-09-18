@@ -12,15 +12,15 @@ namespace Slipstream.CommonDotNet.Commands
 {
     internal class InternalCommandProcessor : ICommandProcessor, IDisposable
     {
-        private readonly ICommandsBuilder commandsBuilder;
-        private readonly IAsyncCommand initialCommand;
-        private readonly ILifetimeScopeDependencyService dependencyService;
+        private readonly ICommandsBuilder _commandsBuilder;
+        private readonly IAsyncCommand _initialCommand;
+        private readonly ILifetimeScopeDependencyService _dependencyService;
 
         public InternalCommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService, IAsyncCommand initialCommand)
         {
-            this.commandsBuilder = commandsBuilder;
-            this.initialCommand = initialCommand;
-            this.dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
+            this._commandsBuilder = commandsBuilder;
+            this._initialCommand = initialCommand;
+            this._dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
 
@@ -28,17 +28,17 @@ namespace Slipstream.CommonDotNet.Commands
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            var isInitialCommand = command == initialCommand;
+            var isInitialCommand = command == _initialCommand;
 
             var allClassTypes = GetAllConcreteClassTypes(typeof(TCommand));
 
             // TODO: only create with IAsyncCommand, if none then throw a handler not found exception
-            var firstRegisteredClassType = allClassTypes.First(t => dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t, typeof(TSuccessResult))));
+            var firstRegisteredClassType = allClassTypes.First(t => _dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t, typeof(TSuccessResult))));
 
             var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType, typeof(TSuccessResult));
-            var handler = dependencyService.Resolve(handlerType);
+            var handler = _dependencyService.Resolve(handlerType);
 
-            var pipelines = commandsBuilder.Pipelines.Select(p => (Pipeline)dependencyService.Resolve(p)).ToList();
+            var pipelines = _commandsBuilder.Pipelines.Select(p => (Pipeline)_dependencyService.Resolve(p)).ToList();
 
             // run executing pipeline and notification
             foreach (var pipeline in pipelines)
@@ -49,13 +49,13 @@ namespace Slipstream.CommonDotNet.Commands
                 }
             }
 
-            if (commandsBuilder.ExecutingNotifications.TryGetValue(typeof(TCommand), out var executingNotifications))
+            if (_commandsBuilder.ExecutingNotifications.TryGetValue(typeof(TCommand), out var executingNotifications))
             {
                 foreach (var executingNotification in executingNotifications)
                 {
                     await (Task)typeof(IExecutingNotification<>).MakeGenericType(typeof(TCommand))
                         .GetTypeInfo().GetMethod("OnExecutingAsync", new[] { command.GetType() })
-                        .Invoke(dependencyService.Resolve(executingNotification), new object[] { command });
+                        .Invoke(_dependencyService.Resolve(executingNotification), new object[] { command });
                 }
             }
 
@@ -66,13 +66,13 @@ namespace Slipstream.CommonDotNet.Commands
 
                 var result = await task;
 
-                if (commandsBuilder.ExecutedNotifications.TryGetValue(typeof(TCommand), out var executedNotifications))
+                if (_commandsBuilder.ExecutedNotifications.TryGetValue(typeof(TCommand), out var executedNotifications))
                 {
                     foreach (var executedNotification in executedNotifications)
                     {
                         await (Task)typeof(IExecutedNotification<,>).MakeGenericType(typeof(TCommand), typeof(TSuccessResult))
                             .GetTypeInfo().GetMethod("OnExecutedAsync", new[] { command.GetType(), typeof(TSuccessResult) })
-                            .Invoke(dependencyService.Resolve(executedNotification), new object[] { command, result });
+                            .Invoke(_dependencyService.Resolve(executedNotification), new object[] { command, result });
                     }
                 }
 
@@ -96,13 +96,13 @@ namespace Slipstream.CommonDotNet.Commands
                 }
 
                 // run exception notification and pipeline
-                if (commandsBuilder.ExceptionNotifications.TryGetValue(typeof(TCommand), out var exceptionNotifications))
+                if (_commandsBuilder.ExceptionNotifications.TryGetValue(typeof(TCommand), out var exceptionNotifications))
                 {
                     foreach (var exceptionNotification in exceptionNotifications)
                     {
                         await (Task)typeof(IExceptionNotification<>).MakeGenericType(typeof(TCommand))
                             .GetTypeInfo().GetMethod("OnExecptionAsync", new[] { command.GetType(), typeof(Exception) })
-                            .Invoke(dependencyService.Resolve(exceptionNotification), new object[] { command, exception });
+                            .Invoke(_dependencyService.Resolve(exceptionNotification), new object[] { command, exception });
                     }
                 }
 
@@ -153,7 +153,7 @@ namespace Slipstream.CommonDotNet.Commands
 
         public void Dispose()
         {
-            dependencyService.Dispose();
+            _dependencyService.Dispose();
         }
     }
 }
