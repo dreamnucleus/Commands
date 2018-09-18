@@ -17,7 +17,7 @@ Included items must then not match any entries in the exclude list to remain inc
             <!-- Match assembly file paths: -->
             <ModulePaths>
               <Include>
-                <ModulePath>.*Commands.*</ModulePath>
+                <ModulePath>.*CommonDotNet.*</ModulePath>
               </Include>
               <Exclude>
                 <ModulePath>.*Tests.*</ModulePath>
