@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Slipstream.CommonDotNet.Commands.Extensions.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
 {
@@ -16,7 +17,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
         {
             if (!_locks.TryAdd(resourceId, DateTimeOffset.UtcNow.AddSeconds(5)))
             {
-                throw new Exception();
+                throw new ConflictException();
             }
 
             return Task.FromResult(new Lock(resourceId, TimeSpan.FromSeconds(5), DateTimeOffset.UtcNow));

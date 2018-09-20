@@ -2,11 +2,12 @@
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Slipstream.CommonDotNet.Commands.Extensions.Results;
 using Slipstream.CommonDotNet.Commands.Pipelines;
 
 namespace Slipstream.CommonDotNet.Commands.Extensions
 {
-    // TODO: probably should move this to another library when i can think of the name
+    // TODO: need to keep on renewing the lock for longer running tasks...
     public class SemaphorePipeline : Pipeline
     {
         private readonly ILockManager _lockManager;
@@ -23,14 +24,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions
             // TODO: maybe have a execute if/when in the pipeline?
             if (IsSemaphoreCommand(command))
             {
-                try
-                {
-                    var @lock = await _lockManager.AcquireAsync(command.GetType().GetHashCode().ToString(), CancellationToken.None);
-                }
-                catch (Exception e)
-                {
-                    throw new Exception();
-                }
+                var @lock = await _lockManager.AcquireAsync(command.GetType().GetHashCode().ToString(), CancellationToken.None);
             }
         }
 

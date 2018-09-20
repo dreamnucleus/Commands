@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Slipstream.CommonDotNet.Commands.Autofac;
+using Slipstream.CommonDotNet.Commands.Extensions.Results;
 using Slipstream.CommonDotNet.Commands.Results;
 using Xunit;
 
@@ -50,7 +51,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
                 return Task.CompletedTask;
             }
 
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAsync<ConflictException>(async () =>
             {
                 var waitTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(Wait));
                 var setTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(Set));
@@ -58,7 +59,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
                 await Task.WhenAny(waitTask, setTask);
                 await Set();
                 await waitTask;
-                Assert.True(waitTask.IsCompleted);
+                Assert.True(waitTask.IsCompleted && !waitTask.IsFaulted);
                 await setTask;
             });
         }
@@ -66,7 +67,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
         [Fact]
         public async Task Semaphore1()
         {
-            await Assert.ThrowsAsync<Exception>(async () =>
+            await Assert.ThrowsAsync<ConflictException>(async () =>
             {
                 await _commandProcessor.ProcessAsync(new SemaphoreCommand(async () =>
                     {
@@ -94,5 +95,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
 
             Assert.Equal(2, count);
         }
+
+        // TODO: test renew
     }
 }
