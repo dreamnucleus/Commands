@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Extensions.Results
@@ -11,6 +12,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Results
     {
     }
 
+    [ExcludeFromCodeCoverage]
     public static class NotFoundResultExtensions
     {
         public static NotFoundException NotFound(this INotFoundResult result)

@@ -8,6 +8,6 @@ namespace Slipstream.CommonDotNet.Commands.Notifications
 {
     public interface IExceptionNotification<in TCommand> : IUseCommandsBuilder
     {
-        Task OnExecptionAsync(TCommand command, Exception exception);
+        Task OnExceptionAsync(TCommand command, Exception exception);
     }
 }

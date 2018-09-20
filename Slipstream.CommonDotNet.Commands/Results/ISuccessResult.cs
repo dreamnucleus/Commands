@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Slipstream.CommonDotNet.Commands.Results
     //    where TCommand : IAsyncCommand
     //{
     //}
-
+    [ExcludeFromCodeCoverage]
     public static class SuccessResultExtensions
     {
         public static TResult Success<TCommand, TResult>(this ISuccessResult<TCommand, TResult> result)
