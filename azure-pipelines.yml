@@ -65,7 +65,7 @@ steps:
   displayName: Pack
   inputs:
     command: pack
-    packagesToPack: 'Slipstream.CommonDotNet.Commands/Slipstream.CommonDotNet.Commands.csproj;Slipstream.CommonDotNet.Commands.Autofac/Slipstream.CommonDotNet.Commands.Autofac.csproj;Slipstream.CommonDotNet.Commands.Results/Slipstream.CommonDotNet.Commands.Results.csproj;Slipstream.CommonDotNet.Commands.Azure/Slipstream.CommonDotNet.Commands.Azure.csproj'
+    packagesToPack: 'Slipstream.CommonDotNet.Commands/Slipstream.CommonDotNet.Commands.csproj;Slipstream.CommonDotNet.Commands.Autofac/Slipstream.CommonDotNet.Commands.Autofac.csproj;Slipstream.CommonDotNet.Commands.Results/Slipstream.CommonDotNet.Commands.Results.csproj;Slipstream.CommonDotNet.Commands.Extensions/Slipstream.CommonDotNet.Commands.Extensions.csproj;Slipstream.CommonDotNet.Commands.Extensions.Azure/Slipstream.CommonDotNet.Commands.Extensions.Azure.csproj'
     nobuild: true
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 

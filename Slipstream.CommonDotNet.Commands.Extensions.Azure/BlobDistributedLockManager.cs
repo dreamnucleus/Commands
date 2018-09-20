@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Slipstream.CommonDotNet.Commands.Azure
+namespace Slipstream.CommonDotNet.Commands.Extensions.Azure
 {
     public class BlobDistributedLockManager : ILockManager
     {

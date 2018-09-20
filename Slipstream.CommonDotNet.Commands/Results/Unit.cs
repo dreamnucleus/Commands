@@ -26,7 +26,7 @@ namespace Slipstream.CommonDotNet.Commands.Results
 
         public override string ToString()
         {
-            // TODO: why? return string.Empty;
+            // TODO: why? return string.Empty;?
             return "()";
         }
 

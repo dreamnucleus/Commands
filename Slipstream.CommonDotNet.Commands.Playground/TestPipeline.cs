@@ -29,7 +29,6 @@ namespace Slipstream.CommonDotNet.Commands.Playground
             Console.WriteLine("Outgoing (Singleton) with context: " + _context.Id);
             return base.ExecutedAsync(command, result);
         }
-
     }
 
     public class SecondTestPipeline : Pipeline

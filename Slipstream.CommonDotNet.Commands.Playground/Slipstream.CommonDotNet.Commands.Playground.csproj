@@ -11,7 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Autofac\Slipstream.CommonDotNet.Commands.Autofac.csproj" />
-    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Results\Slipstream.CommonDotNet.Commands.Results.csproj" />
+    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Extensions.Azure\Slipstream.CommonDotNet.Commands.Extensions.Azure.csproj" />
+    <ProjectReference Include="..\Slipstream.CommonDotNet.Commands.Extensions\Slipstream.CommonDotNet.Commands.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

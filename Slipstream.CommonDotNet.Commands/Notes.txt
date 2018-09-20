@@ -7,7 +7,7 @@ Can we auto generate Enums based on return types and use them with ProcessResult
 What if there is a real error then we really do need the .Catch
 
 
-
+Cancellation support...
 
 ## Pipelines ##
 What about a pipeline, saw we want to log everything as it goes through the system...
