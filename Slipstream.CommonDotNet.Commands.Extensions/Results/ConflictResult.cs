@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
+using Slipstream.CommonDotNet.Commands.Results;
 
-namespace Slipstream.CommonDotNet.Commands.Results
+namespace Slipstream.CommonDotNet.Commands.Extensions.Results
 {
     public interface IConflictResult : IErrorResult<ConflictException>
     {
@@ -14,6 +12,7 @@ namespace Slipstream.CommonDotNet.Commands.Results
     {
     }
 
+    [ExcludeFromCodeCoverage]
     public static class ConflictResultExtensions
     {
         public static ConflictException Conflict(this IConflictResult result)

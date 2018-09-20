@@ -12,20 +12,20 @@ namespace Slipstream.CommonDotNet.Commands
 {
     public class CommandProcessor : ICommandProcessor
     {
-        private readonly ICommandsBuilder commandsBuilder;
-        private readonly ILifetimeScopeService lifetimeScopeService;
+        private readonly ICommandsBuilder _commandsBuilder;
+        private readonly ILifetimeScopeService _lifetimeScopeService;
 
         public CommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
-            this.commandsBuilder = commandsBuilder;
-            this.lifetimeScopeService = lifetimeScopeService;
+            this._commandsBuilder = commandsBuilder;
+            this._lifetimeScopeService = lifetimeScopeService;
         }
 
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
             using (var internalCommandProcessor =
-                new InternalCommandProcessor(commandsBuilder, lifetimeScopeService, command))
+                new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
             {
                 return await internalCommandProcessor.ProcessAsync(command);
             }
@@ -35,7 +35,7 @@ namespace Slipstream.CommonDotNet.Commands
             where TCommand : IAsyncCommand
         {
             using (var internalCommandProcessor =
-                new InternalCommandProcessor(commandsBuilder, lifetimeScopeService, command))
+                new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
             {
                 return await internalCommandProcessor.ProcessResultAsync(command);
             }

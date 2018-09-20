@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Slipstream.CommonDotNet.Commands.Results
 {
+    [ExcludeFromCodeCoverage]
     public struct Unit : IEquatable<Unit>
     {
         public static Unit Value { get; } = new Unit();
@@ -26,7 +28,7 @@ namespace Slipstream.CommonDotNet.Commands.Results
 
         public override string ToString()
         {
-            // TODO: why? return string.Empty;
+            // TODO: why? return string.Empty;?
             return "()";
         }
 

@@ -11,7 +11,7 @@ namespace Slipstream.CommonDotNet.Commands
 {
     public class ResultRegister<TReturn>
     {
-        private readonly Dictionary<Type, Func<object, TReturn>> resultParsers = new Dictionary<Type, Func<object, TReturn>>();
+        private readonly Dictionary<Type, Func<object, TReturn>> _resultParsers = new Dictionary<Type, Func<object, TReturn>>();
 
         public ResultRegister()
         {
@@ -21,14 +21,14 @@ namespace Slipstream.CommonDotNet.Commands
         {
             return new ResultParser<TReturn, TWhen>(this, func =>
             {
-                resultParsers.Add(typeof(TWhen), func);
+                _resultParsers.Add(typeof(TWhen), func);
             });
         }
 
         // TODO: rename
         public Dictionary<Type, Func<object, TReturn>> Emit()
         {
-            return resultParsers;
+            return _resultParsers;
         }
     }
 }

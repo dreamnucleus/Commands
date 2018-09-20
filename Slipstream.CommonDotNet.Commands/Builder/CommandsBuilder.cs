@@ -12,22 +12,22 @@ namespace Slipstream.CommonDotNet.Commands.Builder
 {
     public class CommandsBuilder : ICommandsBuilder
     {
-        private readonly List<Type> piplines = new List<Type>();
-        private readonly Dictionary<Type, IReadOnlyCollection<Type>> executingNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
-        private readonly Dictionary<Type, IReadOnlyCollection<Type>> executedNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
-        private readonly Dictionary<Type, IReadOnlyCollection<Type>> exceptionNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
+        private readonly List<Type> _piplines = new List<Type>();
+        private readonly Dictionary<Type, IReadOnlyCollection<Type>> _executingNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
+        private readonly Dictionary<Type, IReadOnlyCollection<Type>> _executedNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
+        private readonly Dictionary<Type, IReadOnlyCollection<Type>> _exceptionNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
 
-        public IReadOnlyCollection<Type> Pipelines => piplines;
-        public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutingNotifications => executingNotifications;
-        public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutedNotifications => executedNotifications;
-        public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExceptionNotifications => exceptionNotifications;
+        public IReadOnlyCollection<Type> Pipelines => _piplines;
+        public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutingNotifications => _executingNotifications;
+        public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutedNotifications => _executedNotifications;
+        public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExceptionNotifications => _exceptionNotifications;
 
         public virtual ICommandsBuilder Use<TItem>()
             where TItem : IUseCommandsBuilder
         {
             if (typeof(TItem).GetTypeInfo().IsSubclassOf(typeof(Pipeline)))
             {
-                piplines.Add(typeof(TItem));
+                _piplines.Add(typeof(TItem));
             }
             // TODO: don't repeat
             else if (typeof(TItem).GetTypeInfo().GetInterfaces()
@@ -37,16 +37,16 @@ namespace Slipstream.CommonDotNet.Commands.Builder
                     .Single(i => i.IsConstructedGenericType &&
                                  i.GetGenericTypeDefinition() == typeof(IExecutingNotification<>)).GenericTypeArguments.First();
 
-                if (!executingNotifications.ContainsKey(commandType))
+                if (!_executingNotifications.ContainsKey(commandType))
                 {
-                    executingNotifications.Add(commandType, new List<Type>
+                    _executingNotifications.Add(commandType, new List<Type>
                     {
                         typeof(TItem)
                     });
                 }
                 else
                 {
-                    ((List<Type>)executingNotifications[commandType]).Add(typeof(TItem));
+                    ((List<Type>)_executingNotifications[commandType]).Add(typeof(TItem));
                 }
             }
             else if (typeof(TItem).GetTypeInfo().GetInterfaces()
@@ -56,16 +56,16 @@ namespace Slipstream.CommonDotNet.Commands.Builder
                     .Single(i => i.IsConstructedGenericType &&
                                  i.GetGenericTypeDefinition() == typeof(IExecutedNotification<,>)).GenericTypeArguments.First();
 
-                if (!executedNotifications.ContainsKey(commandType))
+                if (!_executedNotifications.ContainsKey(commandType))
                 {
-                    executedNotifications.Add(commandType, new List<Type>
+                    _executedNotifications.Add(commandType, new List<Type>
                     {
                         typeof(TItem)
                     });
                 }
                 else
                 {
-                    ((List<Type>)executedNotifications[commandType]).Add(typeof(TItem));
+                    ((List<Type>)_executedNotifications[commandType]).Add(typeof(TItem));
                 }
             }
             else if (typeof(TItem).GetTypeInfo().GetInterfaces()
@@ -75,16 +75,16 @@ namespace Slipstream.CommonDotNet.Commands.Builder
                     .Single(i => i.IsConstructedGenericType &&
                                  i.GetGenericTypeDefinition() == typeof(IExceptionNotification<>)).GenericTypeArguments.First();
 
-                if (!exceptionNotifications.ContainsKey(commandType))
+                if (!_exceptionNotifications.ContainsKey(commandType))
                 {
-                    exceptionNotifications.Add(commandType, new List<Type>
+                    _exceptionNotifications.Add(commandType, new List<Type>
                     {
                         typeof(TItem)
                     });
                 }
                 else
                 {
-                    ((List<Type>)exceptionNotifications[commandType]).Add(typeof(TItem));
+                    ((List<Type>)_exceptionNotifications[commandType]).Add(typeof(TItem));
                 }
             }
             else

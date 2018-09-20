@@ -7,6 +7,7 @@ using Autofac;
 using Slipstream.CommonDotNet.Commands;
 using Slipstream.CommonDotNet.Commands.Autofac;
 using Slipstream.CommonDotNet.Commands.Builder;
+using Slipstream.CommonDotNet.Commands.Extensions.Results;
 using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Playground
