@@ -11,7 +11,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
     {
         public Task OnExceptionAsync(FakeCommand command, Exception exception)
         {
-            Console.WriteLine("OnExecptionAsync");
+            Console.WriteLine("OnExceptionAsync");
             return Task.FromResult(0);
         }
     }
