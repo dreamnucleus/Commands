@@ -9,7 +9,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 {
     public class ExceptionNotification : IExceptionNotification<FakeCommand>
     {
-        public Task OnExecptionAsync(FakeCommand command, Exception exception)
+        public Task OnExceptionAsync(FakeCommand command, Exception exception)
         {
             Console.WriteLine("OnExecptionAsync");
             return Task.FromResult(0);
