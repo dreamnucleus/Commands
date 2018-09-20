@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Slipstream.CommonDotNet.Commands.Autofac;
@@ -37,23 +38,61 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
         {
             var taskCompletionSource = new TaskCompletionSource<Unit>();
 
-            Func<Task> waitFunc = async () => await taskCompletionSource.Task;
-            Func<Task> setFunc = () =>
+            async Task Wait() => await taskCompletionSource.Task;
+
+            var count = 0;
+
+            Task Set()
             {
+                Interlocked.Increment(ref count);
+                Assert.Equal(1, count); // ensure we only ever got here once
                 taskCompletionSource.SetResult(Unit.Value);
                 return Task.CompletedTask;
-            };
+            }
 
             await Assert.ThrowsAsync<Exception>(async () =>
             {
-                var waitTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(waitFunc));
-                var setTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(setFunc));
+                var waitTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(Wait));
+                var setTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(Set));
 
                 await Task.WhenAny(waitTask, setTask);
-                await setFunc();
+                await Set();
                 await waitTask;
+                Assert.True(waitTask.IsCompleted);
                 await setTask;
             });
+        }
+
+        [Fact]
+        public async Task Semaphore1()
+        {
+            await Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await _commandProcessor.ProcessAsync(new SemaphoreCommand(async () =>
+                    {
+                        await _commandProcessor.ProcessAsync(new SemaphoreCommand(async () => await Task.Delay(-1)));
+                    }));
+            });
+        }
+
+        [Fact]
+        public async Task Semaphore2()
+        {
+            var count = 0;
+
+            Task Increment()
+            {
+                Interlocked.Increment(ref count);
+                return Task.CompletedTask;
+            }
+
+            await _commandProcessor.ProcessAsync(new SemaphoreCommand(Increment)).ContinueWith(
+                async _ =>
+                {
+                    await _commandProcessor.ProcessAsync(new SemaphoreCommand(Increment));
+                });
+
+            Assert.Equal(2, count);
         }
     }
 }
