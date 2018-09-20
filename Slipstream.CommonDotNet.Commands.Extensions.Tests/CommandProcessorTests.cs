@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Autofac;
 using Slipstream.CommonDotNet.Commands.Autofac;
+using Slipstream.CommonDotNet.Commands.Results;
 using Xunit;
 
 namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
@@ -16,7 +17,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
 
             containerBuilder.RegisterType<MockLockManager>().As<ILockManager>().SingleInstance();
 
-            containerBuilder.RegisterType<SemaphoreCommandHandler>().As<IAsyncCommandHandler<SemaphoreCommand, int>>();
+            containerBuilder.RegisterType<SemaphoreCommandHandler>().As<IAsyncCommandHandler<SemaphoreCommand, Unit>>();
 
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
 
@@ -34,8 +35,25 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
         [Fact]
         public async Task Semaphore()
         {
-            const int input = 2;
-            await Assert.ThrowsAsync<Exception>(async () => await Task.WhenAll(_commandProcessor.ProcessAsync(new SemaphoreCommand(input)), _commandProcessor.ProcessAsync(new SemaphoreCommand(input))));
+            var taskCompletionSource = new TaskCompletionSource<Unit>();
+
+            Func<Task> waitFunc = async () => await taskCompletionSource.Task;
+            Func<Task> setFunc = () =>
+            {
+                taskCompletionSource.SetResult(Unit.Value);
+                return Task.CompletedTask;
+            };
+
+            await Assert.ThrowsAsync<Exception>(async () =>
+            {
+                var waitTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(waitFunc));
+                var setTask = _commandProcessor.ProcessAsync(new SemaphoreCommand(setFunc));
+
+                await Task.WhenAny(waitTask, setTask);
+                await setFunc();
+                await waitTask;
+                await setTask;
+            });
         }
     }
 }

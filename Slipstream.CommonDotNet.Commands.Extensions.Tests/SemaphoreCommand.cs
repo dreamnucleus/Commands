@@ -1,25 +1,26 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands.Extensions.Tests
 {
     [Semaphore]
-    public class SemaphoreCommand : ISuccessResult<SemaphoreCommand, int>
+    public class SemaphoreCommand : ISuccessResult<SemaphoreCommand, Unit>
     {
-        public int Input { get; }
+        public Func<Task> Func { get; }
 
-        public SemaphoreCommand(int input)
+        public SemaphoreCommand(Func<Task> func)
         {
-            Input = input;
+            Func = func;
         }
     }
 
-    public class SemaphoreCommandHandler : IAsyncCommandHandler<SemaphoreCommand, int>
+    public class SemaphoreCommandHandler : IAsyncCommandHandler<SemaphoreCommand, Unit>
     {
-        public async Task<int> ExecuteAsync(SemaphoreCommand command)
+        public async Task<Unit> ExecuteAsync(SemaphoreCommand command)
         {
-            await Task.Delay(20);
-            return command.Input;
+            await command.Func();
+            return Unit.Value;
         }
     }
 }
