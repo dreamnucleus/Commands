@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Slipstream.CommonDotNet.Commands.Builder;
 using Slipstream.CommonDotNet.Commands.Notifications;
@@ -59,10 +60,10 @@ namespace Slipstream.CommonDotNet.Commands
                 }
             }
 
-
+            Task<TSuccessResult> task = null;
             try
             {
-                var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
+                task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
 
                 var result = await task;
 
@@ -84,8 +85,6 @@ namespace Slipstream.CommonDotNet.Commands
                         await pipeline.ExecutedAsync(command, result);
                     }
                 }
-
-                return await task;
             }
             catch (Exception exception)
             {
@@ -115,9 +114,10 @@ namespace Slipstream.CommonDotNet.Commands
                     }
                 }
 
-                // ReSharper disable once PossibleIntendedRethrow
-                throw exception;
+                ExceptionDispatchInfo.Capture(exception).Throw();
             }
+
+            return await task;
         }
 
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
