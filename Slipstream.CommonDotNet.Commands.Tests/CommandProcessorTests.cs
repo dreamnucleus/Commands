@@ -21,7 +21,6 @@ namespace Slipstream.CommonDotNet.Commands.Tests
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
 
             commandsBuilder.Use<TestPipeline>();
-
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
             containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
             containerBuilder.RegisterType<CommandProcessor>().As<ICommandProcessor>();

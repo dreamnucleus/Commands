@@ -15,7 +15,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public TestPipeline(BloggingContext context)
         {
             Console.WriteLine("TestPipeline was created");
-            this._context = context;
+            _context = context;
         }
 
         public override Task ExecutingAsync(IAsyncCommand command)
@@ -38,7 +38,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
         public SecondTestPipeline(BloggingContext context)
         {
             Console.WriteLine("SecondTestPipeline was created");
-            this._context = context;
+            _context = context;
         }
 
         public override Task ExecutingAsync(IAsyncCommand command)

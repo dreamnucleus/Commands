@@ -18,9 +18,9 @@ namespace Slipstream.CommonDotNet.Commands
 
         public InternalCommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService, IAsyncCommand initialCommand)
         {
-            this._commandsBuilder = commandsBuilder;
-            this._initialCommand = initialCommand;
-            this._dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
+            _commandsBuilder = commandsBuilder;
+            _initialCommand = initialCommand;
+            _dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
 

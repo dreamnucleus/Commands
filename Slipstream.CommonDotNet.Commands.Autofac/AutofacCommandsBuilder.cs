@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
 using Slipstream.CommonDotNet.Commands.Builder;
 
@@ -14,7 +10,7 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
 
         public AutofacCommandsBuilder(ContainerBuilder containerBuilder)
         {
-            this._containerBuilder = containerBuilder;
+            _containerBuilder = containerBuilder;
 
             containerBuilder.RegisterInstance(this).As<ICommandsBuilder>().SingleInstance();
         }
