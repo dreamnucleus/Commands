@@ -11,7 +11,6 @@ namespace Slipstream.CommonDotNet.Commands
     public class ResultRegisterProcessor<TCommand, TSuccessResult, TReturn>
         where TCommand : IAsyncCommand
     {
-
         private readonly ISuccessResult<TCommand, TSuccessResult> _command;
 
         private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> _defaultResultParsers;

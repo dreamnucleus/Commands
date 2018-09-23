@@ -24,8 +24,6 @@ namespace Slipstream.CommonDotNet.Commands
             _dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
-
-
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
@@ -33,7 +31,7 @@ namespace Slipstream.CommonDotNet.Commands
 
             var allClassTypes = GetAllConcreteClassTypes(typeof(TCommand));
 
-            // TODO: only create with IAsyncCommand, if none then throw a handler not found exception
+            // TODO: only create with IAsyncCommand, if none then throw a handler not found exception.. an analyzer could check this
             var firstRegisteredClassType = allClassTypes.First(t => _dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t, typeof(TSuccessResult))));
 
             var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType, typeof(TSuccessResult));
