@@ -1,0 +1,18 @@
+﻿using System;
+using System.Threading.Tasks;
+using DreamNucleus.Commands.Results;
+
+namespace DreamNucleus.Commands.Tests
+{
+    public class ExceptionCommand : ISuccessResult<ExceptionCommand, Unit>
+    {
+    }
+
+    public class ExceptionCommandHandler : IAsyncCommandHandler<ExceptionCommand, Unit>
+    {
+        public Task<Unit> ExecuteAsync(ExceptionCommand command)
+        {
+            throw new Exception();
+        }
+    }
+}

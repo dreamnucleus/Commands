@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <PackageId>DreamNucleus.Commands.Autofac</PackageId>
+    <Title>DreamNucleus Commands Autofac</Title>
+    <Description>DreamNucleus Commands Autofac</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DreamNucleus.Commands\DreamNucleus.Commands.csproj" />
+  </ItemGroup>
+
+</Project>
