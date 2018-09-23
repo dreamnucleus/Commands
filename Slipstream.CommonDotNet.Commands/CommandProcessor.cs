@@ -27,7 +27,7 @@ namespace Slipstream.CommonDotNet.Commands
             using (var internalCommandProcessor =
                 new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
             {
-                return await internalCommandProcessor.ProcessAsync(command);
+                return await internalCommandProcessor.ProcessAsync(command).ConfigureAwait(false);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Slipstream.CommonDotNet.Commands
             using (var internalCommandProcessor =
                 new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
             {
-                return await internalCommandProcessor.ProcessResultAsync(command);
+                return await internalCommandProcessor.ProcessResultAsync(command).ConfigureAwait(false);
             }
         }
     }

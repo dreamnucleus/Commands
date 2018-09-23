@@ -6,7 +6,7 @@ using Autofac;
 
 namespace Slipstream.CommonDotNet.Commands.Autofac
 {
-    public class AutofacDependencyService : ILifetimeScopeDependencyService
+    public sealed class AutofacDependencyService : ILifetimeScopeDependencyService
     {
         private readonly ILifetimeScope _lifetimeScope;
 
@@ -41,7 +41,7 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
         }
     }
 
-    public class AutofacLifetimeScopeService : ILifetimeScopeService
+    public sealed class AutofacLifetimeScopeService : ILifetimeScopeService
     {
         private readonly ILifetimeScope _lifetimeScope;
 

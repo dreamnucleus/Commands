@@ -17,14 +17,14 @@ namespace Slipstream.CommonDotNet.Commands.Extensions
             _lockManager = lockManager;
         }
 
-        private bool IsSemaphoreCommand(IAsyncCommand command) => command.GetType().GetTypeInfo().GetCustomAttribute<SemaphoreAttribute>() != null;
+        private static bool IsSemaphoreCommand(IAsyncCommand command) => command.GetType().GetTypeInfo().GetCustomAttribute<SemaphoreAttribute>() != null;
 
         public override async Task ExecutingAsync(IAsyncCommand command)
         {
             // TODO: maybe have a execute if/when in the pipeline?
             if (IsSemaphoreCommand(command))
             {
-                var @lock = await _lockManager.AcquireAsync(command.GetType().GetHashCode().ToString(), CancellationToken.None);
+                var @lock = await _lockManager.AcquireAsync(command.GetType().GetHashCode().ToString(), CancellationToken.None).ConfigureAwait(false);
             }
         }
 
@@ -32,7 +32,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions
         {
             if (IsSemaphoreCommand(command))
             {
-                await _lockManager.ReleaseAsync(command.GetType().GetHashCode().ToString(), "", CancellationToken.None);
+                await _lockManager.ReleaseAsync(command.GetType().GetHashCode().ToString(), "", CancellationToken.None).ConfigureAwait(false);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Slipstream.CommonDotNet.Commands.Extensions
         {
             if (IsSemaphoreCommand(command))
             {
-                await _lockManager.ReleaseAsync(command.GetType().GetHashCode().ToString(), "", CancellationToken.None);
+                await _lockManager.ReleaseAsync(command.GetType().GetHashCode().ToString(), "", CancellationToken.None).ConfigureAwait(false);
             }
         }
     }

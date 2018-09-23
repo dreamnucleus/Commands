@@ -11,7 +11,7 @@ using Slipstream.CommonDotNet.Commands.Results;
 
 namespace Slipstream.CommonDotNet.Commands
 {
-    internal class InternalCommandProcessor : ICommandProcessor, IDisposable
+    internal sealed class InternalCommandProcessor : ICommandProcessor, IDisposable
     {
         private readonly ICommandsBuilder _commandsBuilder;
         private readonly IAsyncCommand _initialCommand;
@@ -44,7 +44,7 @@ namespace Slipstream.CommonDotNet.Commands
             {
                 if (pipeline.GetType().GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                 {
-                    await pipeline.ExecutingAsync(command);
+                    await pipeline.ExecutingAsync(command).ConfigureAwait(false);
                 }
             }
 
@@ -52,9 +52,9 @@ namespace Slipstream.CommonDotNet.Commands
             {
                 foreach (var executingNotification in executingNotifications)
                 {
-                    await (Task)typeof(IExecutingNotification<>).MakeGenericType(typeof(TCommand))
+                    await ((Task)typeof(IExecutingNotification<>).MakeGenericType(typeof(TCommand))
                         .GetTypeInfo().GetMethod("OnExecutingAsync", new[] { command.GetType() })
-                        .Invoke(_dependencyService.Resolve(executingNotification), new object[] { command });
+                        .Invoke(_dependencyService.Resolve(executingNotification), new object[] { command })).ConfigureAwait(false);
                 }
             }
 
@@ -63,15 +63,15 @@ namespace Slipstream.CommonDotNet.Commands
             {
                 task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
 
-                var result = await task;
+                var result = await task.ConfigureAwait(false);
 
                 if (_commandsBuilder.ExecutedNotifications.TryGetValue(typeof(TCommand), out var executedNotifications))
                 {
                     foreach (var executedNotification in executedNotifications)
                     {
-                        await (Task)typeof(IExecutedNotification<,>).MakeGenericType(typeof(TCommand), typeof(TSuccessResult))
+                        await ((Task)typeof(IExecutedNotification<,>).MakeGenericType(typeof(TCommand), typeof(TSuccessResult))
                             .GetTypeInfo().GetMethod("OnExecutedAsync", new[] { command.GetType(), typeof(TSuccessResult) })
-                            .Invoke(_dependencyService.Resolve(executedNotification), new object[] { command, result });
+                            .Invoke(_dependencyService.Resolve(executedNotification), new object[] { command, result })).ConfigureAwait(false);
                     }
                 }
 
@@ -80,7 +80,7 @@ namespace Slipstream.CommonDotNet.Commands
                 {
                     if (pipeline.GetType().GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                     {
-                        await pipeline.ExecutedAsync(command, result);
+                        await pipeline.ExecutedAsync(command, result).ConfigureAwait(false);
                     }
                 }
             }
@@ -97,9 +97,9 @@ namespace Slipstream.CommonDotNet.Commands
                 {
                     foreach (var exceptionNotification in exceptionNotifications)
                     {
-                        await (Task)typeof(IExceptionNotification<>).MakeGenericType(typeof(TCommand))
+                        await ((Task)typeof(IExceptionNotification<>).MakeGenericType(typeof(TCommand))
                             .GetTypeInfo().GetMethod("OnExecptionAsync", new[] { command.GetType(), typeof(Exception) })
-                            .Invoke(_dependencyService.Resolve(exceptionNotification), new object[] { command, exception });
+                            .Invoke(_dependencyService.Resolve(exceptionNotification), new object[] { command, exception })).ConfigureAwait(false);
                     }
                 }
 
@@ -108,14 +108,14 @@ namespace Slipstream.CommonDotNet.Commands
                 {
                     if (pipeline.GetType().GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                     {
-                        await pipeline.ExceptionAsync(command, exception);
+                        await pipeline.ExceptionAsync(command, exception).ConfigureAwait(false);
                     }
                 }
 
                 ExceptionDispatchInfo.Capture(exception).Throw();
             }
 
-            return await task;
+            return await task.ConfigureAwait(false);
         }
 
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
@@ -123,7 +123,7 @@ namespace Slipstream.CommonDotNet.Commands
         {
             try
             {
-                return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command));
+                return new CommandProcessorSuccessResult<TSuccessResult>(await ProcessAsync(command).ConfigureAwait(false));
             }
             catch (Exception exception)
             {

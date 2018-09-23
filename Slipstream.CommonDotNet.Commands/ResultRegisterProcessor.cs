@@ -32,7 +32,9 @@ namespace Slipstream.CommonDotNet.Commands
         }
 
 
+#pragma warning disable CA1801 // Review unused parameters
         public ResultParser<TCommand, TSuccessResult, TReturn, TWhen> When<TWhen>(Func<TCommand, TWhen> action)
+#pragma warning restore CA1801 // Review unused parameters
         {
             return new ResultParser<TCommand, TSuccessResult, TReturn, TWhen>(this, func =>
             {
@@ -55,7 +57,7 @@ namespace Slipstream.CommonDotNet.Commands
             // TODO: should this be reused?
             try
             {
-                return ProcessResult(await _commandProcessor.ProcessAsync(_command));
+                return ProcessResult(await _commandProcessor.ProcessAsync(_command).ConfigureAwait(false));
             }
             catch (Exception exception)
             {
@@ -87,7 +89,7 @@ namespace Slipstream.CommonDotNet.Commands
 
         public async Task<TSuccessResult> ExecuteSuccessAsync()
         {
-            return await _commandProcessor.ProcessAsync(_command);
+            return await _commandProcessor.ProcessAsync(_command).ConfigureAwait(false);
         }
     }
 }
