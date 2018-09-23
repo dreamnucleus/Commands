@@ -8,7 +8,7 @@ using Slipstream.CommonDotNet.Commands.Pipelines;
 namespace Slipstream.CommonDotNet.Commands.Extensions
 {
     // TODO: need to keep on renewing the lock for longer running tasks...
-    public class SemaphorePipeline : Pipeline
+    public sealed class SemaphorePipeline : Pipeline
     {
         private readonly ILockManager _lockManager;
 
@@ -43,6 +43,5 @@ namespace Slipstream.CommonDotNet.Commands.Extensions
                 await _lockManager.ReleaseAsync(command.GetType().GetHashCode().ToString(), "", CancellationToken.None);
             }
         }
-
     }
 }

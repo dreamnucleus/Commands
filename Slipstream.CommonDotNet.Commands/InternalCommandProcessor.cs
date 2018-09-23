@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using Slipstream.CommonDotNet.Commands.Builder;
 using Slipstream.CommonDotNet.Commands.Notifications;
@@ -18,12 +19,10 @@ namespace Slipstream.CommonDotNet.Commands
 
         public InternalCommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService, IAsyncCommand initialCommand)
         {
-            this._commandsBuilder = commandsBuilder;
-            this._initialCommand = initialCommand;
-            this._dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
+            _commandsBuilder = commandsBuilder;
+            _initialCommand = initialCommand;
+            _dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
-
-
 
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
@@ -32,7 +31,7 @@ namespace Slipstream.CommonDotNet.Commands
 
             var allClassTypes = GetAllConcreteClassTypes(typeof(TCommand));
 
-            // TODO: only create with IAsyncCommand, if none then throw a handler not found exception
+            // TODO: only create with IAsyncCommand, if none then throw a handler not found exception.. an analyzer could check this
             var firstRegisteredClassType = allClassTypes.First(t => _dependencyService.IsRegistered(typeof(IAsyncCommandHandler<,>).MakeGenericType(t, typeof(TSuccessResult))));
 
             var handlerType = typeof(IAsyncCommandHandler<,>).MakeGenericType(firstRegisteredClassType, typeof(TSuccessResult));
@@ -59,10 +58,10 @@ namespace Slipstream.CommonDotNet.Commands
                 }
             }
 
-
+            Task<TSuccessResult> task = null;
             try
             {
-                var task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
+                task = (Task<TSuccessResult>)handlerType.GetTypeInfo().GetMethod("ExecuteAsync", new[] { command.GetType() }).Invoke(handler, new object[] { command });
 
                 var result = await task;
 
@@ -84,8 +83,6 @@ namespace Slipstream.CommonDotNet.Commands
                         await pipeline.ExecutedAsync(command, result);
                     }
                 }
-
-                return await task;
             }
             catch (Exception exception)
             {
@@ -115,9 +112,10 @@ namespace Slipstream.CommonDotNet.Commands
                     }
                 }
 
-                // ReSharper disable once PossibleIntendedRethrow
-                throw exception;
+                ExceptionDispatchInfo.Capture(exception).Throw();
             }
+
+            return await task;
         }
 
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)

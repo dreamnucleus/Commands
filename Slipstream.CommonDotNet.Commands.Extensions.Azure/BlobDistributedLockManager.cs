@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Slipstream.CommonDotNet.Commands.Extensions.Azure
 {
-    public class BlobDistributedLockManager : ILockManager
+    public sealed class BlobDistributedLockManager : ILockManager
     {
         public TimeSpan LeaseTime { get; }
 
@@ -23,9 +23,8 @@ namespace Slipstream.CommonDotNet.Commands.Extensions.Azure
                 throw new ArgumentOutOfRangeException(nameof(leaseTime), "Lease time must be between 15 and 60 seconds");
             }
 
+            _cloudBlobContainer = cloudBlobContainer;
             LeaseTime = leaseTime;
-
-            this._cloudBlobContainer = cloudBlobContainer;
         }
 
         public async Task<Lock> AcquireAsync(string resourceId, CancellationToken cancellationToken)

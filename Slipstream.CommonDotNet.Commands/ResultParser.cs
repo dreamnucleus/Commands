@@ -15,8 +15,8 @@ namespace Slipstream.CommonDotNet.Commands
 
         public ResultParser(ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> resultRegisterProcessor, Action<Func<object, TReturn>> registerResult)
         {
-            this._resultRegisterProcessor = resultRegisterProcessor;
-            this._registerResult = registerResult;
+            _resultRegisterProcessor = resultRegisterProcessor;
+            _registerResult = registerResult;
         }
 
         public ResultRegisterProcessor<TCommand, TSuccessResult, TReturn> Return(Func<TWhen, TReturn> resultParser)
@@ -33,8 +33,8 @@ namespace Slipstream.CommonDotNet.Commands
 
         public ResultParser(ResultRegister<TReturn> resultRegisterProcessor, Action<Func<object, TReturn>> registerResult)
         {
-            this._resultRegisterProcessor = resultRegisterProcessor;
-            this._registerResult = registerResult;
+            _resultRegisterProcessor = resultRegisterProcessor;
+            _registerResult = registerResult;
         }
 
         public ResultRegister<TReturn> Return(Func<TWhen, TReturn> resultParser)

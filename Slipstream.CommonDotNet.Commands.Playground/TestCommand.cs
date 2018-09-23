@@ -19,7 +19,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public TestCommandHandler(BloggingContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public Task<List<TestData>> ExecuteAsync(TestCommand command)
@@ -69,7 +69,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public GetBlogCommandHandler(BloggingContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public async Task<BlogData> ExecuteAsync(GetBlogCommand command)
@@ -119,8 +119,8 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public CreatePostCommandHandler(ICommandProcessor commandProcessor, BloggingContext context)
         {
-            this._commandProcessor = commandProcessor;
-            this._context = context;
+            _commandProcessor = commandProcessor;
+            _context = context;
         }
 
         public async Task<PostData> ExecuteAsync(CreatePostCommand command)

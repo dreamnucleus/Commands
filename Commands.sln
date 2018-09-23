@@ -5,8 +5,10 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21669A96-4199-4287-896A-5C036F03E346}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		azure-pipelines.yml = azure-pipelines.yml
 		CodeCoverage.runsettings = CodeCoverage.runsettings
+		Commands.ruleset = Commands.ruleset
 		Directory.Build.props = Directory.Build.props
 		version.json = version.json
 	EndProjectSection
@@ -23,11 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{896885BA-6991-4275-AAEE-40957622E790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Extensions", "Slipstream.CommonDotNet.Commands.Extensions\Slipstream.CommonDotNet.Commands.Extensions.csproj", "{84606311-A749-41CB-9EDF-C23B7C530DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Extensions", "Slipstream.CommonDotNet.Commands.Extensions\Slipstream.CommonDotNet.Commands.Extensions.csproj", "{84606311-A749-41CB-9EDF-C23B7C530DF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Extensions.Azure", "Slipstream.CommonDotNet.Commands.Extensions.Azure\Slipstream.CommonDotNet.Commands.Extensions.Azure.csproj", "{038B6CE9-CA92-4CD5-84FD-B366C782A350}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Extensions.Azure", "Slipstream.CommonDotNet.Commands.Extensions.Azure\Slipstream.CommonDotNet.Commands.Extensions.Azure.csproj", "{038B6CE9-CA92-4CD5-84FD-B366C782A350}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slipstream.CommonDotNet.Commands.Extensions.Tests", "Slipstream.CommonDotNet.Commands.Extensions.Tests\Slipstream.CommonDotNet.Commands.Extensions.Tests.csproj", "{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slipstream.CommonDotNet.Commands.Extensions.Tests", "Slipstream.CommonDotNet.Commands.Extensions.Tests\Slipstream.CommonDotNet.Commands.Extensions.Tests.csproj", "{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

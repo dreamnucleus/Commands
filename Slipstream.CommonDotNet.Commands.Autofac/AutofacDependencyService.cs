@@ -12,7 +12,7 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
 
         public AutofacDependencyService(ILifetimeScope lifetimeScope)
         {
-            this._lifetimeScope = lifetimeScope;
+            _lifetimeScope = lifetimeScope;
         }
 
         public bool IsRegistered<T>()
@@ -47,7 +47,7 @@ namespace Slipstream.CommonDotNet.Commands.Autofac
 
         public AutofacLifetimeScopeService(ILifetimeScope lifetimeScope)
         {
-            this._lifetimeScope = lifetimeScope;
+            _lifetimeScope = lifetimeScope;
         }
 
         public ILifetimeScopeDependencyService BeginLifetimeScope(ICommandProcessor commandProcessor)

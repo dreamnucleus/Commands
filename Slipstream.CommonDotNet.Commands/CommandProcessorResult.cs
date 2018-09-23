@@ -47,13 +47,13 @@ namespace Slipstream.CommonDotNet.Commands
 
         public CommandProcessorSuccessResult(TSuccessResult result)
         {
-            this._result = result;
+            _result = result;
             Success = true;
         }
 
         public CommandProcessorSuccessResult(Exception exception)
         {
-            this._exception = exception;
+            _exception = exception;
             Success = false;
         }
     }

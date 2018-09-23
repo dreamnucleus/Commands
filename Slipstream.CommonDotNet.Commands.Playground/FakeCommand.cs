@@ -28,7 +28,7 @@ namespace Slipstream.CommonDotNet.Commands.Playground
 
         public FakeCommandHandler(ICommandProcessor commandProcessor)
         {
-            this._commandProcessor = commandProcessor;
+            _commandProcessor = commandProcessor;
         }
 
 

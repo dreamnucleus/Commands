@@ -17,8 +17,8 @@ namespace Slipstream.CommonDotNet.Commands
 
         public CommandProcessor(ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
-            this._commandsBuilder = commandsBuilder;
-            this._lifetimeScopeService = lifetimeScopeService;
+            _commandsBuilder = commandsBuilder;
+            _lifetimeScopeService = lifetimeScopeService;
         }
 
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)

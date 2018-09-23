@@ -21,8 +21,8 @@ namespace Slipstream.CommonDotNet.Commands
         public ResultProcessor(Dictionary<Type, Func<object, TReturn>> resultParsers, 
             ICommandsBuilder commandsBuilder, ILifetimeScopeService lifetimeScopeService)
         {
-            this._resultParsers = resultParsers;
-            this._commandProcessor = new CommandProcessor(commandsBuilder, lifetimeScopeService);
+            _resultParsers = resultParsers;
+            _commandProcessor = new CommandProcessor(commandsBuilder, lifetimeScopeService);
         }
 
         // can i make one which only returns the success
