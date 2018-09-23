@@ -21,19 +21,19 @@ steps:
   displayName: Restore
   inputs:
     command: restore
-    projects: '**/*.csproj;!**/*.Vsix.csproj'
+    projects: '**/*.csproj;-:**/*.Vsix.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: '**/*.csproj;!**/*.Vsix.csproj'
+    projects: '**/*.csproj;-:**/*.Vsix.csproj'
     arguments: '--configuration $(BuildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
     command: test
-    projects: '**/*Tests/*.csproj;!**/*.Vsix.csproj'
+    projects: '**/*Tests/*.csproj;-:**/*.Vsix.csproj'
     arguments: '-c $(BuildConfiguration) --collect:"Code Coverage" -s $(System.DefaultWorkingDirectory)/CodeCoverage.runsettings /p:DebugType=Full'
 
 - task: DotNetCoreCLI@2
