@@ -20,7 +20,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DreamNucleus.Commands.Analyzer.Vsix</RootNamespace>
-    <AssemblyName>DreamNucleus.Commands.Analyzer.Vsix</AssemblyName>
+    <AssemblyName>DreamNucleus.Commands.Analyzer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
