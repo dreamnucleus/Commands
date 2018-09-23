@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <PackageId>DreamNucleus.Commands.Extensions.Azure</PackageId>
+    <Title>DreamNucleus Commands Extensions Azure</Title>
+    <Description>DreamNucleus Commands Extensions Azure</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WindowsAzure.Storage" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DreamNucleus.Commands.Extensions\DreamNucleus.Commands.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

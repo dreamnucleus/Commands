@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <PackageId>DreamNucleus.Commands.Extensions</PackageId>
+    <Title>DreamNucleus Commands Extensions</Title>
+    <Description>DreamNucleus Commands Extensions</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DreamNucleus.Commands\DreamNucleus.Commands.csproj" />
+  </ItemGroup>
+
+</Project>

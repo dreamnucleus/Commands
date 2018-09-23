@@ -1,4 +1,4 @@
-[![Build status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands%20-%20CI)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=5) [![NuGet](https://img.shields.io/nuget/v/Slipstream.CommonDotNet.Commands.svg)](https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/)
+[![Build status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands%20-%20CI)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=5) [![NuGet](https://img.shields.io/nuget/v/DreamNucleus.Commands.svg)](https://www.nuget.org/packages/DreamNucleus.Commands/)
 
 
 # Commands
@@ -19,33 +19,33 @@ return await resultProcessor.For(new GetBlogCommand(blogId))
 
 Packages availble for .NETFramework 4.5 and .NETStandard 1.6
 
-https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands/
+https://www.nuget.org/packages/DreamNucleus.Commands/
 
 ```
-Install-Package Slipstream.CommonDotNet.Commands
+Install-Package DreamNucleus.Commands
 ```
 ```
-dotnet add package Slipstream.CommonDotNet.Commands
-```
-
-
-https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Results/
-
-```
-Install-Package Slipstream.CommonDotNet.Commands.Results
-```
-```
-dotnet add package Slipstream.CommonDotNet.Commands.Results
+dotnet add package DreamNucleus.Commands
 ```
 
 
-https://www.nuget.org/packages/Slipstream.CommonDotNet.Commands.Autofac/
+https://www.nuget.org/packages/DreamNucleus.Commands.Results/
 
 ```
-Install-Package Slipstream.CommonDotNet.Commands.Autofac
+Install-Package DreamNucleus.Commands.Results
 ```
 ```
-dotnet add package Slipstream.CommonDotNet.Commands.Autofac
+dotnet add package DreamNucleus.Commands.Results
+```
+
+
+https://www.nuget.org/packages/DreamNucleus.Commands.Autofac/
+
+```
+Install-Package DreamNucleus.Commands.Autofac
+```
+```
+dotnet add package DreamNucleus.Commands.Autofac
 ```
 
 # Example
