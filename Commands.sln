@@ -36,8 +36,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Analy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Analyzer.Tests", "DreamNucleus.Commands.Analyzer.Tests\DreamNucleus.Commands.Analyzer.Tests.csproj", "{52494466-6502-49F9-AF21-9FF7EE07521E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Analyzer.Vsix", "DreamNucleus.Commands.Analyzer.Vsix\DreamNucleus.Commands.Analyzer.Vsix.csproj", "{64A87A61-15B7-4E51-8135-A7B46323FEA6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,10 +78,6 @@ Global
 		{52494466-6502-49F9-AF21-9FF7EE07521E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52494466-6502-49F9-AF21-9FF7EE07521E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52494466-6502-49F9-AF21-9FF7EE07521E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64A87A61-15B7-4E51-8135-A7B46323FEA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64A87A61-15B7-4E51-8135-A7B46323FEA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64A87A61-15B7-4E51-8135-A7B46323FEA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64A87A61-15B7-4E51-8135-A7B46323FEA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
