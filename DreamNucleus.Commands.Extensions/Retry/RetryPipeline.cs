@@ -21,22 +21,21 @@ namespace DreamNucleus.Commands.Extensions.Retry
             _commandProcessor = commandProcessor;
         }
 
-        public override Task ExceptionAsync(IAsyncCommand command, Exception exception)
-        {
-            var retryAttribute = (RetryAttribute)Attribute.GetCustomAttribute(command.GetType(), typeof(RetryAttribute));
+        //public override Task ExceptionAsync(IAsyncCommand command, Exception exception)
+        //{
+        //    var retryAttribute = (RetryAttribute)Attribute.GetCustomAttribute(command.GetType(), typeof(RetryAttribute));
 
-            if (retryAttribute != null)
-            {
-                _retries.TryAdd(command, 0);
+        //    if (retryAttribute != null)
+        //    {
+        //        _retries.TryAdd(command, 0);
 
-                _retries.TryGetValue(command, out var retries);
+        //        _retries.TryGetValue(command, out var retries);
 
-                if (retries <= retryAttribute.Retries)
-                {
-                    _retries.TryUpdate(command, retries + 1, retries);
-
-                }
-            }
-        }
+        //        if (retries <= retryAttribute.Retries)
+        //        {
+        //            _retries.TryUpdate(command, retries + 1, retries);
+        //        }
+        //    }
+        //}
     }
 }

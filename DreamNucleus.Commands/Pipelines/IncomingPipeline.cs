@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DreamNucleus.Commands.Results;
 
 namespace DreamNucleus.Commands.Pipelines
 {
@@ -12,7 +13,8 @@ namespace DreamNucleus.Commands.Pipelines
             _nextIncomingPipeline = nextIncomingPipeline;
         }
 
-        public virtual Task<Object> ExecutingAsync(IAsyncCommand command)
+        public virtual Task<TSuccessResult> ExecutingAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+            where TCommand : IAsyncCommand
         {
             return _nextIncomingPipeline.ExecutingAsync(command);
         }
@@ -29,9 +31,9 @@ namespace DreamNucleus.Commands.Pipelines
             _nextIncomingPipeline = nextIncomingPipeline;
         }
 
-        public virtual Task<Object> ExecutingAsync(IAsyncCommand command)
+        public override Task<TSuccessResult> ExecutingAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
         {
-            return Task.FromResult(new Object()); // don't need next one...
+            return Task.FromResult(default(TSuccessResult)); // don't need next one...
         }
     }
 }

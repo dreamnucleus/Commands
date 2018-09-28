@@ -24,29 +24,30 @@ namespace DreamNucleus.Commands
             _dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
-        public async Task<TSuccessResult> Process1Async<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        public async Task<TSuccessResult> ProcessAsyncIgnore<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            var incoming = new List<IncomingPipeline>();
-            var outgoing = new List<OutgoingPipeline>();
+            IncomingPipeline incomingPipeline = null;
+            OutgoingPipeline outgoingPipeline = null;
 
+            TSuccessResult result;
             try
             {
-                var result = await incoming.First().ExecutingAsync(command).ConfigureAwait(false);
-                return (TSuccessResult)await outgoing.First().ExecutedAsync(command, result).ConfigureAwait(false);
+                result = await incomingPipeline.ExecutingAsync(command).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
-                var result = (TSuccessResult)await outgoing.First().ExecutedAsync(command, exception).ConfigureAwait(false);
+                var newResult = await outgoingPipeline.ExceptionAsync(command, exception).ConfigureAwait(false);
 
-                if (result is Exception newException)
+                if (newResult is Exception newException)
                 {
                     throw newException;
                 }
 
-                return result;
+                return (TSuccessResult)newResult; // TODO: I don't think this should go back int the outgoing...
             }
 
+            return await outgoingPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
         }
 
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
