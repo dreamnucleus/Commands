@@ -9,12 +9,12 @@ namespace DreamNucleus.Commands.Builder
 {
     public class CommandsBuilder : ICommandsBuilder
     {
-        private readonly List<Type> _piplines = new List<Type>();
+        private readonly List<Type> _pipelines = new List<Type>();
         private readonly Dictionary<Type, IReadOnlyCollection<Type>> _executingNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
         private readonly Dictionary<Type, IReadOnlyCollection<Type>> _executedNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
         private readonly Dictionary<Type, IReadOnlyCollection<Type>> _exceptionNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
 
-        public IReadOnlyCollection<Type> Pipelines => _piplines;
+        public IReadOnlyCollection<Type> Pipelines => _pipelines;
         public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutingNotifications => _executingNotifications;
         public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutedNotifications => _executedNotifications;
         public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExceptionNotifications => _exceptionNotifications;
@@ -24,7 +24,7 @@ namespace DreamNucleus.Commands.Builder
         {
             if (typeof(TItem).GetTypeInfo().IsSubclassOf(typeof(Pipeline)))
             {
-                _piplines.Add(typeof(TItem));
+                _pipelines.Add(typeof(TItem));
             }
             // TODO: don't repeat
             else if (typeof(TItem).GetTypeInfo().GetInterfaces()
