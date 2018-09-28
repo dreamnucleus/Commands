@@ -27,7 +27,7 @@ namespace DreamNucleus.Commands
         public async Task<TSuccessResult> ProcessAsyncIgnore<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            // TODO: do we need both pipelines?
+            // TODO: do we need both pipelines? probably best to have 3
             IncomingPipeline incomingPipeline = null;
             OutgoingPipeline outgoingPipeline = null;
 
