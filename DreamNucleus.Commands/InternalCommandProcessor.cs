@@ -24,6 +24,31 @@ namespace DreamNucleus.Commands
             _dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
+        public async Task<TSuccessResult> Process1Async<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+            where TCommand : IAsyncCommand
+        {
+            var incoming = new List<IncomingPipeline>();
+            var outgoing = new List<OutgoingPipeline>();
+
+            try
+            {
+                var result = await incoming.First().ExecutingAsync(command).ConfigureAwait(false);
+                return (TSuccessResult)await outgoing.First().ExecutedAsync(command, result).ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                var result = (TSuccessResult)await outgoing.First().ExecutedAsync(command, exception).ConfigureAwait(false);
+
+                if (result is Exception newException)
+                {
+                    throw newException;
+                }
+
+                return result;
+            }
+
+        }
+
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
