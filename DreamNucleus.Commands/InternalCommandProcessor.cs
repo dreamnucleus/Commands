@@ -44,7 +44,7 @@ namespace DreamNucleus.Commands
                     throw newException;
                 }
 
-                return (TSuccessResult)newResult; // TODO: I don't think this should go back int the outgoing...
+                return (TSuccessResult)newResult; // TODO: I don't think this should go back into the outgoing...
             }
 
             return await outgoingPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
