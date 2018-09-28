@@ -1,4 +1,4 @@
-[![Build status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands%20-%20CI)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=5) [![NuGet](https://img.shields.io/nuget/v/DreamNucleus.Commands.svg)](https://www.nuget.org/packages/DreamNucleus.Commands/)
+[![Build Status](https://mckendry.visualstudio.com/Commands/_apis/build/status/Commands)](https://mckendry.visualstudio.com/Commands/_build/latest?definitionId=8) [![NuGet](https://img.shields.io/nuget/v/DreamNucleus.Commands.svg)](https://www.nuget.org/packages/DreamNucleus.Commands/)
 
 
 # Commands
