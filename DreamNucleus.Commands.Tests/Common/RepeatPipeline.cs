@@ -4,7 +4,7 @@ using DreamNucleus.Commands.Pipelines;
 
 namespace DreamNucleus.Commands.Tests.Common
 {
-    public class TestPipeline : Pipeline
+    public class RepeatPipeline : Pipeline
     {
         public override Task ExecutingAsync(IAsyncCommand command)
         {

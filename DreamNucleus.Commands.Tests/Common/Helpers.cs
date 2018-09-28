@@ -17,12 +17,19 @@ namespace DreamNucleus.Commands.Tests.Common
 
             containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
             containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand, int>>();
+
             containerBuilder.RegisterType<AsyncExceptionCommandHandler>().As<IAsyncCommandHandler<AsyncExceptionCommand, Unit>>();
             containerBuilder.RegisterType<ExceptionCommandHandler>().As<IAsyncCommandHandler<ExceptionCommand, Unit>>();
 
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
 
-            commandsBuilder.Use<TestPipeline>();
+            commandsBuilder.Use<SingletonPipeline>();
+            commandsBuilder.Use<RepeatPipeline>();
+
+            commandsBuilder.Use<IntCommandExecutingNotification>();
+            commandsBuilder.Use<IntCommandExecutedNotification>();
+            commandsBuilder.Use<IntCommandExceptionNotification>();
+
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
             containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
             containerBuilder.RegisterType<CommandProcessor>().As<ICommandProcessor>();

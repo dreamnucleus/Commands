@@ -8,6 +8,7 @@ using Xunit;
 
 namespace DreamNucleus.Commands.Tests
 {
+    // TODO: order of exec
     public class PipelineTests
     {
         [Fact]
