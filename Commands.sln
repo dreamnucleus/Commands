@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21669A96-4199-4287-896A-5C036F03E346}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		azure-pipelines.yml = azure-pipelines.yml
 		CodeCoverage.runsettings = CodeCoverage.runsettings
 		Commands.ruleset = Commands.ruleset
 		Directory.Build.props = Directory.Build.props
@@ -30,6 +31,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Azure", "DreamNucleus.Commands.Extensions.Azure\DreamNucleus.Commands.Extensions.Azure.csproj", "{038B6CE9-CA92-4CD5-84FD-B366C782A350}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Tests", "DreamNucleus.Commands.Extensions.Tests\DreamNucleus.Commands.Extensions.Tests.csproj", "{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Analyzer", "DreamNucleus.Commands.Analyzer\DreamNucleus.Commands.Analyzer.csproj", "{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Analyzer.Tests", "DreamNucleus.Commands.Analyzer.Tests\DreamNucleus.Commands.Analyzer.Tests.csproj", "{52494466-6502-49F9-AF21-9FF7EE07521E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +70,14 @@ Global
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52494466-6502-49F9-AF21-9FF7EE07521E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52494466-6502-49F9-AF21-9FF7EE07521E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52494466-6502-49F9-AF21-9FF7EE07521E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52494466-6502-49F9-AF21-9FF7EE07521E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +86,7 @@ Global
 		{08E41937-D16C-45D0-8864-85BD68923A1B} = {5D9CE31E-9D1F-4656-82FA-FB4FFC25D1A9}
 		{C870F335-A0FC-4C3D-956A-A30470D336E1} = {896885BA-6991-4275-AAEE-40957622E790}
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166} = {896885BA-6991-4275-AAEE-40957622E790}
+		{52494466-6502-49F9-AF21-9FF7EE07521E} = {896885BA-6991-4275-AAEE-40957622E790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {957683AB-D391-45B5-9BF4-F5FE607578CB}
