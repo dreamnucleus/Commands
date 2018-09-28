@@ -8,6 +8,5 @@ namespace DreamNucleus.Commands.Pipelines
     [AttributeUsage(AttributeTargets.Class)]
     public class SingletonAttribute : Attribute
     {
-
     }
 }

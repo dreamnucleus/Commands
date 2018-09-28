@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using DreamNucleus.Commands.Extensions.Results;
 using DreamNucleus.Commands.Extensions.Semaphore;
 
-namespace DreamNucleus.Commands.Extensions.Tests
+namespace DreamNucleus.Commands.Extensions.Tests.Common
 {
-    public class MockLockManager : ILockManager
+    public class FakeLockManager : ILockManager
     {
         private readonly ConcurrentDictionary<string, DateTimeOffset> _locks = new ConcurrentDictionary<string, DateTimeOffset>();
 
