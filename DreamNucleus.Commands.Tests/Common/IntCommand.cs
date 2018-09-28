@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Tests
+namespace DreamNucleus.Commands.Tests.Common
 {
     public class IntCommand : ISuccessResult<IntCommand, int>
     {

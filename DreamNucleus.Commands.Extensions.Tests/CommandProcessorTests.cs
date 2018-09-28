@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Autofac;
 using DreamNucleus.Commands.Autofac;
 using DreamNucleus.Commands.Extensions.Results;
+using DreamNucleus.Commands.Extensions.Semaphore;
 using DreamNucleus.Commands.Results;
 using Xunit;
 
@@ -19,6 +20,7 @@ namespace DreamNucleus.Commands.Extensions.Tests
             containerBuilder.RegisterType<MockLockManager>().As<ILockManager>().SingleInstance();
 
             containerBuilder.RegisterType<SemaphoreCommandHandler>().As<IAsyncCommandHandler<SemaphoreCommand, Unit>>();
+            containerBuilder.RegisterType<SemaphoreHashCommandHandler>().As<IAsyncCommandHandler<SemaphoreHashCommand, int>>();
 
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
 
@@ -96,5 +98,34 @@ namespace DreamNucleus.Commands.Extensions.Tests
         }
 
         // TODO: test renew
+
+        [Fact]
+        public async Task SemaphoreHash()
+        {
+            const int id1 = 1;
+            const int id2 = 2;
+
+            var result1 = await _commandProcessor.ProcessAsync(new SemaphoreHashCommand(id1, async () =>
+            {
+                var result2 = await _commandProcessor.ProcessAsync(new SemaphoreHashCommand(id2, async () => await Task.Delay(1)));
+                Assert.Equal(id2, result2);
+            }));
+
+            Assert.Equal(id1, result1);
+        }
+
+        [Fact]
+        public async Task SemaphoreHash1()
+        {
+            const int id = 1;
+
+            await Assert.ThrowsAsync<ConflictException>(async () =>
+            {
+                await _commandProcessor.ProcessAsync(new SemaphoreHashCommand(id, async () =>
+                {
+                    await _commandProcessor.ProcessAsync(new SemaphoreHashCommand(id, async () => await Task.Delay(-1)));
+                }));
+            });
+        }
     }
 }

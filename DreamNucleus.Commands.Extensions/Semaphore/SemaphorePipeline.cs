@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Pipelines;
 
-namespace DreamNucleus.Commands.Extensions
+namespace DreamNucleus.Commands.Extensions.Semaphore
 {
     // TODO: need to keep on renewing the lock for longer running tasks...
     public sealed class SemaphorePipeline : Pipeline
@@ -16,14 +17,12 @@ namespace DreamNucleus.Commands.Extensions
             _lockManager = lockManager;
         }
 
-        private static bool IsSemaphoreCommand(IAsyncCommand command) => command.GetType().GetTypeInfo().GetCustomAttribute<SemaphoreAttribute>() != null;
-
         public override async Task ExecutingAsync(IAsyncCommand command)
         {
             // TODO: maybe have a execute if/when in the pipeline?
             if (IsSemaphoreCommand(command))
             {
-                var @lock = await _lockManager.AcquireAsync(command.GetType().GetHashCode().ToString(), CancellationToken.None).ConfigureAwait(false);
+                var @lock = await _lockManager.AcquireAsync(SemaphoreHash(command), CancellationToken.None).ConfigureAwait(false);
             }
         }
 
@@ -31,7 +30,7 @@ namespace DreamNucleus.Commands.Extensions
         {
             if (IsSemaphoreCommand(command))
             {
-                await _lockManager.ReleaseAsync(command.GetType().GetHashCode().ToString(), "", CancellationToken.None).ConfigureAwait(false);
+                await _lockManager.ReleaseAsync(SemaphoreHash(command), "", CancellationToken.None).ConfigureAwait(false);
             }
         }
 
@@ -39,8 +38,24 @@ namespace DreamNucleus.Commands.Extensions
         {
             if (IsSemaphoreCommand(command))
             {
-                await _lockManager.ReleaseAsync(command.GetType().GetHashCode().ToString(), "", CancellationToken.None).ConfigureAwait(false);
+                await _lockManager.ReleaseAsync(SemaphoreHash(command), "", CancellationToken.None).ConfigureAwait(false);
             }
         }
+
+        private static bool IsSemaphoreCommand(IAsyncCommand command) => command.GetType().GetTypeInfo().GetCustomAttribute<SemaphoreAttribute>() != null;
+
+        private static string SemaphoreHash(IAsyncCommand command)
+        {
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (command is ISemaphoreHash semaphoreHash)
+            {
+                return semaphoreHash.SemaphoreHash();
+            }
+            else
+            {
+                return command.GetType().GetHashCode().ToString(CultureInfo.InvariantCulture);
+            }
+        }
+
     }
 }

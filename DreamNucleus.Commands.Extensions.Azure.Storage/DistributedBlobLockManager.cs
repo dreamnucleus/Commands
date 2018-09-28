@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using DreamNucleus.Commands.Extensions.Results;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace DreamNucleus.Commands.Extensions.Azure
+namespace DreamNucleus.Commands.Extensions.Azure.Storage
 {
-    public sealed class BlobDistributedLockManager : ILockManager
+    public sealed class DistributedBlobLockManager : ILockManager
     {
         public TimeSpan LeaseTime { get; }
 
@@ -14,7 +17,7 @@ namespace DreamNucleus.Commands.Extensions.Azure
 #if NET45
         private static readonly byte[] EmptyByteArray = new byte[0];
 #endif
-        public BlobDistributedLockManager(CloudBlobContainer cloudBlobContainer, TimeSpan leaseTime)
+        public DistributedBlobLockManager(CloudBlobContainer cloudBlobContainer, TimeSpan leaseTime)
         {
             if (cloudBlobContainer == null)
             {
@@ -40,17 +43,34 @@ namespace DreamNucleus.Commands.Extensions.Azure
                 await cloudBlockBlob.UploadFromByteArrayAsync(Array.Empty<byte>(), 0, 0, null, null, null, cancellationToken).ConfigureAwait(false);
 #endif
             }
-            var leaseId = await cloudBlockBlob.AcquireLeaseAsync(LeaseTime, null, null, null, null, cancellationToken).ConfigureAwait(false);
 
-            return new Lock(leaseId, LeaseTime, DateTimeOffset.UtcNow);
+            try
+            {
+                var leaseId = await cloudBlockBlob.AcquireLeaseAsync(LeaseTime, null, null, null, null, cancellationToken).ConfigureAwait(false);
+
+                return new Lock(leaseId, LeaseTime, DateTimeOffset.UtcNow);
+            }
+            catch (StorageException storageException) when (storageException.RequestInformation.HttpStatusCode == (int)HttpStatusCode.Conflict)
+            {
+                throw new ConflictException();
+            }
+
         }
 
         public async Task<Lock> RenewAsync(string resourceId, string leaseId, CancellationToken cancellationToken)
         {
             var cloudBlockBlob = _cloudBlobContainer.GetBlockBlobReference(resourceId);
-            await cloudBlockBlob.RenewLeaseAsync(AccessCondition.GenerateLeaseCondition(leaseId), null, null, cancellationToken).ConfigureAwait(false);
 
-            return new Lock(leaseId, LeaseTime, DateTimeOffset.UtcNow);
+            try
+            {
+                await cloudBlockBlob.RenewLeaseAsync(AccessCondition.GenerateLeaseCondition(leaseId), null, null, cancellationToken).ConfigureAwait(false);
+
+                return new Lock(leaseId, LeaseTime, DateTimeOffset.UtcNow);
+            }
+            catch (StorageException storageException) when (storageException.RequestInformation.HttpStatusCode == (int)HttpStatusCode.Conflict)
+            {
+                throw new ConflictException();
+            }
         }
 
         public async Task ReleaseAsync(string resourceId, string leaseId, CancellationToken cancellationToken)

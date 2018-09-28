@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Extensions.Results;
+using DreamNucleus.Commands.Extensions.Semaphore;
 
 namespace DreamNucleus.Commands.Extensions.Tests
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Tests
+namespace DreamNucleus.Commands.Tests.Common
 {
     public class ExceptionCommand : ISuccessResult<ExceptionCommand, Unit>
     {
@@ -12,7 +12,7 @@ namespace DreamNucleus.Commands.Tests
     {
         public Task<Unit> ExecuteAsync(ExceptionCommand command)
         {
-            throw new Exception();
+            throw new TestException();
         }
     }
 }

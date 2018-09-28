@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Pipelines;
 
-namespace DreamNucleus.Commands.Tests
+namespace DreamNucleus.Commands.Tests.Common
 {
     public class TestPipeline : Pipeline
     {

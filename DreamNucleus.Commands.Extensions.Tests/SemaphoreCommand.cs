@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DreamNucleus.Commands.Extensions.Semaphore;
 using DreamNucleus.Commands.Results;
 
 namespace DreamNucleus.Commands.Extensions.Tests

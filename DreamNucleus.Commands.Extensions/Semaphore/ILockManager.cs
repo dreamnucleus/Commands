@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace DreamNucleus.Commands.Extensions
+namespace DreamNucleus.Commands.Extensions.Semaphore
 {
     // TODO: do we need multiple lock mangers...etc
     public interface ILockManager

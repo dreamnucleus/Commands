@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DreamNucleus.Commands.Extensions
+namespace DreamNucleus.Commands.Extensions.Semaphore
 {
     public sealed class Lock
     {
