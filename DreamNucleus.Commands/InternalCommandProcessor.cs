@@ -24,34 +24,42 @@ namespace DreamNucleus.Commands
             _dependencyService = lifetimeScopeService.BeginLifetimeScope(this);
         }
 
-        public async Task<TSuccessResult> ProcessAsyncIgnore<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            // TODO: do we need both pipelines? probably best to have 3
-            IncomingPipeline incomingPipeline = null;
-            OutgoingPipeline outgoingPipeline = null;
-
             TSuccessResult result;
             try
             {
-                result = await incomingPipeline.ExecutingAsync(command).ConfigureAwait(false);
+                var executingPipeline = _commandsBuilder.ExecutingPipelines.Reverse() // TODO: always reversing?
+                    .Aggregate((ExecutingPipeline)new FinalExecutingPipeline(this),
+                        (current, executingPipelineType) => (ExecutingPipeline)_dependencyService.Resolve(executingPipelineType, typeof(ExecutingPipeline), current));
+
+                result = await executingPipeline.ExecutingAsync(command).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
-                var newResult = await outgoingPipeline.ExceptionAsync(command, exception).ConfigureAwait(false);
+                var exceptionPipeline = _commandsBuilder.ExceptionPipelines.Reverse()
+                    .Aggregate((ExceptionPipeline)new FinalExceptionPipeline(),
+                        (current, exceptionPipelineType) => (ExceptionPipeline)_dependencyService.Resolve(exceptionPipelineType, typeof(ExceptionPipeline), current));
+
+                var newResult = await exceptionPipeline.ExceptionAsync(command, exception).ConfigureAwait(false);
 
                 if (newResult is Exception newException)
                 {
-                    throw newException;
+                    ExceptionDispatchInfo.Capture(newException).Throw();
                 }
 
                 return (TSuccessResult)newResult; // TODO: I don't think this should go back into the outgoing...
             }
 
-            return await outgoingPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
+            var executedPipeline = _commandsBuilder.ExecutedPipelines.Reverse()
+                .Aggregate((ExecutedPipeline)new FinalExecutedPipeline(),
+                    (current, executedPipelineType) => (ExecutedPipeline)_dependencyService.Resolve(executedPipelineType, typeof(ExecutedPipeline), current));
+
+            return await executedPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
         }
 
-        public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
+        internal async Task<TSuccessResult> ExecuteAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
             var isInitialCommand = command == _initialCommand;

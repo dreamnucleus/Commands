@@ -32,6 +32,11 @@ namespace DreamNucleus.Commands.Autofac
             return _lifetimeScope.Resolve(type);
         }
 
+        public object Resolve(Type type, Type parameterType, object parameter)
+        {
+            return _lifetimeScope.Resolve(type, new TypedParameter(parameterType, parameter));
+        }
+
         public void Dispose()
         {
             _lifetimeScope.Dispose();

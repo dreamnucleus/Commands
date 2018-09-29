@@ -26,7 +26,7 @@ namespace DreamNucleus.Commands.Autofac
         {
             switch (autofacLifetime)
             {
-                case AutofacLifetime.Dependancy:
+                case AutofacLifetime.Dependency:
                     _containerBuilder.RegisterType<TItem>().InstancePerDependency();
                     break;
                 case AutofacLifetime.Pipeline:

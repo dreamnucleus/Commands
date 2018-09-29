@@ -1,8 +1,8 @@
-namespace DreamNucleus.Commands.Autofac
+﻿namespace DreamNucleus.Commands.Autofac
 {
     public enum AutofacLifetime
     {
-        Dependancy,
+        Dependency,
         Pipeline,
         Singleton
     }

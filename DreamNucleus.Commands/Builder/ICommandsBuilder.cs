@@ -8,6 +8,10 @@ namespace DreamNucleus.Commands.Builder
     {
         IReadOnlyCollection<Type> Pipelines { get; }
 
+        IReadOnlyCollection<Type> ExecutingPipelines { get; }
+        IReadOnlyCollection<Type> ExecutedPipelines { get; }
+        IReadOnlyCollection<Type> ExceptionPipelines { get; }
+
         IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutingNotifications { get; }
         IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutedNotifications { get; }
         IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExceptionNotifications { get; }
@@ -15,7 +19,5 @@ namespace DreamNucleus.Commands.Builder
 
         ICommandsBuilder Use<TItem>()
             where TItem : IUseCommandsBuilder;
-
-
     }
 }

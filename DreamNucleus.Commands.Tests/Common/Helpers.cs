@@ -30,6 +30,10 @@ namespace DreamNucleus.Commands.Tests.Common
             commandsBuilder.Use<IntCommandExecutedNotification>();
             commandsBuilder.Use<IntCommandExceptionNotification>();
 
+            commandsBuilder.Use<ExecutingPipeline>();
+            commandsBuilder.Use<ExecutedPipeline>();
+            commandsBuilder.Use<ExceptionPipeline>();
+
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
             containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
             containerBuilder.RegisterType<CommandProcessor>().As<ICommandProcessor>();

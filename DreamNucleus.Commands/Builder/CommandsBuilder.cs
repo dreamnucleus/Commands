@@ -10,11 +10,19 @@ namespace DreamNucleus.Commands.Builder
     public class CommandsBuilder : ICommandsBuilder
     {
         private readonly List<Type> _pipelines = new List<Type>();
+
+        private readonly List<Type> _executingPipelines = new List<Type>();
+        private readonly List<Type> _executedPipelines = new List<Type>();
+        private readonly List<Type> _exceptionPipelines = new List<Type>();
+
         private readonly Dictionary<Type, IReadOnlyCollection<Type>> _executingNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
         private readonly Dictionary<Type, IReadOnlyCollection<Type>> _executedNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
         private readonly Dictionary<Type, IReadOnlyCollection<Type>> _exceptionNotifications = new Dictionary<Type, IReadOnlyCollection<Type>>();
 
         public IReadOnlyCollection<Type> Pipelines => _pipelines;
+        public IReadOnlyCollection<Type> ExecutingPipelines => _executingPipelines;
+        public IReadOnlyCollection<Type> ExecutedPipelines => _executedPipelines;
+        public IReadOnlyCollection<Type> ExceptionPipelines => _exceptionPipelines;
         public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutingNotifications => _executingNotifications;
         public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExecutedNotifications => _executedNotifications;
         public IReadOnlyDictionary<Type, IReadOnlyCollection<Type>> ExceptionNotifications => _exceptionNotifications;
@@ -25,6 +33,18 @@ namespace DreamNucleus.Commands.Builder
             if (typeof(TItem).GetTypeInfo().IsSubclassOf(typeof(Pipeline)))
             {
                 _pipelines.Add(typeof(TItem));
+            }
+            else if (typeof(TItem).GetTypeInfo().IsSubclassOf(typeof(ExecutingPipeline)))
+            {
+                _executingPipelines.Add(typeof(TItem));
+            }
+            else if (typeof(TItem).GetTypeInfo().IsSubclassOf(typeof(ExecutedPipeline)))
+            {
+                _executedPipelines.Add(typeof(TItem));
+            }
+            else if (typeof(TItem).GetTypeInfo().IsSubclassOf(typeof(ExceptionPipeline)))
+            {
+                _exceptionPipelines.Add(typeof(TItem));
             }
             // TODO: don't repeat
             else if (typeof(TItem).GetTypeInfo().GetInterfaces()

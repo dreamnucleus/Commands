@@ -8,6 +8,7 @@ namespace DreamNucleus.Commands
         bool IsRegistered(Type type);
         T Resolve<T>();
         object Resolve(Type type);
+        object Resolve(Type type, Type parameterType, object parameter);
     }
 
     public interface ILifetimeScopeService
