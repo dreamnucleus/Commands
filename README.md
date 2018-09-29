@@ -9,12 +9,16 @@ The base components are:
 
 * Command
 * Command Handler
+* Command Processor
+* Result Processor
 * Executing Pipeline
 * Executed Pipeline
 * Exception Pipeline
 * Executing Notification
 * Executed Notification
 * Exception Notification
+
+Below is a simple example of executing the GetBlogCommand and processing the result
 
 ```cs
 
