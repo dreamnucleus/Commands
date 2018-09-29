@@ -5,6 +5,16 @@
 
 The aim of this library to help in writing a business layer for applications. It includes a pipeline and notifcations (specific to a type of command) to wrap incoming commands, outgoing results and exceptions.
 
+The base components are:
+
+* Command
+* Command Handler
+* Executing Pipeline
+* Executed Pipeline
+* Exception Pipeline
+* Executing Notification
+* Executed Notification
+* Exception Notification
 
 ```cs
 
