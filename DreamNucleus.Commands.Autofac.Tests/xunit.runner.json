@@ -1,4 +1,5 @@
 {
   "diagnosticMessages": true,
-  "methodDisplay": "classAndMethod"
+  "methodDisplay": "classAndMethod",
+  "methodDisplayOptions": "replaceUnderscoreWithSpace"
 }
