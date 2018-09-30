@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Autofac.Core;
 using Autofac.Core.Registration;
 
 namespace DreamNucleus.Commands.Autofac
@@ -29,9 +30,13 @@ namespace DreamNucleus.Commands.Autofac
             {
                 return _lifetimeScope.Resolve<T>();
             }
-            catch (ComponentNotRegisteredException)
+            catch (ComponentNotRegisteredException componentNotRegisteredException)
             {
-                throw new DependencyNotRegisteredException(typeof(T));
+                throw new DependencyNotRegisteredException(typeof(T), componentNotRegisteredException);
+            }
+            catch (global::Autofac.Core.DependencyResolutionException dependencyResolutionException)
+            {
+                throw new DependencyResolutionException(typeof(T), dependencyResolutionException);
             }
         }
 
@@ -41,9 +46,13 @@ namespace DreamNucleus.Commands.Autofac
             {
                 return _lifetimeScope.Resolve(type);
             }
-            catch (ComponentNotRegisteredException)
+            catch (ComponentNotRegisteredException componentNotRegisteredException)
             {
-                throw new DependencyNotRegisteredException(type);
+                throw new DependencyNotRegisteredException(type, componentNotRegisteredException);
+            }
+            catch (global::Autofac.Core.DependencyResolutionException dependencyResolutionException)
+            {
+                throw new DependencyResolutionException(type, dependencyResolutionException);
             }
         }
 
@@ -53,9 +62,13 @@ namespace DreamNucleus.Commands.Autofac
             {
                 return _lifetimeScope.Resolve<T>(new TypedParameter(parameterType, parameter));
             }
-            catch (ComponentNotRegisteredException)
+            catch (ComponentNotRegisteredException componentNotRegisteredException)
             {
-                throw new DependencyNotRegisteredException(typeof(T));
+                throw new DependencyNotRegisteredException(typeof(T), componentNotRegisteredException);
+            }
+            catch (global::Autofac.Core.DependencyResolutionException dependencyResolutionException)
+            {
+                throw new DependencyResolutionException(typeof(T), dependencyResolutionException);
             }
         }
 
@@ -65,9 +78,13 @@ namespace DreamNucleus.Commands.Autofac
             {
                 return _lifetimeScope.Resolve(type, new TypedParameter(parameterType, parameter));
             }
-            catch (ComponentNotRegisteredException)
+            catch (ComponentNotRegisteredException componentNotRegisteredException)
             {
-                throw new DependencyNotRegisteredException(type);
+                throw new DependencyNotRegisteredException(type, componentNotRegisteredException);
+            }
+            catch (global::Autofac.Core.DependencyResolutionException dependencyResolutionException)
+            {
+                throw new DependencyResolutionException(type, dependencyResolutionException);
             }
         }
 

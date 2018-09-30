@@ -50,6 +50,21 @@ namespace DreamNucleus.Commands.Autofac.Tests
         }
 
         [Fact]
+        public void Resolve_RegisterDoNotRegisterDependency_ThrowsDependencyResolutionException()
+        {
+            var lifetimeScopeService = Helpers.CreateLifetimeScopeService(containerBuilderAction: containerBuilder =>
+            {
+                containerBuilder.RegisterType<DependentObject>();
+            });
+
+            using (var lifetimeScopeDependencyService = lifetimeScopeService.BeginLifetimeScope(new MockCommandProcessor()))
+            {
+                Assert.Throws<DependencyResolutionException>(() => lifetimeScopeDependencyService.Resolve(typeof(DependentObject)));
+                Assert.Throws<DependencyResolutionException>(() => lifetimeScopeDependencyService.Resolve<DependentObject>());
+            }
+        }
+
+        [Fact]
         public void Resolve_DoNotRegister_ThrowsDependencyNotRegisteredException()
         {
             var lifetimeScopeService = Helpers.CreateLifetimeScopeService();
@@ -85,6 +100,21 @@ namespace DreamNucleus.Commands.Autofac.Tests
             {
                 Assert.Throws<DependencyNotRegisteredException>(() => lifetimeScopeDependencyService.Resolve(typeof(DependentObject), typeof(DependencyObject), new DependencyObject()));
                 Assert.Throws<DependencyNotRegisteredException>(() => lifetimeScopeDependencyService.Resolve<DependentObject>(typeof(DependencyObject), new DependencyObject()));
+            }
+        }
+
+        [Fact]
+        public void ResolveWithParameter_RegisterIncorrectParameter_ThrowsDependencyResolutionException()
+        {
+            var lifetimeScopeService = Helpers.CreateLifetimeScopeService(containerBuilderAction: containerBuilder =>
+            {
+                containerBuilder.RegisterType<DependentObject>();
+            });
+
+            using (var lifetimeScopeDependencyService = lifetimeScopeService.BeginLifetimeScope(new MockCommandProcessor()))
+            {
+                Assert.Throws<DependencyResolutionException>(() => lifetimeScopeDependencyService.Resolve(typeof(DependentObject), typeof(object), new object()));
+                Assert.Throws<DependencyResolutionException>(() => lifetimeScopeDependencyService.Resolve<DependentObject>(typeof(object), new object()));
             }
         }
     }

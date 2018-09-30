@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace DreamNucleus.Commands
 {
 #pragma warning disable CA1032 // Implement standard exception constructors
-    public class DependencyNotRegisteredException : Exception
+    public class DependencyResolutionException : Exception
 #pragma warning restore CA1032 // Implement standard exception constructors
     {
-        public DependencyNotRegisteredException(Type type, Exception exception)
-            : base($"There was no dependency registered of type {type.Name}.", exception)
+        public DependencyResolutionException(Type type, Exception exception)
+            : base($"There was an error in resolving the type {type.Name}.", exception)
         {
         }
     }
