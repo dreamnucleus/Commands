@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 
 namespace DreamNucleus.Commands.Tests.Common
