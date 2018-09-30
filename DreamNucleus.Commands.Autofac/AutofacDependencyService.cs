@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using Autofac.Core;
 using Autofac.Core.Registration;
 
 namespace DreamNucleus.Commands.Autofac
