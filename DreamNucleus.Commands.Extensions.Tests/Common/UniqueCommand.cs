@@ -16,9 +16,9 @@ namespace DreamNucleus.Commands.Extensions.Tests.Common
 
     public class UniqueCommandHandler : IAsyncCommandHandler<UniqueCommand, Unit>
     {
-        public async Task<Unit> ExecuteAsync(UniqueCommand command)
+        public Task<Unit> ExecuteAsync(UniqueCommand command)
         {
-            return Unit.Value;
+            return Task.FromResult(Unit.Value);
         }
     }
 }

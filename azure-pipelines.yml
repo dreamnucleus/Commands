@@ -50,6 +50,7 @@ steps:
   displayName: 'ReSharper Code Quality'
   inputs:
     SolutionOrProjectPath: Commands.sln
+    FailBuildOnCodeIssues: false
 
 - task: DotNetCoreCLI@2
   displayName: Pack

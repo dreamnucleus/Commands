@@ -7,7 +7,7 @@ namespace DreamNucleus.Commands.Extensions.Checkpoints
     // TODO: this would need to be a guaranteed command
     // TODO: would using a queue make it easier... for lists maybe...
     // TODO: this get very tricky with code changes...
-    // TODO: or should a whole command just be checkpointed and then we just call them.. similar to unique but doesn't throw
+    // TODO: or should a whole command just be checkpoint and then we just call them.. similar to unique but doesn't throw
     public class Checkpoint
     {
         private readonly ICheckpointManager _checkpointManager;
