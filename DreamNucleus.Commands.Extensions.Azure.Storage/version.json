@@ -1,6 +1,6 @@
 {
   "inherit": true,
-  "version": "1.0.0-alpha.{height}",
+  "version": "1.0.0-alpha.1.{height}",
   "cloudBuild": {
     "buildNumber": {
       "enabled": true

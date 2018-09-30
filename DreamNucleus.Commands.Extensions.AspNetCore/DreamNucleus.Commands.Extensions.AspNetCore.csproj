@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <PackageId>DreamNucleus.Commands.Extensions.AspNetCore</PackageId>
+    <Title>DreamNucleus Commands Extensions ASP.NET Core</Title>
+    <Description>DreamNucleus Commands Extensions ASP.NET Core</Description>
+  </PropertyGroup>
+
+</Project>

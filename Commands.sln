@@ -36,11 +36,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Analy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Azure.Storage", "DreamNucleus.Commands.Extensions.Azure.Storage\DreamNucleus.Commands.Extensions.Azure.Storage.csproj", "{C8DFA00D-D6E3-4B61-AC2E-3D3F487ECB4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.Polly", "DreamNucleus.Commands.Extensions.Polly\DreamNucleus.Commands.Extensions.Polly.csproj", "{0C2C8781-8054-4626-95E2-E9299968664C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Polly", "DreamNucleus.Commands.Extensions.Polly\DreamNucleus.Commands.Extensions.Polly.csproj", "{0C2C8781-8054-4626-95E2-E9299968664C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.SqlServer", "DreamNucleus.Commands.Extensions.SqlServer\DreamNucleus.Commands.Extensions.SqlServer.csproj", "{A807EA9D-8542-48D4-B740-D8CFB8D24E8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.SqlServer", "DreamNucleus.Commands.Extensions.SqlServer\DreamNucleus.Commands.Extensions.SqlServer.csproj", "{A807EA9D-8542-48D4-B740-D8CFB8D24E8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.InMemory", "DreamNucleus.Commands.Extensions.InMemory\DreamNucleus.Commands.Extensions.InMemory.csproj", "{7C24BEAE-01C0-4126-BEF7-FC0E37A653A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.InMemory", "DreamNucleus.Commands.Extensions.InMemory\DreamNucleus.Commands.Extensions.InMemory.csproj", "{7C24BEAE-01C0-4126-BEF7-FC0E37A653A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.AspNetCore", "DreamNucleus.Commands.Extensions.AspNetCore\DreamNucleus.Commands.Extensions.AspNetCore.csproj", "{0A7F0027-41B6-453B-8686-25F2A809F729}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,10 @@ Global
 		{7C24BEAE-01C0-4126-BEF7-FC0E37A653A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C24BEAE-01C0-4126-BEF7-FC0E37A653A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C24BEAE-01C0-4126-BEF7-FC0E37A653A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A7F0027-41B6-453B-8686-25F2A809F729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A7F0027-41B6-453B-8686-25F2A809F729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A7F0027-41B6-453B-8686-25F2A809F729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A7F0027-41B6-453B-8686-25F2A809F729}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
