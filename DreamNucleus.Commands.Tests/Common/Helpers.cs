@@ -28,7 +28,7 @@ namespace DreamNucleus.Commands.Tests.Common
 
             commandsBuilder.Use<IntCommandExecutingNotification>();
             commandsBuilder.Use<IntCommandExecutedNotification>();
-            commandsBuilder.Use<IntCommandExceptionNotification>();
+            commandsBuilder.Use<ExceptionCommandExceptionNotification>();
 
             commandsBuilder.Use<ExecutingPipeline>();
             commandsBuilder.Use<ExecutedPipeline>();
@@ -44,7 +44,7 @@ namespace DreamNucleus.Commands.Tests.Common
         }
 
         // TODO: don't repeat
-        public static ResultProcessor<ObjectResult> CreateDefaultResultProcessor()
+        public static ResultProcessor<ObjectResult> CreateDefaultResultProcessor(Action<ResultRegister<ObjectResult>> resultRegisterAction = null)
         {
             var containerBuilder = new ContainerBuilder();
 
@@ -61,7 +61,7 @@ namespace DreamNucleus.Commands.Tests.Common
 
             commandsBuilder.Use<IntCommandExecutingNotification>();
             commandsBuilder.Use<IntCommandExecutedNotification>();
-            commandsBuilder.Use<IntCommandExceptionNotification>();
+            commandsBuilder.Use<ExceptionCommandExceptionNotification>();
 
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
             containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
@@ -70,9 +70,19 @@ namespace DreamNucleus.Commands.Tests.Common
             var container = containerBuilder.Build();
 
             var resultRegister = new ResultRegister<ObjectResult>();
-            resultRegister.When<Exception>().Return(e => new ObjectResult(e));
-            return new ResultProcessor<ObjectResult>(resultRegister.Emit(), commandsBuilder,
-                new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+            resultRegisterAction?.Invoke(resultRegister);
+
+            var resultParsers = resultRegister.Emit();
+            if (resultParsers.Any())
+            {
+                return new ResultProcessor<ObjectResult>(resultRegister.Emit(), commandsBuilder,
+                    new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+            }
+            else
+            {
+                return new ResultProcessor<ObjectResult>(commandsBuilder,
+                    new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+            }
         }
     }
 }

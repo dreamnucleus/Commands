@@ -19,7 +19,6 @@ namespace DreamNucleus.Commands
             });
         }
 
-        // TODO: rename
         public Dictionary<Type, Func<object, TReturn>> Emit()
         {
             return _resultParsers;

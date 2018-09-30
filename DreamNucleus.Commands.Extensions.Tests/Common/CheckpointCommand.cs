@@ -7,7 +7,7 @@ using DreamNucleus.Commands.Extensions.Checkpoints;
 using DreamNucleus.Commands.Extensions.Tests.Common;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Extensions.Tests
+namespace DreamNucleus.Commands.Extensions.Tests.Common
 {
     public class CheckpointCommand : ISuccessResult<CheckpointCommand, Unit>
     {

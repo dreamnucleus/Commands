@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 
@@ -10,12 +11,10 @@ namespace DreamNucleus.Commands
         where TCommand : IAsyncCommand
     {
         private readonly ISuccessResult<TCommand, TSuccessResult> _command;
+        private readonly ICommandProcessor _commandProcessor;
 
         private readonly IReadOnlyDictionary<Type, Func<object, TReturn>> _defaultResultParsers;
         private readonly Dictionary<Type, Func<object, TReturn>> _resultParsers = new Dictionary<Type, Func<object, TReturn>>();
-
-
-        private readonly ICommandProcessor _commandProcessor;
 
         public ResultRegisterProcessor(ISuccessResult<TCommand, TSuccessResult> command, IReadOnlyDictionary<Type, Func<object, TReturn>> defaultResultParsers,
             ICommandProcessor commandProcessor)
@@ -28,7 +27,6 @@ namespace DreamNucleus.Commands
             _defaultResultParsers = defaultResultParsers;
             _commandProcessor = commandProcessor;
         }
-
 
 #pragma warning disable CA1801 // Review unused parameters
         public ResultParser<TCommand, TSuccessResult, TReturn, TWhen> When<TWhen>(Func<TCommand, TWhen> action)
@@ -77,12 +75,10 @@ namespace DreamNucleus.Commands
             }
             else if (result is Exception exception)
             {
-                throw exception;
+                ExceptionDispatchInfo.Capture(exception).Throw();
             }
-            else
-            {
-                throw new ResultNotRegisteredException(_command.GetType(), result.GetType());
-            }
+
+            throw new ResultNotRegisteredException(_command.GetType(), result.GetType());
         }
 
         public async Task<TSuccessResult> ExecuteSuccessAsync()

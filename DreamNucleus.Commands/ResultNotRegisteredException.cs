@@ -3,7 +3,7 @@
 namespace DreamNucleus.Commands
 {
 #pragma warning disable CA1032 // Implement standard exception constructors
-    public class ResultNotRegisteredException : Exception
+    public sealed class ResultNotRegisteredException : Exception
 #pragma warning restore CA1032 // Implement standard exception constructors
     {
         internal ResultNotRegisteredException(Type command, Type result)

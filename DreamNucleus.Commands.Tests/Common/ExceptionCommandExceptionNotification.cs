@@ -4,9 +4,9 @@ using DreamNucleus.Commands.Notifications;
 
 namespace DreamNucleus.Commands.Tests.Common
 {
-    public class IntCommandExceptionNotification : IExceptionNotification<IntCommand>
+    public class ExceptionCommandExceptionNotification : IExceptionNotification<ExceptionCommand>
     {
-        public Task OnExceptionAsync(IntCommand command, Exception exception)
+        public Task OnExceptionAsync(ExceptionCommand command, Exception exception)
         {
             return Task.FromResult(0);
         }

@@ -59,7 +59,7 @@ namespace DreamNucleus.Commands.Tests
             }
             catch (TestException testException)
             {
-                Assert.Contains("DreamNucleus.Commands.Tests.Common.ExceptionCommandHandler.ExecuteAsync(ExceptionCommand command)", testException.StackTrace);
+                Assert.Contains(Constants.ExceptionCommandStackTrace, testException.StackTrace);
             }
         }
 
@@ -127,7 +127,7 @@ namespace DreamNucleus.Commands.Tests
             var commandProcessor = Helpers.CreateDefaultCommandProcessor();
 
             var result = await commandProcessor.ProcessResultAsync(new ExceptionCommand());
-            Assert.Contains("DreamNucleus.Commands.Tests.Common.ExceptionCommandHandler.ExecuteAsync(ExceptionCommand command)", result.Exception.StackTrace);
+            Assert.Contains(Constants.ExceptionCommandStackTrace, result.Exception.StackTrace);
         }
 
         [Fact]

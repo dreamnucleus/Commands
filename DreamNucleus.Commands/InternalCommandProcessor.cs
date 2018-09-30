@@ -87,6 +87,7 @@ namespace DreamNucleus.Commands
             {
                 foreach (var executingNotification in executingNotifications)
                 {
+                    // TODO: can this be done a better way?
                     await ((Task)typeof(IExecutingNotification<>).MakeGenericType(typeof(TCommand))
                         .GetTypeInfo().GetMethod("OnExecutingAsync", new[] { command.GetType() })
                         .Invoke(_dependencyService.Resolve(executingNotification), new object[] { command })).ConfigureAwait(false);
@@ -133,7 +134,7 @@ namespace DreamNucleus.Commands
                     foreach (var exceptionNotification in exceptionNotifications)
                     {
                         await ((Task)typeof(IExceptionNotification<>).MakeGenericType(typeof(TCommand))
-                            .GetTypeInfo().GetMethod("OnExecptionAsync", new[] { command.GetType(), typeof(Exception) })
+                            .GetTypeInfo().GetMethod("OnExceptionAsync", new[] { command.GetType(), typeof(Exception) })
                             .Invoke(_dependencyService.Resolve(exceptionNotification), new object[] { command, exception })).ConfigureAwait(false);
                     }
                 }
