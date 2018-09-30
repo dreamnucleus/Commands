@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DreamNucleus.Commands.Notifications;
 
 namespace DreamNucleus.Commands.Tests.Common

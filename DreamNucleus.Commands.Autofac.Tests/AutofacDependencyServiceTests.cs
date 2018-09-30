@@ -1,5 +1,4 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using DreamNucleus.Commands.Autofac.Tests.Common;
 using Xunit;
 

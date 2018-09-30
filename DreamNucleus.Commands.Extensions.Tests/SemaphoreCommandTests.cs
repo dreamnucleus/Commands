@@ -1,7 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Autofac;
-using DreamNucleus.Commands.Autofac;
 using DreamNucleus.Commands.Extensions.Results;
 using DreamNucleus.Commands.Extensions.Tests.Common;
 using DreamNucleus.Commands.Results;
