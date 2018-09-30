@@ -36,6 +36,16 @@ steps:
     projects: '**/*Tests/*.csproj'
     arguments: '-c $(BuildConfiguration) --collect:"Code Coverage" -s $(System.DefaultWorkingDirectory)/CodeCoverage.runsettings /p:DebugType=Full'
 
+- task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
+  displayName: 'Check build quality'
+  inputs:
+    checkWarnings: true
+    warningFailOption: fixed
+    warningThreshold: 0
+    checkCoverage: true
+    coverageFailOption: fixed
+    coverageThreshold: 80
+
 - task: DotNetCoreCLI@2
   displayName: Pack
   inputs:
