@@ -37,7 +37,7 @@ steps:
     arguments: '-c $(BuildConfiguration) --collect:"Code Coverage" -s $(System.DefaultWorkingDirectory)/CodeCoverage.runsettings /p:DebugType=Full'
 
 - task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
-  displayName: 'Check build quality'
+  displayName: 'Build Quality'
   inputs:
     checkWarnings: true
     warningFailOption: fixed
@@ -45,6 +45,11 @@ steps:
     checkCoverage: true
     coverageFailOption: fixed
     coverageThreshold: 80
+
+- task: alanwales.resharper-code-analysis.custom-build-task.ResharperCli@1
+  displayName: 'ReSharper Code Quality'
+  inputs:
+    SolutionOrProjectPath: Commands.sln
 
 - task: DotNetCoreCLI@2
   displayName: Pack
