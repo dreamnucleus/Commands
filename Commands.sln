@@ -44,6 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Exten
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.AspNetCore", "DreamNucleus.Commands.Extensions.AspNetCore\DreamNucleus.Commands.Extensions.AspNetCore.csproj", "{0A7F0027-41B6-453B-8686-25F2A809F729}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Autofac.Tests", "DreamNucleus.Commands.Autofac.Tests\DreamNucleus.Commands.Autofac.Tests.csproj", "{A00CAE1A-749D-477E-866A-13FDD778A341}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{0A7F0027-41B6-453B-8686-25F2A809F729}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A7F0027-41B6-453B-8686-25F2A809F729}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A7F0027-41B6-453B-8686-25F2A809F729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A00CAE1A-749D-477E-866A-13FDD778A341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A00CAE1A-749D-477E-866A-13FDD778A341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A00CAE1A-749D-477E-866A-13FDD778A341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A00CAE1A-749D-477E-866A-13FDD778A341}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{C870F335-A0FC-4C3D-956A-A30470D336E1} = {896885BA-6991-4275-AAEE-40957622E790}
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166} = {896885BA-6991-4275-AAEE-40957622E790}
 		{52494466-6502-49F9-AF21-9FF7EE07521E} = {896885BA-6991-4275-AAEE-40957622E790}
+		{A00CAE1A-749D-477E-866A-13FDD778A341} = {896885BA-6991-4275-AAEE-40957622E790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {957683AB-D391-45B5-9BF4-F5FE607578CB}

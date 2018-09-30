@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Autofac.Core.Registration;
 
 namespace DreamNucleus.Commands.Autofac
 {
@@ -24,17 +25,50 @@ namespace DreamNucleus.Commands.Autofac
 
         public T Resolve<T>()
         {
-            return _lifetimeScope.Resolve<T>();
+            try
+            {
+                return _lifetimeScope.Resolve<T>();
+            }
+            catch (ComponentNotRegisteredException)
+            {
+                throw new DependencyNotRegisteredException(typeof(T));
+            }
         }
 
         public object Resolve(Type type)
         {
-            return _lifetimeScope.Resolve(type);
+            try
+            {
+                return _lifetimeScope.Resolve(type);
+            }
+            catch (ComponentNotRegisteredException)
+            {
+                throw new DependencyNotRegisteredException(type);
+            }
+        }
+
+        public T Resolve<T>(Type parameterType, object parameter)
+        {
+            try
+            {
+                return _lifetimeScope.Resolve<T>(new TypedParameter(parameterType, parameter));
+            }
+            catch (ComponentNotRegisteredException)
+            {
+                throw new DependencyNotRegisteredException(typeof(T));
+            }
         }
 
         public object Resolve(Type type, Type parameterType, object parameter)
         {
-            return _lifetimeScope.Resolve(type, new TypedParameter(parameterType, parameter));
+            try
+            {
+                return _lifetimeScope.Resolve(type, new TypedParameter(parameterType, parameter));
+            }
+            catch (ComponentNotRegisteredException)
+            {
+                throw new DependencyNotRegisteredException(type);
+            }
         }
 
         public void Dispose()

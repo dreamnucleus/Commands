@@ -108,6 +108,7 @@ namespace DreamNucleus.Commands.Builder
             {
                 throw new ArgumentException($"CommandsBuilder cannot use {typeof(TItem).Name}");
             }
+
             return this;
         }
     }

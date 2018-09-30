@@ -8,6 +8,7 @@ namespace DreamNucleus.Commands
         bool IsRegistered(Type type);
         T Resolve<T>();
         object Resolve(Type type);
+        T Resolve<T>(Type parameterType, object parameter);
         object Resolve(Type type, Type parameterType, object parameter);
     }
 

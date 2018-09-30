@@ -17,26 +17,25 @@ namespace DreamNucleus.Commands.Autofac
 
         public override ICommandsBuilder Use<TItem>()
         {
-            _containerBuilder.RegisterType<TItem>().InstancePerLifetimeScope();
-            return base.Use<TItem>();
+            return Use<TItem>(Lifetime.Pipeline);
         }
 
-        public ICommandsBuilder Use<TItem>(AutofacLifetime autofacLifetime)
+        public ICommandsBuilder Use<TItem>(Lifetime lifetime)
             where TItem : IUseCommandsBuilder
         {
-            switch (autofacLifetime)
+            switch (lifetime)
             {
-                case AutofacLifetime.Dependency:
+                case Lifetime.Dependency:
                     _containerBuilder.RegisterType<TItem>().InstancePerDependency();
                     break;
-                case AutofacLifetime.Pipeline:
+                case Lifetime.Pipeline:
                     _containerBuilder.RegisterType<TItem>().InstancePerLifetimeScope();
                     break;
-                case AutofacLifetime.Singleton:
+                case Lifetime.Singleton:
                     _containerBuilder.RegisterType<TItem>().SingleInstance();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(autofacLifetime), autofacLifetime, null);
+                    throw new ArgumentOutOfRangeException(nameof(lifetime), lifetime, null);
             }
             
             return base.Use<TItem>();
