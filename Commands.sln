@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands", "DreamNucleus.Commands\DreamNucleus.Commands.csproj", "{F5FFEF7C-485D-4649-B479-F3A5181EDF8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Playground", "DreamNucleus.Commands.Playground\DreamNucleus.Commands.Playground.csproj", "{08E41937-D16C-45D0-8864-85BD68923A1B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Autofac", "DreamNucleus.Commands.Autofac\DreamNucleus.Commands.Autofac.csproj", "{2933F224-93CE-415C-AD36-89073889D706}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{5D9CE31E-9D1F-4656-82FA-FB4FFC25D1A9}"
@@ -30,10 +28,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Exten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Tests", "DreamNucleus.Commands.Extensions.Tests\DreamNucleus.Commands.Extensions.Tests.csproj", "{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Analyzer", "DreamNucleus.Commands.Analyzer\DreamNucleus.Commands.Analyzer.csproj", "{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Analyzer.Tests", "DreamNucleus.Commands.Analyzer.Tests\DreamNucleus.Commands.Analyzer.Tests.csproj", "{52494466-6502-49F9-AF21-9FF7EE07521E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Azure.Storage", "DreamNucleus.Commands.Extensions.Azure.Storage\DreamNucleus.Commands.Extensions.Azure.Storage.csproj", "{C8DFA00D-D6E3-4B61-AC2E-3D3F487ECB4F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Polly", "DreamNucleus.Commands.Extensions.Polly\DreamNucleus.Commands.Extensions.Polly.csproj", "{0C2C8781-8054-4626-95E2-E9299968664C}"
@@ -42,9 +36,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Exten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.InMemory", "DreamNucleus.Commands.Extensions.InMemory\DreamNucleus.Commands.Extensions.InMemory.csproj", "{7C24BEAE-01C0-4126-BEF7-FC0E37A653A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.AspNetCore", "DreamNucleus.Commands.Extensions.AspNetCore\DreamNucleus.Commands.Extensions.AspNetCore.csproj", "{0A7F0027-41B6-453B-8686-25F2A809F729}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.AspNetCore", "DreamNucleus.Commands.Extensions.AspNetCore\DreamNucleus.Commands.Extensions.AspNetCore.csproj", "{0A7F0027-41B6-453B-8686-25F2A809F729}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Autofac.Tests", "DreamNucleus.Commands.Autofac.Tests\DreamNucleus.Commands.Autofac.Tests.csproj", "{A00CAE1A-749D-477E-866A-13FDD778A341}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Autofac.Tests", "DreamNucleus.Commands.Autofac.Tests\DreamNucleus.Commands.Autofac.Tests.csproj", "{A00CAE1A-749D-477E-866A-13FDD778A341}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,10 +50,6 @@ Global
 		{F5FFEF7C-485D-4649-B479-F3A5181EDF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5FFEF7C-485D-4649-B479-F3A5181EDF8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5FFEF7C-485D-4649-B479-F3A5181EDF8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08E41937-D16C-45D0-8864-85BD68923A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08E41937-D16C-45D0-8864-85BD68923A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08E41937-D16C-45D0-8864-85BD68923A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08E41937-D16C-45D0-8864-85BD68923A1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2933F224-93CE-415C-AD36-89073889D706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2933F224-93CE-415C-AD36-89073889D706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2933F224-93CE-415C-AD36-89073889D706}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -76,14 +66,6 @@ Global
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8C3490E-6A2B-4BEA-B122-EDA5B4DF6077}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52494466-6502-49F9-AF21-9FF7EE07521E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52494466-6502-49F9-AF21-9FF7EE07521E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52494466-6502-49F9-AF21-9FF7EE07521E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52494466-6502-49F9-AF21-9FF7EE07521E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8DFA00D-D6E3-4B61-AC2E-3D3F487ECB4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8DFA00D-D6E3-4B61-AC2E-3D3F487ECB4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8DFA00D-D6E3-4B61-AC2E-3D3F487ECB4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -113,10 +95,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{08E41937-D16C-45D0-8864-85BD68923A1B} = {5D9CE31E-9D1F-4656-82FA-FB4FFC25D1A9}
 		{C870F335-A0FC-4C3D-956A-A30470D336E1} = {896885BA-6991-4275-AAEE-40957622E790}
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166} = {896885BA-6991-4275-AAEE-40957622E790}
-		{52494466-6502-49F9-AF21-9FF7EE07521E} = {896885BA-6991-4275-AAEE-40957622E790}
 		{A00CAE1A-749D-477E-866A-13FDD778A341} = {896885BA-6991-4275-AAEE-40957622E790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
