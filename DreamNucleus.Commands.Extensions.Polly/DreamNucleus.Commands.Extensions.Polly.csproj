@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+      <PackageId>DreamNucleus.Commands.Extensions.Polly</PackageId>
+      <Title>DreamNucleus Commands Extensions Polly</Title>
+      <Description>DreamNucleus Commands Extensions Polly</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Polly" Version="6.1.0" />
+  </ItemGroup>
+
+</Project>
