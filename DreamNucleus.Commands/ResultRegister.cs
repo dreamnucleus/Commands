@@ -7,6 +7,10 @@ namespace DreamNucleus.Commands
     {
         private readonly Dictionary<Type, Func<object, TReturn>> _resultParsers = new Dictionary<Type, Func<object, TReturn>>();
 
+        public ResultRegister()
+        {
+        }
+
         public ResultParser<TReturn, TWhen> When<TWhen>()
         {
             return new ResultParser<TReturn, TWhen>(this, func =>
