@@ -39,6 +39,7 @@ steps:
 - task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
   displayName: 'Build Quality'
   inputs:
+    runTitle: 'Build Quality'
     checkWarnings: true
     warningFailOption: fixed
     warningThreshold: 0
