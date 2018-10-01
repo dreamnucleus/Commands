@@ -10,12 +10,12 @@ namespace DreamNucleus.Commands.Extensions.Tests
 {
     public class CacheCommandTests
     {
-        [Fact]
-        public async Task ProcessAsync_TwoDifferentReturnCommands_ReturnsCachedResult()
+        private static ICommandProcessor CommandProcessor()
         {
-            var commandProcessor = Helpers.CreateDefaultCommandProcessor(
+            return Helpers.CreateDefaultCommandProcessor(
                 containerBuilder =>
                 {
+                    containerBuilder.RegisterType<FakeCacheManager>().As<ICacheManager>().SingleInstance();
                     containerBuilder.RegisterType<CacheCommandHandler>().As<IAsyncCommandHandler<CacheCommand, int>>();
                 },
                 commandsBuilder =>
@@ -23,6 +23,12 @@ namespace DreamNucleus.Commands.Extensions.Tests
                     commandsBuilder.Use<CacheExecutingPipeline>();
                     commandsBuilder.Use<CacheExecutedPipeline>();
                 });
+        }
+
+        [Fact]
+        public async Task ProcessAsync_TwoDifferentReturnCommands_ReturnsCachedResult()
+        {
+            var commandProcessor = CommandProcessor();
 
             const int id1 = 1;
             const int id2 = 2;
