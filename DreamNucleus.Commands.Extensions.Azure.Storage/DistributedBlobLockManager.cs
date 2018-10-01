@@ -7,6 +7,7 @@ using DreamNucleus.Commands.Extensions.Semaphore;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
+// TODO: REMOVE
 namespace DreamNucleus.Commands.Extensions.Azure.Storage
 {
     public sealed class DistributedBlobLockManager : ILockManager
