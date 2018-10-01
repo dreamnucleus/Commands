@@ -1,8 +1,6 @@
 ﻿using System;
 using Autofac;
 using DreamNucleus.Commands.Autofac;
-using DreamNucleus.Commands.Extensions.Unique;
-using DreamNucleus.Commands.Results;
 
 namespace DreamNucleus.Commands.Extensions.Tests.Common
 {
@@ -15,14 +13,7 @@ namespace DreamNucleus.Commands.Extensions.Tests.Common
             var containerBuilder = new ContainerBuilder();
             containerBuilderAction?.Invoke(containerBuilder);
 
-            containerBuilder.RegisterType<FakeUniqueManager>().As<IUniqueManager>().SingleInstance();
-
-            containerBuilder.RegisterType<UniqueCommandHandler>().As<IAsyncCommandHandler<UniqueCommand, Unit>>();
-
-
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
-
-            commandsBuilder.Use<UniquePipeline>();
             autofacCommandsBuilderAction?.Invoke(commandsBuilder);
 
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
