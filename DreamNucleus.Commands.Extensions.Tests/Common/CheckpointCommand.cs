@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DreamNucleus.Commands.Extensions.Checkpoints;
 using DreamNucleus.Commands.Results;
 
+// TODO: REMOVE
 namespace DreamNucleus.Commands.Extensions.Tests.Common
 {
     public class CheckpointCommand : ISuccessResult<CheckpointCommand, Unit>

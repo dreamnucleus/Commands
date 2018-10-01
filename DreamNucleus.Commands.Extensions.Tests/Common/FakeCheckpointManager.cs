@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Extensions.Checkpoints;
 
+// TODO: REMOVE
 namespace DreamNucleus.Commands.Extensions.Tests.Common
 {
     public class FakeCheckpointManager : ICheckpointManager
