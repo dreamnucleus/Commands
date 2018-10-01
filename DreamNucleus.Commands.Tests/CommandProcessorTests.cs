@@ -21,7 +21,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             const int input = 2;
@@ -39,7 +38,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             const int input = 2;
@@ -57,7 +55,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             await Assert.ThrowsAsync<TestException>(async () => await commandProcessor.ProcessAsync(new AsyncExceptionCommand()));
@@ -73,7 +70,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             try
@@ -96,7 +92,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             await Assert.ThrowsAsync<TestException>(async () => await commandProcessor.ProcessAsync(new ExceptionCommand()));
@@ -112,7 +107,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             try
@@ -138,7 +132,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             const int input = 2;
@@ -157,7 +150,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             const int input = 2;
@@ -176,7 +168,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             const int input = 2;
@@ -195,7 +186,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             var result = await commandProcessor.ProcessResultAsync(new AsyncExceptionCommand());
@@ -214,7 +204,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             var result = await commandProcessor.ProcessResultAsync(new AsyncExceptionCommand());
@@ -231,7 +220,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             var result = await commandProcessor.ProcessResultAsync(new ExceptionCommand());
@@ -250,7 +238,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             var result = await commandProcessor.ProcessResultAsync(new ExceptionCommand());
@@ -267,7 +254,6 @@ namespace DreamNucleus.Commands.Tests
                 },
                 autofacCommandsBuilder =>
                 {
-
                 });
 
             var result = await commandProcessor.ProcessResultAsync(new ExceptionCommand());

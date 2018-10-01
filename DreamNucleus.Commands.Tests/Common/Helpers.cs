@@ -28,24 +28,16 @@ namespace DreamNucleus.Commands.Tests.Common
         }
 
         // TODO: don't repeat
-        public static ResultProcessor<ObjectResult> CreateDefaultResultProcessor(Action<ResultRegister<ObjectResult>> resultRegisterAction = null)
+        public static ResultProcessor<ObjectResult> CreateDefaultResultProcessor(
+            Action<ContainerBuilder> containerBuilderAction,
+            Action<AutofacCommandsBuilder> autofacCommandsBuilderAction,
+            Action<ResultRegister<ObjectResult>> resultRegisterAction)
         {
             var containerBuilder = new ContainerBuilder();
-
-            containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
-            containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand, int>>();
-
-            containerBuilder.RegisterType<AsyncExceptionCommandHandler>().As<IAsyncCommandHandler<AsyncExceptionCommand, Unit>>();
-            containerBuilder.RegisterType<ExceptionCommandHandler>().As<IAsyncCommandHandler<ExceptionCommand, Unit>>();
+            containerBuilderAction.Invoke(containerBuilder);
 
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
-
-            commandsBuilder.Use<SingletonPipeline>();
-            commandsBuilder.Use<RepeatPipeline>();
-
-            commandsBuilder.Use<IntCommandExecutingNotification>();
-            commandsBuilder.Use<IntCommandExecutedNotification>();
-            commandsBuilder.Use<ExceptionCommandExceptionNotification>();
+            autofacCommandsBuilderAction.Invoke(commandsBuilder);
 
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
             containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
@@ -54,7 +46,7 @@ namespace DreamNucleus.Commands.Tests.Common
             var container = containerBuilder.Build();
 
             var resultRegister = new ResultRegister<ObjectResult>();
-            resultRegisterAction?.Invoke(resultRegister);
+            resultRegisterAction.Invoke(resultRegister);
 
             var resultParsers = resultRegister.Emit();
             if (resultParsers.Any())
