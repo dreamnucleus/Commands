@@ -14,11 +14,11 @@ namespace DreamNucleus.Commands.Extensions.Tests
         public async Task ProcessAsync_TwoDifferentReturnCommands_ReturnsCachedResult()
         {
             var commandProcessor = Helpers.CreateDefaultCommandProcessor(
-                containerBuilderAction: containerBuilder =>
+                containerBuilder =>
                 {
                     containerBuilder.RegisterType<CacheCommandHandler>().As<IAsyncCommandHandler<CacheCommand, int>>();
                 },
-                autofacCommandsBuilderAction: commandsBuilder =>
+                commandsBuilder =>
                 {
                     commandsBuilder.Use<CacheExecutingPipeline>();
                     commandsBuilder.Use<CacheExecutedPipeline>();
