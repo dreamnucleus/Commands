@@ -12,10 +12,10 @@ namespace DreamNucleus.Commands.Autofac.Tests.Common
             var containerBuilder = new ContainerBuilder();
             containerBuilderAction?.Invoke(containerBuilder);
 
-            containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
-
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
             autofacCommandsBuilderAction?.Invoke(commandsBuilder);
+
+            containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();
 
             var container = containerBuilder.Build();
 

@@ -8,28 +8,15 @@ namespace DreamNucleus.Commands.Tests.Common
 {
     public static class Helpers
     {
-        public static ICommandProcessor CreateDefaultCommandProcessor()
+        public static ICommandProcessor CreateDefaultCommandProcessor(
+            Action<ContainerBuilder> containerBuilderAction,
+            Action<AutofacCommandsBuilder> autofacCommandsBuilderAction)
         {
             var containerBuilder = new ContainerBuilder();
-
-            containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
-            containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand, int>>();
-
-            containerBuilder.RegisterType<AsyncExceptionCommandHandler>().As<IAsyncCommandHandler<AsyncExceptionCommand, Unit>>();
-            containerBuilder.RegisterType<ExceptionCommandHandler>().As<IAsyncCommandHandler<ExceptionCommand, Unit>>();
+            containerBuilderAction.Invoke(containerBuilder);
 
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
-
-            commandsBuilder.Use<SingletonPipeline>();
-            commandsBuilder.Use<RepeatPipeline>();
-
-            commandsBuilder.Use<IntCommandExecutingNotification>();
-            commandsBuilder.Use<IntCommandExecutedNotification>();
-            commandsBuilder.Use<ExceptionCommandExceptionNotification>();
-
-            commandsBuilder.Use<ExecutingPipeline>();
-            commandsBuilder.Use<ExecutedPipeline>();
-            commandsBuilder.Use<ExceptionPipeline>();
+            autofacCommandsBuilderAction.Invoke(commandsBuilder);
 
             containerBuilder.RegisterInstance(commandsBuilder).SingleInstance();
             containerBuilder.RegisterType<AutofacLifetimeScopeService>().As<ILifetimeScopeService>();

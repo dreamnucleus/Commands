@@ -2,6 +2,7 @@
 {
     public static class Constants
     {
+        public const string AsyncExceptionCommandStackTrace = "DreamNucleus.Commands.Tests.Common.AsyncExceptionCommandHandler.<ExecuteAsync>";
         public const string ExceptionCommandStackTrace = "DreamNucleus.Commands.Tests.Common.ExceptionCommandHandler.ExecuteAsync(ExceptionCommand command)";
     }
 }
