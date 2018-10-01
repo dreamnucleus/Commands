@@ -17,7 +17,7 @@ namespace DreamNucleus.Commands.Extensions.Results
     {
         public static ConflictException Conflict(this IConflictResult result)
         {
-            return default(ConflictException);
+            return default;
         }
     }
 }

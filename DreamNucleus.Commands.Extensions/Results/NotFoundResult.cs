@@ -17,7 +17,7 @@ namespace DreamNucleus.Commands.Extensions.Results
     {
         public static NotFoundException NotFound(this INotFoundResult result)
         {
-            return default(NotFoundException);
+            return default;
         }
     }
 }

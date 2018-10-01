@@ -24,7 +24,7 @@ namespace DreamNucleus.Commands.Playground
     {
         public static TestException Conflict(this ITestResult result)
         {
-            return default(TestException);
+            return default;
         }
     }
 }
