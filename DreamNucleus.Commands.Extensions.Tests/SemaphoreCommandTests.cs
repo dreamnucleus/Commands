@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
 using DreamNucleus.Commands.Extensions.Results;
+using DreamNucleus.Commands.Extensions.Semaphore;
 using DreamNucleus.Commands.Extensions.Tests.Common;
 using DreamNucleus.Commands.Results;
 using Xunit;
@@ -10,6 +12,22 @@ namespace DreamNucleus.Commands.Extensions.Tests
 {
     public class SemaphoreCommandTests
     {
+        private static ICommandProcessor CommandProcessor()
+        {
+            return Helpers.CreateDefaultCommandProcessor(
+                containerBuilder =>
+                {
+                    containerBuilder.RegisterType<FakeLockManager>().As<ILockManager>().SingleInstance();
+                    containerBuilder.RegisterType<SemaphoreCommandHandler>().As<IAsyncCommandHandler<SemaphoreCommand, Unit>>();
+                    containerBuilder.RegisterType<SemaphoreHashCommandHandler>().As<IAsyncCommandHandler<SemaphoreHashCommand, int>>();
+                },
+                commandsBuilder =>
+                {
+                    commandsBuilder.Use<SemaphorePipeline>();
+                });
+        }
+
+
         [Fact]
         public async Task Semaphore()
         {
@@ -29,7 +47,7 @@ namespace DreamNucleus.Commands.Extensions.Tests
 
             await Assert.ThrowsAsync<ConflictException>(async () =>
             {
-                var commandProcessor = Helpers.CreateDefaultCommandProcessor();
+                var commandProcessor = CommandProcessor();
 
                 var waitTask = commandProcessor.ProcessAsync(new SemaphoreCommand(Wait));
                 var setTask = commandProcessor.ProcessAsync(new SemaphoreCommand(Set));
@@ -45,7 +63,7 @@ namespace DreamNucleus.Commands.Extensions.Tests
         [Fact]
         public async Task Semaphore1()
         {
-            var commandProcessor = Helpers.CreateDefaultCommandProcessor();
+            var commandProcessor = CommandProcessor();
 
             await Assert.ThrowsAsync<ConflictException>(async () =>
             {
@@ -59,7 +77,7 @@ namespace DreamNucleus.Commands.Extensions.Tests
         [Fact]
         public async Task Semaphore2()
         {
-            var commandProcessor = Helpers.CreateDefaultCommandProcessor();
+            var commandProcessor = CommandProcessor();
 
             var count = 0;
 
@@ -83,7 +101,7 @@ namespace DreamNucleus.Commands.Extensions.Tests
         [Fact]
         public async Task SemaphoreHash()
         {
-            var commandProcessor = Helpers.CreateDefaultCommandProcessor();
+            var commandProcessor = CommandProcessor();
 
             const int id1 = 1;
             const int id2 = 2;
@@ -100,7 +118,7 @@ namespace DreamNucleus.Commands.Extensions.Tests
         [Fact]
         public async Task SemaphoreHash1()
         {
-            var commandProcessor = Helpers.CreateDefaultCommandProcessor();
+            var commandProcessor = CommandProcessor();
 
             const int id = 1;
 
