@@ -2,6 +2,7 @@
 using DreamNucleus.Commands.Extensions.Unique;
 using DreamNucleus.Commands.Results;
 
+// TODO: REMOVE
 namespace DreamNucleus.Commands.Extensions.Tests.Common
 {
     public class UniqueCommand : ISuccessResult<UniqueCommand, Unit>, IUniqueCommand
