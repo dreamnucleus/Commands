@@ -48,12 +48,12 @@ steps:
     coverageThreshold: 80
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-- task: alanwales.resharper-code-analysis.custom-build-task.ResharperCli@1
-  displayName: 'ReSharper Code Quality'
-  inputs:
-    SolutionOrProjectPath: Commands.sln
-    FailBuildOnCodeIssues: false
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+# - task: alanwales.resharper-code-analysis.custom-build-task.ResharperCli@1
+#   displayName: 'ReSharper Code Quality'
+#   inputs:
+#     SolutionOrProjectPath: Commands.sln
+#     FailBuildOnCodeIssues: false
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: DotNetCoreCLI@2
   displayName: Pack
