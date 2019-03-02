@@ -22,7 +22,7 @@ namespace DreamNucleus.Commands.Extensions.Tests.Common
     {
         public Task<Unit> ExecuteAsync(RetryCommand command)
         {
-            if (command.Tries <= command.MaxTries)
+            if (command.Tries < command.MaxTries)
             {
                 command.Tries++;
                 throw new Exception();

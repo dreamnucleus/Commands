@@ -30,7 +30,7 @@ namespace DreamNucleus.Commands.Extensions.Retry
 
                 _retries.TryGetValue(command, out var retries);
 
-                if (retries <= retryAttribute.Retries)
+                if (retries < retryAttribute.Retries)
                 {
                     _retries.TryUpdate(command, retries + 1, retries);
 

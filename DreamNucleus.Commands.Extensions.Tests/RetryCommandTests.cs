@@ -42,7 +42,7 @@ namespace DreamNucleus.Commands.Extensions.Tests
                     commandsBuilder.Use<RetryExceptionPipeline>();
                 });
 
-            await Assert.ThrowsAsync<Exception>(async () => await commandProcessor.ProcessAsync(new RetryCommand(2)));
+            await Assert.ThrowsAsync<Exception>(async () => await commandProcessor.ProcessAsync(new RetryCommand(6)));
         }
     }
 }
