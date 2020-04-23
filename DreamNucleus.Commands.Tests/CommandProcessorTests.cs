@@ -46,6 +46,23 @@ namespace DreamNucleus.Commands.Tests
         }
 
         [Fact]
+        public async Task ProcessAsync_GenericReturn_ReturnsGeneric()
+        {
+            var commandProcessor = Helpers.CreateDefaultCommandProcessor(
+                containerBuilder =>
+                {
+                    containerBuilder.RegisterType<GenericCommandHandler<string>>().As<IAsyncCommandHandler<GenericCommand<string>, string>>();
+                },
+                autofacCommandsBuilder =>
+                {
+                });
+
+            const string input = "2";
+            var result = await commandProcessor.ProcessAsync(new GenericCommand<string>(input));
+            Assert.Equal(input, result);
+        }
+
+        [Fact]
         public async Task ProcessAsync_AsyncException_ThrowsException()
         {
             var commandProcessor = Helpers.CreateDefaultCommandProcessor(
