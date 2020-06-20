@@ -48,14 +48,14 @@ namespace DreamNucleus.Commands.Analyzer
                 diagnostic);
         }
 
-        private async Task<Solution> MakeUppercaseAsync(Document document, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
+        private static async Task<Solution> MakeUppercaseAsync(Document document, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
         {
             // Compute new uppercase name.
             var identifierToken = typeDecl.Identifier;
             var newName = identifierToken.Text.ToUpperInvariant();
 
             // Get the symbol representing the type to be renamed.
-            var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
+            var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
             var typeSymbol = semanticModel.GetDeclaredSymbol(typeDecl, cancellationToken);
 
             // Produce a new solution that has all references to that type renamed, including the declaration.

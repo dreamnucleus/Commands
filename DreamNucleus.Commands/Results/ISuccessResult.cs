@@ -2,11 +2,13 @@
 
 namespace DreamNucleus.Commands.Results
 {
+    [SuppressMessage("Design", "CA1040:Avoid empty interfaces")]
     public interface ISuccessResult<TCommand, TResult> : IAsyncCommand
         where TCommand : IAsyncCommand
     {
     }
 
+    [SuppressMessage("Design", "CA1040:Avoid empty interfaces")]
     public interface ISuccessResult<TCommand> : ISuccessResult<TCommand, Unit>
         where TCommand : IAsyncCommand
     {

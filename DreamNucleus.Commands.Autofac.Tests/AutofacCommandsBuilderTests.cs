@@ -10,7 +10,7 @@ namespace DreamNucleus.Commands.Autofac.Tests
         {
             var lifetimeScopeService = Helpers.CreateLifetimeScopeService(autofacCommandsBuilderAction: autofacCommandsBuilder =>
             {
-                autofacCommandsBuilder.Use<DependencyPipeline>(Lifetime.Dependency);
+                autofacCommandsBuilder.Use<DependencyPipeline>(InstanceLifetime.Dependency);
             });
 
             DependencyPipeline pipeline1;
@@ -37,7 +37,7 @@ namespace DreamNucleus.Commands.Autofac.Tests
                 }
                 else
                 {
-                    autofacCommandsBuilder.Use<DependencyPipeline>(Lifetime.Pipeline);
+                    autofacCommandsBuilder.Use<DependencyPipeline>(InstanceLifetime.Pipeline);
                 }
             });
 
@@ -65,7 +65,7 @@ namespace DreamNucleus.Commands.Autofac.Tests
                 }
                 else
                 {
-                    autofacCommandsBuilder.Use<DependencyPipeline>(Lifetime.Pipeline);
+                    autofacCommandsBuilder.Use<DependencyPipeline>(InstanceLifetime.Pipeline);
                 }
             });
 
@@ -89,7 +89,7 @@ namespace DreamNucleus.Commands.Autofac.Tests
         {
             var lifetimeScopeService = Helpers.CreateLifetimeScopeService(autofacCommandsBuilderAction: autofacCommandsBuilder =>
                 {
-                    autofacCommandsBuilder.Use<DependencyPipeline>(Lifetime.Singleton);
+                    autofacCommandsBuilder.Use<DependencyPipeline>(InstanceLifetime.Singleton);
                 });
 
             DependencyPipeline pipeline1;

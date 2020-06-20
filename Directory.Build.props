@@ -8,7 +8,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Commands.snk</AssemblyOriginatorKeyFile>
 
-    <Authors>dreamnucleus</Authors>
+    <Authors>dylanmckendry</Authors>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>commands</PackageTags>
     <NoWarn>$(NoWarn);CS1591</NoWarn>

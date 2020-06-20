@@ -1,6 +1,6 @@
 ﻿namespace DreamNucleus.Commands
 {
-    public enum Lifetime
+    public enum InstanceLifetime
     {
         Dependency,
         Pipeline,
