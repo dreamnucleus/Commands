@@ -12,11 +12,13 @@ namespace DreamNucleus.Commands.Extensions.Redis
     public class RedisCommandProcessorClient : ICommandProcessor
     {
         private readonly ConnectionMultiplexer _connectionMultiplexer;
+        private readonly string _channelName;
         private readonly IDatabase _database;
 
-        public RedisCommandProcessorClient(ConnectionMultiplexer connectionMultiplexer)
+        public RedisCommandProcessorClient(ConnectionMultiplexer connectionMultiplexer, string channelName)
         {
             _connectionMultiplexer = connectionMultiplexer;
+            _channelName = channelName;
             _database = _connectionMultiplexer.GetDatabase();
         }
 
@@ -25,32 +27,41 @@ namespace DreamNucleus.Commands.Extensions.Redis
         {
             var resultTaskCompletionSource = new TaskCompletionSource<TSuccessResult>();
 
-            var commandId = Guid.NewGuid().ToString();
+            var commandTransport = new CommandTransport
+            {
+                Id = Guid.NewGuid(),
+                Command = command
+            };
 
             // push it out on a stream and await a response on pub sub
-            var channel = await _connectionMultiplexer.GetSubscriber().SubscribeAsync(commandId).ConfigureAwait(false);
+            var channel = await _connectionMultiplexer.GetSubscriber().SubscribeAsync(_channelName).ConfigureAwait(false);
 
-            channel.OnMessage(m =>
+            channel.OnMessage(async m =>
             {
-                var resultObject = JsonConvert.DeserializeObject(m.Message, Constants.JsonSerializerSettings);
+                var resultTransport = JsonConvert.DeserializeObject<ResultTransport>(m.Message, Constants.JsonSerializerSettings);
 
-                if (resultObject is TSuccessResult result)
+                if (resultTransport.Id == commandTransport.Id)
                 {
-                    resultTaskCompletionSource.SetResult(result);
-                }
-                else if (resultObject is Exception exception)
-                {
-                    resultTaskCompletionSource.SetException(exception);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+                    var resultObject = resultTransport.Result;
 
-                channel.Unsubscribe();
+                    if (resultObject is TSuccessResult result)
+                    {
+                        resultTaskCompletionSource.SetResult(result);
+                    }
+                    else if (resultObject is Exception exception)
+                    {
+                        resultTaskCompletionSource.SetException(exception);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+
+                    await channel.UnsubscribeAsync().ConfigureAwait(false);
+                }
             });
 
-            await _database.StreamAddAsync(Constants.Stream, commandId, JsonConvert.SerializeObject(command, Constants.JsonSerializerSettings)).ConfigureAwait(false);
+            await _database.StreamAddAsync(Constants.Stream, _channelName, JsonConvert.SerializeObject(commandTransport, Constants.JsonSerializerSettings)).ConfigureAwait(false);
 
             return await resultTaskCompletionSource.Task.ConfigureAwait(false);
         }

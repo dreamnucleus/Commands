@@ -44,7 +44,8 @@ namespace DreamNucleus.Commands.Extensions.Redis
                     var streamMessage = streamMessages.Single();
                     var message = streamMessage.Values.Single();
 
-                    var commandObject = JsonConvert.DeserializeObject(message.Value, Constants.JsonSerializerSettings);
+                    var commandTransport = JsonConvert.DeserializeObject<CommandTransport>(message.Value, Constants.JsonSerializerSettings);
+                    var commandObject = commandTransport.Command;
 
                     var successResultType = commandObject.GetType().GetInterfaces().Single(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ISuccessResult<,>));
 
@@ -67,7 +68,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
 
                     await _database.StreamAcknowledgeAsync(Constants.Stream, _consumerGroupName, streamMessage.Id).ConfigureAwait(false);
 
-                    await _database.PublishAsync(message.Name.ToString(), JsonConvert.SerializeObject(resultObject, Constants.JsonSerializerSettings)).ConfigureAwait(false);
+                    await _database.PublishAsync(message.Name.ToString(), JsonConvert.SerializeObject(new ResultTransport(commandTransport.Id, resultObject), Constants.JsonSerializerSettings)).ConfigureAwait(false);
                 }
 
                 await Task.Delay(1_000).ConfigureAwait(false);

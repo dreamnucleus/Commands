@@ -65,14 +65,16 @@ namespace DreamNucleus.Commands.Playground
 
             var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
 
-            var client = new RedisCommandProcessorClient(connectionMultiplexer);
+            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~results");
             var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "group", "consumer_1");
 
             _ = server.Start();
 
             //var intResult = await client.ProcessAsync(new IntCommand(2));
             //var longResult = await client.ProcessAsync(new LongCommand(2));
-            //var noneResult = await client.ProcessAsync(new NoneCommand());
+
+            var noneResult = await client.ProcessAsync(new NoneCommand());
+
             try
             {
                 var exceptionResult = await client.ProcessAsync(new ExceptionCommand());
