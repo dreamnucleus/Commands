@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
 using DreamNucleus.Commands.Autofac;
+using DreamNucleus.Commands.Extensions.Redis;
 using DreamNucleus.Commands.Extensions.Results;
 using DreamNucleus.Commands.Results;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace DreamNucleus.Commands.Playground
 {
@@ -38,7 +41,9 @@ namespace DreamNucleus.Commands.Playground
             containerBuilder.RegisterType<MultipleCommandHandler>().As<IAsyncCommandHandler<MultipleCommand, MultipleData>>();
 
             containerBuilder.RegisterType<IntCommandHandler>().As<IAsyncCommandHandler<IntCommand, int>>();
+            containerBuilder.RegisterType<LongCommandHandler>().As<IAsyncCommandHandler<LongCommand, long>>();
             containerBuilder.RegisterType<NoneCommandHandler>().As<IAsyncCommandHandler<NoneCommand, Unit>>();
+            containerBuilder.RegisterType<ExceptionCommandHandler>().As<IAsyncCommandHandler<ExceptionCommand, Unit>>();
 
             var commandsBuilder = new AutofacCommandsBuilder(containerBuilder);
             commandsBuilder.Use<TestPipeline>();
@@ -58,10 +63,42 @@ namespace DreamNucleus.Commands.Playground
             var commandProcessor = container.Resolve<ICommandProcessor>();
             //var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
+            var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
+
+            var client = new RedisCommandProcessorClient(connectionMultiplexer);
+            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "group", "consumer_1");
+
+            _ = server.Start();
+
+            //var intResult = await client.ProcessAsync(new IntCommand(2));
+            //var longResult = await client.ProcessAsync(new LongCommand(2));
+            //var noneResult = await client.ProcessAsync(new NoneCommand());
+            try
+            {
+                var exceptionResult = await client.ProcessAsync(new ExceptionCommand());
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+
+            await Task.Delay(-1);
+
             var resultRegister = new ResultRegister<HttpResult>();
             resultRegister.When<NotFoundException>().Return(r => new HttpResult(444444444));
             var resultProcessor = new ResultProcessor<HttpResult>(resultRegister.Emit(), commandsBuilder,
                 new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
+
+
+            string jsonString = JsonConvert.SerializeObject(new IntCommand { Id = 2 }, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
+
+            var commandObject = JsonConvert.DeserializeObject(jsonString, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
 
             try
             {

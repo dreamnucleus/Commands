@@ -6,6 +6,15 @@ namespace DreamNucleus.Commands.Playground
     public class IntCommand : ISuccessResult<IntCommand, int>
     {
         public int Id { get; set; }
+
+        public IntCommand(int id)
+        {
+            Id = id;
+        }
+
+        public IntCommand()
+        {
+        }
     }
 
     public class IntCommandHandler : IAsyncCommandHandler<IntCommand, int>
@@ -15,22 +24,6 @@ namespace DreamNucleus.Commands.Playground
             //return Task.FromResult<object>(command.Id);
             await Task.Delay(1);
             return 1;
-        }
-    }
-
-
-    public class NoneCommand : ISuccessResult<NoneCommand>
-    {
-        public int Id { get; set; }
-    }
-
-    public class NoneCommandHandler : IAsyncCommandHandler<NoneCommand, Unit>
-    {
-        public async Task<Unit> ExecuteAsync(NoneCommand command)
-        {
-            await Task.Delay(1);
-
-            return Unit.Value;
         }
     }
 }

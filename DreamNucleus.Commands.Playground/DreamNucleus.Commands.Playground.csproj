@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DreamNucleus.Commands.Autofac\DreamNucleus.Commands.Autofac.csproj" />
+    <ProjectReference Include="..\DreamNucleus.Commands.Extensions.Redis\DreamNucleus.Commands.Extensions.Redis.csproj" />
     <ProjectReference Include="..\DreamNucleus.Commands.Extensions\DreamNucleus.Commands.Extensions.csproj" />
   </ItemGroup>
 
