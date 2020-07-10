@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
-    internal class ResultTransport
+    internal class ResultTransport<TResult>
     {
         public Guid Id { get; set; }
-        public object Result { get; set; }
-
-        public ResultTransport(Guid id, object result)
-        {
-            Id = id;
-            Result = result;
-        }
+        public bool Success { get; set; }
+        public TResult Result { get; set; }
+        public Exception Exception { get; set; }
 
         public ResultTransport()
         {

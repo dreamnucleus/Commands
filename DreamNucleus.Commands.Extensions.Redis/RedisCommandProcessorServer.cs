@@ -53,22 +53,32 @@ namespace DreamNucleus.Commands.Extensions.Redis
 
                     var resultTask = ((Task)(method.Invoke(_commandProcessor, new[] { commandObject })));
 
-                    object resultObject;
+                    var resultTransportType = typeof(ResultTransport<>).MakeGenericType(successResultType.GenericTypeArguments[1]);
+                    var resultTransport = resultTransportType.GetConstructor(Array.Empty<Type>()).Invoke(Array.Empty<object>());
+                    var idProperty = resultTransportType.GetProperty("Id");
+                    var successProperty = resultTransportType.GetProperty("Success");
+
+                    idProperty.SetValue(resultTransport, commandTransport.Id);
 
                     try
                     {
                         await resultTask.ConfigureAwait(false);
-                        var resultProperty = resultTask.GetType().GetProperty("Result");
-                        resultObject = resultProperty.GetValue(resultTask);
+                        var taskResultProperty = resultTask.GetType().GetProperty("Result");
+
+                        successProperty.SetValue(resultTransport, true);
+                        var resultProperty = resultTransportType.GetProperty("Result");
+                        resultProperty.SetValue(resultTransport, taskResultProperty.GetValue(resultTask));
                     }
                     catch (Exception exception)
                     {
-                        resultObject = exception;
+                        successProperty.SetValue(resultTransport, false);
+                        var exceptionProperty = resultTransportType.GetProperty("Exception");
+                        exceptionProperty.SetValue(resultTransport, exception);
                     }
 
                     await _database.StreamAcknowledgeAsync(Constants.Stream, _consumerGroupName, streamMessage.Id).ConfigureAwait(false);
 
-                    await _database.PublishAsync(message.Name.ToString(), JsonConvert.SerializeObject(new ResultTransport(commandTransport.Id, resultObject), Constants.JsonSerializerSettings)).ConfigureAwait(false);
+                    await _database.PublishAsync(message.Name.ToString(), JsonConvert.SerializeObject(resultTransport, Constants.JsonSerializerSettings)).ConfigureAwait(false);
                 }
 
                 await Task.Delay(1_000).ConfigureAwait(false);

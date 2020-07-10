@@ -38,19 +38,17 @@ namespace DreamNucleus.Commands.Extensions.Redis
 
             channel.OnMessage(async m =>
             {
-                var resultTransport = JsonConvert.DeserializeObject<ResultTransport>(m.Message, Constants.JsonSerializerSettings);
+                var resultTransport = JsonConvert.DeserializeObject<ResultTransport<TSuccessResult>>(m.Message, Constants.JsonSerializerSettings);
 
                 if (resultTransport.Id == commandTransport.Id)
                 {
-                    var resultObject = resultTransport.Result;
-
-                    if (resultObject is TSuccessResult result)
+                    if (resultTransport.Success)
                     {
-                        resultTaskCompletionSource.SetResult(result);
+                        resultTaskCompletionSource.SetResult(resultTransport.Result);
                     }
-                    else if (resultObject is Exception exception)
+                    else if (!resultTransport.Success)
                     {
-                        resultTaskCompletionSource.SetException(exception);
+                        resultTaskCompletionSource.SetException(resultTransport.Exception);
                     }
                     else
                     {

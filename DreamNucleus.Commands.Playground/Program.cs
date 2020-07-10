@@ -70,9 +70,8 @@ namespace DreamNucleus.Commands.Playground
 
             _ = server.Start();
 
-            //var intResult = await client.ProcessAsync(new IntCommand(2));
+            var intResult = await client.ProcessAsync(new IntCommand(2));
             //var longResult = await client.ProcessAsync(new LongCommand(2));
-
             var noneResult = await client.ProcessAsync(new NoneCommand());
 
             try
