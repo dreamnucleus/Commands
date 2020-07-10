@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>$(DefaultTargetFrameworks)</TargetFrameworks>
     <PackageId>DreamNucleus.Commands.Extensions.Azure.Storage</PackageId>
     <Title>DreamNucleus Commands Extensions Azure Storage</Title>
     <Description>DreamNucleus Commands Extensions Azure Storage</Description>

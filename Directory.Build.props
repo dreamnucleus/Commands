@@ -1,6 +1,15 @@
 ﻿<Project>
 
   <PropertyGroup>
+    <DefaultNetStandardTargetFramework>netstandard2.0</DefaultNetStandardTargetFramework>
+    <DefaultNetCoreTargetFramework>netcoreapp3.1</DefaultNetCoreTargetFramework>
+    <DefaultNetFrameworkTargetFramework>net461</DefaultNetFrameworkTargetFramework>
+
+    <DefaultTargetFrameworks>$(DefaultNetFrameworkTargetFramework);$(DefaultNetStandardTargetFramework)</DefaultTargetFrameworks>
+    <DefaultTestTargetFrameworks>$(DefaultNetFrameworkTargetFramework);$(DefaultNetCoreTargetFramework)</DefaultTestTargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <IsTestProject>$(MSBuildProjectName.Contains('Tests'))</IsTestProject>
     <IsPlaygroundProject>$(MSBuildProjectName.Contains('Playground'))</IsPlaygroundProject>
 

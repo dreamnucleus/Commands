@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>$(DefaultTargetFrameworks)</TargetFrameworks>
     <PackageId>DreamNucleus.Commands</PackageId>
     <Title>DreamNucleus Commands</Title>
     <Description>DreamNucleus Commands</Description>
   </PropertyGroup>
-  
+
 </Project>

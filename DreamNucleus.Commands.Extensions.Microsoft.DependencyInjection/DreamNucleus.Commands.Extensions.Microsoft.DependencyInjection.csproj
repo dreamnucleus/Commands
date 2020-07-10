@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>netstandard2.0</TargetFrameworks>
-        <PackageId>DreamNucleus.Commands.Extensions.Microsoft.DependencyInjection</PackageId>
-        <Title>DreamNucleus Commands Extensions Microsoft Dependency Injection</Title>
-        <Description>DreamNucleus Commands Extensions Microsoft Dependency Injection</Description>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>$(DefaultTargetFrameworks)</TargetFrameworks>
+    <PackageId>DreamNucleus.Commands.Extensions.Microsoft.DependencyInjection</PackageId>
+    <Title>DreamNucleus Commands Extensions Microsoft Dependency Injection</Title>
+    <Description>DreamNucleus Commands Extensions Microsoft Dependency Injection</Description>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\DreamNucleus.Commands.Extensions\DreamNucleus.Commands.Extensions.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DreamNucleus.Commands.Extensions\DreamNucleus.Commands.Extensions.csproj" />
+  </ItemGroup>
 
 </Project>
