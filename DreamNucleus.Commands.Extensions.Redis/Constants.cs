@@ -9,8 +9,6 @@ namespace DreamNucleus.Commands.Extensions.Redis
 {
     public static class Constants
     {
-        public const string Stream = "test~commands";
-
         public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All

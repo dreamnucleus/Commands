@@ -65,8 +65,8 @@ namespace DreamNucleus.Commands.Playground
 
             var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
 
-            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~results");
-            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "group", "consumer_1");
+            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands", "test~results");
+            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands", "group", "consumer_1");
 
             _ = server.Start();
 

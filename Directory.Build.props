@@ -10,8 +10,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <IsTestProject>$(MSBuildProjectName.Contains('Tests'))</IsTestProject>
-    <IsPlaygroundProject>$(MSBuildProjectName.Contains('Playground'))</IsPlaygroundProject>
+    <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
+    <IsTestCommonProject>$(MSBuildProjectName.EndsWith('Tests.Common'))</IsTestCommonProject>
+    <IsPlaygroundProject>$(MSBuildProjectName.EndsWith('Playground'))</IsPlaygroundProject>
 
     <LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
@@ -30,15 +31,18 @@
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(IsPlaygroundProject)' != 'true'">
+  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(IsTestCommonProject)' != 'true' and '$(IsPlaygroundProject)' != 'true'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.13" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+  <ItemGroup Condition="'$(IsTestProject)' == 'true' or '$(IsTestCommonProject)' == 'true'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' == 'true' and '$(IsTestCommonProject)' != 'true'">
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 

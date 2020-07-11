@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>$(DefaultTestTargetFrameworks)</TargetFrameworks>
@@ -6,13 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DreamNucleus.Commands.Extensions.Redis\DreamNucleus.Commands.Extensions.Redis.csproj" />
     <ProjectReference Include="..\DreamNucleus.Commands.Tests.Common\DreamNucleus.Commands.Tests.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="xunit.runner.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

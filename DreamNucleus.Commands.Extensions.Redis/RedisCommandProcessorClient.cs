@@ -12,12 +12,14 @@ namespace DreamNucleus.Commands.Extensions.Redis
     public class RedisCommandProcessorClient : ICommandProcessor
     {
         private readonly ConnectionMultiplexer _connectionMultiplexer;
+        private readonly string _streamName;
         private readonly string _channelName;
         private readonly IDatabase _database;
 
-        public RedisCommandProcessorClient(ConnectionMultiplexer connectionMultiplexer, string channelName)
+        public RedisCommandProcessorClient(ConnectionMultiplexer connectionMultiplexer, string streamName, string channelName)
         {
             _connectionMultiplexer = connectionMultiplexer;
+            _streamName = streamName;
             _channelName = channelName;
             _database = _connectionMultiplexer.GetDatabase();
         }
@@ -29,11 +31,12 @@ namespace DreamNucleus.Commands.Extensions.Redis
 
             var commandTransport = new CommandTransport
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid(), // TODO: could i do a string ID which i pass in and then stop duplicates. For example the ID of the object to be created in the db
                 Command = command
             };
 
             // push it out on a stream and await a response on pub sub
+            // TODO: another class should be always watching this and pushing it out so we don't need to sub and un sub
             var channel = await _connectionMultiplexer.GetSubscriber().SubscribeAsync(_channelName).ConfigureAwait(false);
 
             channel.OnMessage(async m =>
@@ -42,6 +45,8 @@ namespace DreamNucleus.Commands.Extensions.Redis
 
                 if (resultTransport.Id == commandTransport.Id)
                 {
+                    await channel.UnsubscribeAsync().ConfigureAwait(false);
+
                     if (resultTransport.Success)
                     {
                         resultTaskCompletionSource.SetResult(resultTransport.Result);
@@ -55,11 +60,11 @@ namespace DreamNucleus.Commands.Extensions.Redis
                         throw new NotImplementedException();
                     }
 
-                    await channel.UnsubscribeAsync().ConfigureAwait(false);
                 }
             });
 
-            await _database.StreamAddAsync(Constants.Stream, _channelName, JsonConvert.SerializeObject(commandTransport, Constants.JsonSerializerSettings)).ConfigureAwait(false);
+            // TODO: stream max length?
+            await _database.StreamAddAsync(_streamName, _channelName, JsonConvert.SerializeObject(commandTransport, Constants.JsonSerializerSettings)).ConfigureAwait(false);
 
             return await resultTaskCompletionSource.Task.ConfigureAwait(false);
         }

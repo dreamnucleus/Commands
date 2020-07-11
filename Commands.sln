@@ -48,7 +48,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Autof
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Microsoft.DependencyInjection", "DreamNucleus.Commands.Extensions.Microsoft.DependencyInjection\DreamNucleus.Commands.Extensions.Microsoft.DependencyInjection.csproj", "{71516DAB-629E-4FAD-A4C6-C39BFE873B11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.Redis", "DreamNucleus.Commands.Extensions.Redis\DreamNucleus.Commands.Extensions.Redis.csproj", "{47AA3405-CFBA-48E9-A546-5CAF90109A91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Extensions.Redis", "DreamNucleus.Commands.Extensions.Redis\DreamNucleus.Commands.Extensions.Redis.csproj", "{47AA3405-CFBA-48E9-A546-5CAF90109A91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamNucleus.Commands.Extensions.Redis.Tests", "DreamNucleus.Commands.Extensions.Redis.Tests\DreamNucleus.Commands.Extensions.Redis.Tests.csproj", "{1FEF56E5-F772-45AE-99E1-6294025D1019}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DreamNucleus.Commands.Tests.Common", "DreamNucleus.Commands.Tests.Common\DreamNucleus.Commands.Tests.Common.csproj", "{C4B622EC-B163-433C-AB43-2A40A5C940A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +124,14 @@ Global
 		{47AA3405-CFBA-48E9-A546-5CAF90109A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47AA3405-CFBA-48E9-A546-5CAF90109A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47AA3405-CFBA-48E9-A546-5CAF90109A91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FEF56E5-F772-45AE-99E1-6294025D1019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FEF56E5-F772-45AE-99E1-6294025D1019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FEF56E5-F772-45AE-99E1-6294025D1019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FEF56E5-F772-45AE-99E1-6294025D1019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B622EC-B163-433C-AB43-2A40A5C940A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B622EC-B163-433C-AB43-2A40A5C940A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B622EC-B163-433C-AB43-2A40A5C940A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B622EC-B163-433C-AB43-2A40A5C940A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +142,8 @@ Global
 		{31EC17E4-3148-4CCC-91B7-8A3B23B8A166} = {896885BA-6991-4275-AAEE-40957622E790}
 		{52494466-6502-49F9-AF21-9FF7EE07521E} = {896885BA-6991-4275-AAEE-40957622E790}
 		{A00CAE1A-749D-477E-866A-13FDD778A341} = {896885BA-6991-4275-AAEE-40957622E790}
+		{1FEF56E5-F772-45AE-99E1-6294025D1019} = {896885BA-6991-4275-AAEE-40957622E790}
+		{C4B622EC-B163-433C-AB43-2A40A5C940A5} = {896885BA-6991-4275-AAEE-40957622E790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {957683AB-D391-45B5-9BF4-F5FE607578CB}
