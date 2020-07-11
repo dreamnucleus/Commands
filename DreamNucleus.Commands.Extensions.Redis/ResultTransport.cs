@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
-    internal class ResultTransport<TResult>
+    // TODO: should this be an interface for extra properties?
+    public class ResultTransport<TResult>
     {
         public Guid Id { get; set; }
         public bool Success { get; set; }

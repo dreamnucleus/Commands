@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
-    internal class CommandTransport
+    // TODO: should this be an interface for extra properties?
+    public sealed class CommandTransport
     {
         public Guid Id { get; set; }
         public object Command { get; set; }
