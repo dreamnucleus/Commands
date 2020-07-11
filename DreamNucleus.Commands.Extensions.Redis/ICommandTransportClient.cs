@@ -9,7 +9,6 @@ namespace DreamNucleus.Commands.Extensions.Redis
     public interface ICommandTransportClient
     {
         Task SendAsync(CommandTransport commandTransport);
-
-        // wait for response
+        Task ListenAsync<TSuccessResult>(string commandId, Func<ResultTransport<TSuccessResult>, Task> listenFunc);
     }
 }

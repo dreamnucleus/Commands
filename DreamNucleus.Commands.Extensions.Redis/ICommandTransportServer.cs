@@ -8,7 +8,9 @@ namespace DreamNucleus.Commands.Extensions.Redis
 {
     public interface ICommandTransportServer
     {
-        // listen for new command
-        // return and acknowledge
+        Task StartAsync();
+        Task ListenAsync(Func<ICommandTransport, Task> listenFunc);
+        Task SendAsync(IResultTransport resultTransport);
+        Task StopAsync();
     }
 }
