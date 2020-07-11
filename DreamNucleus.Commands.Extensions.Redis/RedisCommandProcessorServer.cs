@@ -12,13 +12,13 @@ namespace DreamNucleus.Commands.Extensions.Redis
     public class RedisCommandProcessorServer
     {
         private readonly ICommandProcessor _commandProcessor;
-        private readonly ConnectionMultiplexer _connectionMultiplexer;
+        private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly string _streamName;
         private readonly string _consumerGroupName;
         private readonly string _consumerName;
         private readonly IDatabase _database;
 
-        public RedisCommandProcessorServer(ICommandProcessor commandProcessor, ConnectionMultiplexer connectionMultiplexer, string streamName, string consumerGroupName, string consumerName)
+        public RedisCommandProcessorServer(ICommandProcessor commandProcessor, IConnectionMultiplexer connectionMultiplexer, string streamName, string consumerGroupName, string consumerName)
         {
             _commandProcessor = commandProcessor;
             _connectionMultiplexer = connectionMultiplexer;
@@ -51,6 +51,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
             // TODO: what to do with pending messages?
             // TODO: I guess these commands have to be able to be called many times
             // TODO: is the best way to poll with a delay?
+            // TODO: stop or cancellation token?
             while (true)
             {
                 var streamMessages = await _database.StreamReadGroupAsync(_streamName, _consumerGroupName, _consumerName, ">", count: 1).ConfigureAwait(false);
@@ -93,12 +94,12 @@ namespace DreamNucleus.Commands.Extensions.Redis
                     }
 
                     // TODO: should be done in a transaction
-
                     await _database.StreamAcknowledgeAsync(_streamName, _consumerGroupName, streamMessage.Id).ConfigureAwait(false);
 
                     await _database.PublishAsync(message.Name.ToString(), JsonConvert.SerializeObject(resultTransport, Constants.JsonSerializerSettings)).ConfigureAwait(false);
                 }
 
+                // TODO: how best to loop
                 await Task.Delay(1_000).ConfigureAwait(false);
             }
         }

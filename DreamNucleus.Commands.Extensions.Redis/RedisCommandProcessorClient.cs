@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 using Newtonsoft.Json;
@@ -11,12 +12,12 @@ namespace DreamNucleus.Commands.Extensions.Redis
 {
     public class RedisCommandProcessorClient : ICommandProcessor
     {
-        private readonly ConnectionMultiplexer _connectionMultiplexer;
+        private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly string _streamName;
         private readonly string _channelName;
         private readonly IDatabase _database;
 
-        public RedisCommandProcessorClient(ConnectionMultiplexer connectionMultiplexer, string streamName, string channelName)
+        public RedisCommandProcessorClient(IConnectionMultiplexer connectionMultiplexer, string streamName, string channelName)
         {
             _connectionMultiplexer = connectionMultiplexer;
             _streamName = streamName;
@@ -28,6 +29,10 @@ namespace DreamNucleus.Commands.Extensions.Redis
             where TCommand : IAsyncCommand
         {
             var resultTaskCompletionSource = new TaskCompletionSource<TSuccessResult>();
+
+            // TODO: timeout
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            cancellationTokenSource.Token.Register(() => resultTaskCompletionSource.TrySetException(new Exception("30b1ddaa-21d9-452d-8c32-faf070dc7c8c")));
 
             var commandTransport = new CommandTransport
             {

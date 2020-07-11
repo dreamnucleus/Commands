@@ -18,8 +18,6 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
                 containerBuilder =>
                 {
                     containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
-                    //containerBuilder.RegisterType<GenericCommandHandler<string>>().As<IAsyncCommandHandler<GenericCommand<string>, string>>();
-                    //containerBuilder.RegisterType<AsyncExceptionCommandHandler>().As<IAsyncCommandHandler<AsyncExceptionCommand, Unit>>();
                 },
                 autofacCommandsBuilder =>
                 {
@@ -45,9 +43,7 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
             var commandProcessor = Helpers.CreateDefaultCommandProcessor(
                 containerBuilder =>
                 {
-                    //containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
                     containerBuilder.RegisterType<GenericCommandHandler<string>>().As<IAsyncCommandHandler<GenericCommand<string>, string>>();
-                    //containerBuilder.RegisterType<AsyncExceptionCommandHandler>().As<IAsyncCommandHandler<AsyncExceptionCommand, Unit>>();
                 },
                 autofacCommandsBuilder =>
                 {
@@ -55,8 +51,8 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
 
             var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
 
-            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands1", "test~results1");
-            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands1", "group", "consumer_1");
+            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands2", "test~results2");
+            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands2", "group", "consumer_1");
 
             _ = server.Start();
 
@@ -81,12 +77,41 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
 
             var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
 
-            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands1", "test~results1");
-            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands1", "group", "consumer_1");
+            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands3", "test~results3");
+            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands3", "group", "consumer_1");
 
             _ = server.Start();
 
             await Assert.ThrowsAsync<TestException>(async () => await client.ProcessAsync(new AsyncExceptionCommand()));
+        }
+
+        [Fact]
+        public async Task ProcessAsync_MultipleCommands_MultipleReturns()
+        {
+            var commandProcessor = Helpers.CreateDefaultCommandProcessor(
+                containerBuilder =>
+                {
+                    containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
+                    containerBuilder.RegisterType<LongCommandHandler>().As<IAsyncCommandHandler<LongCommand, long>>();
+                },
+                autofacCommandsBuilder =>
+                {
+                });
+
+            var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
+
+            var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands4", "test~results4");
+            var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands4", "group", "consumer_1");
+
+            _ = server.Start();
+
+            const long input1 = 5;
+            var result1 = await client.ProcessAsync(new LongCommand(input1));
+            Assert.Equal(input1, result1);
+
+            const int input2 = 2;
+            var result2 = await client.ProcessAsync(new AsyncIntCommand(input2));
+            Assert.Equal(input2, result2);
         }
     }
 }
