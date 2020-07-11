@@ -20,6 +20,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
             _commandTransportServer = commandTransportServer;
         }
 
+        // TODO: should stop and start be called from transport
         public async Task StartAsync()
         {
             await _commandTransportServer.StartAsync().ConfigureAwait(false);
@@ -65,6 +66,11 @@ namespace DreamNucleus.Commands.Extensions.Redis
                 await _commandTransportServer.SendAsync((IResultTransport)resultTransport).ConfigureAwait(false);
 
             }).ConfigureAwait(false);
+        }
+
+        public async Task StopAsync()
+        {
+            await _commandTransportServer.StopAsync().ConfigureAwait(false);
         }
     }
 }

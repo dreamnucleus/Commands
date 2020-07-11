@@ -39,81 +39,106 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
         //    Assert.Equal(input, result);
         //}
 
-        //[Fact]
-        //public async Task ProcessAsync_GenericReturn_ReturnsGeneric()
-        //{
-        //    var commandProcessor = Helpers.CreateDefaultCommandProcessor(
-        //        containerBuilder =>
-        //        {
-        //            containerBuilder.RegisterType<GenericCommandHandler<string>>().As<IAsyncCommandHandler<GenericCommand<string>, string>>();
-        //        },
-        //        autofacCommandsBuilder =>
-        //        {
-        //        });
 
-        //    var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
+        [Fact]
+        public async Task ProcessAsync_AsyncIntReturn_ReturnsInt()
+        {
+            var commandProcessor = Helpers.CreateDefaultCommandProcessor(
+                containerBuilder =>
+                {
+                    containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
+                },
+                autofacCommandsBuilder =>
+                {
+                });
 
-        //    var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands2", "test~results2");
-        //    var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands2", "group", "consumer_1");
+            var inMemoryTransport = new InMemoryTransport();
+            var commandProcessorClient = new CommandProcessorClient(new InMemoryCommandTransportClient(inMemoryTransport));
+            var commandProcessorServer = new CommandProcessorServer(commandProcessor, new InMemoryCommandTransportServer(inMemoryTransport));
 
-        //    _ = server.Start();
+            await commandProcessorServer.StartAsync();
 
-        //    const string input = "2";
-        //    var result = await client.ProcessAsync(new GenericCommand<string>(input));
-        //    Assert.Equal(input, result);
-        //}
+            const int input = 2;
+            var result = await commandProcessorClient.ProcessAsync(new AsyncIntCommand(input));
+            Assert.Equal(input, result);
 
-        //[Fact]
-        //public async Task ProcessAsync_AsyncException_ThrowsException()
-        //{
-        //    var commandProcessor = Helpers.CreateDefaultCommandProcessor(
-        //        containerBuilder =>
-        //        {
-        //            //containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
-        //            //containerBuilder.RegisterType<GenericCommandHandler<string>>().As<IAsyncCommandHandler<GenericCommand<string>, string>>();
-        //            containerBuilder.RegisterType<AsyncExceptionCommandHandler>().As<IAsyncCommandHandler<AsyncExceptionCommand, Unit>>();
-        //        },
-        //        autofacCommandsBuilder =>
-        //        {
-        //        });
+            await commandProcessorServer.StopAsync();
+        }
 
-        //    var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
+        [Fact]
+        public async Task ProcessAsync_GenericReturn_ReturnsGeneric()
+        {
+            var commandProcessor = Helpers.CreateDefaultCommandProcessor(
+                containerBuilder =>
+                {
+                    containerBuilder.RegisterType<GenericCommandHandler<string>>().As<IAsyncCommandHandler<GenericCommand<string>, string>>();
+                },
+                autofacCommandsBuilder =>
+                {
+                });
 
-        //    var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands3", "test~results3");
-        //    var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands3", "group", "consumer_1");
+            var inMemoryTransport = new InMemoryTransport();
+            var commandProcessorClient = new CommandProcessorClient(new InMemoryCommandTransportClient(inMemoryTransport));
+            var commandProcessorServer = new CommandProcessorServer(commandProcessor, new InMemoryCommandTransportServer(inMemoryTransport));
 
-        //    _ = server.Start();
+            await commandProcessorServer.StartAsync();
 
-        //    await Assert.ThrowsAsync<TestException>(async () => await client.ProcessAsync(new AsyncExceptionCommand()));
-        //}
+            const string input = "2";
+            var result = await commandProcessorClient.ProcessAsync(new GenericCommand<string>(input));
+            Assert.Equal(input, result);
 
-        //[Fact]
-        //public async Task ProcessAsync_MultipleCommands_MultipleReturns()
-        //{
-        //    var commandProcessor = Helpers.CreateDefaultCommandProcessor(
-        //        containerBuilder =>
-        //        {
-        //            containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
-        //            containerBuilder.RegisterType<LongCommandHandler>().As<IAsyncCommandHandler<LongCommand, long>>();
-        //        },
-        //        autofacCommandsBuilder =>
-        //        {
-        //        });
+            await commandProcessorServer.StopAsync();
+        }
 
-        //    var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
+        [Fact]
+        public async Task ProcessAsync_AsyncException_ThrowsException()
+        {
+            var commandProcessor = Helpers.CreateDefaultCommandProcessor(
+                containerBuilder =>
+                {
+                    containerBuilder.RegisterType<AsyncExceptionCommandHandler>().As<IAsyncCommandHandler<AsyncExceptionCommand, Unit>>();
+                },
+                autofacCommandsBuilder =>
+                {
+                });
 
-        //    var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands4", "test~results4");
-        //    var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands4", "group", "consumer_1");
+            var inMemoryTransport = new InMemoryTransport();
+            var commandProcessorClient = new CommandProcessorClient(new InMemoryCommandTransportClient(inMemoryTransport));
+            var commandProcessorServer = new CommandProcessorServer(commandProcessor, new InMemoryCommandTransportServer(inMemoryTransport));
 
-        //    _ = server.Start();
+            await commandProcessorServer.StartAsync();
 
-        //    const long input1 = 5;
-        //    var result1 = await client.ProcessAsync(new LongCommand(input1));
-        //    Assert.Equal(input1, result1);
+            await Assert.ThrowsAsync<TestException>(async () => await commandProcessorClient.ProcessAsync(new AsyncExceptionCommand()));
+        }
 
-        //    const int input2 = 2;
-        //    var result2 = await client.ProcessAsync(new AsyncIntCommand(input2));
-        //    Assert.Equal(input2, result2);
-        //}
+        [Fact]
+        public async Task ProcessAsync_MultipleCommands_MultipleReturns()
+        {
+            var commandProcessor = Helpers.CreateDefaultCommandProcessor(
+                containerBuilder =>
+                {
+                    containerBuilder.RegisterType<AsyncIntCommandHandler>().As<IAsyncCommandHandler<AsyncIntCommand, int>>();
+                    containerBuilder.RegisterType<LongCommandHandler>().As<IAsyncCommandHandler<LongCommand, long>>();
+                },
+                autofacCommandsBuilder =>
+                {
+                });
+
+            var inMemoryTransport = new InMemoryTransport();
+            var commandProcessorClient = new CommandProcessorClient(new InMemoryCommandTransportClient(inMemoryTransport));
+            var commandProcessorServer = new CommandProcessorServer(commandProcessor, new InMemoryCommandTransportServer(inMemoryTransport));
+
+            await commandProcessorServer.StartAsync();
+
+            const long input1 = 5;
+            var result1 = await commandProcessorClient.ProcessAsync(new LongCommand(input1));
+            Assert.Equal(input1, result1);
+
+            const int input2 = 2;
+            var result2 = await commandProcessorClient.ProcessAsync(new AsyncIntCommand(input2));
+            Assert.Equal(input2, result2);
+
+            await commandProcessorServer.StopAsync();
+        }
     }
 }

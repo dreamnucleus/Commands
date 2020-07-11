@@ -8,24 +8,54 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
 {
     public class InMemoryCommandTransportServer : ICommandTransportServer
     {
-        public Task ListenAsync(Func<ICommandTransport, Task> listenFunc)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly InMemoryTransport _inMemoryTransport;
 
-        public Task SendAsync(IResultTransport resultTransport)
+        private bool _stopped;
+
+        public InMemoryCommandTransportServer(InMemoryTransport inMemoryTransport)
         {
-            throw new NotImplementedException();
+            _inMemoryTransport = inMemoryTransport;
+
+            _stopped = false;
         }
 
         public Task StartAsync()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
+
+        public Task ListenAsync(Func<ICommandTransport, Task> listenFunc)
+        {
+            _ = Task.Run(async () =>
+            {
+                while (!_stopped)
+                {
+                    if (_inMemoryTransport.TryReadCommand(out var commandTransport))
+                    {
+                        await listenFunc(commandTransport).ConfigureAwait(false);
+                    }
+
+                    if (!_stopped)
+                    {
+                        await Task.Delay(50).ConfigureAwait(false);
+                    }
+                }
+            });
+
+            return Task.CompletedTask;
+        }
+
+        public Task SendAsync(IResultTransport resultTransport)
+        {
+            _inMemoryTransport.TrySendResult(resultTransport);
+            return Task.CompletedTask;
+        }
+
 
         public Task StopAsync()
         {
-            throw new NotImplementedException();
+            _stopped = true;
+            return Task.CompletedTask;
         }
     }
 }
