@@ -237,4 +237,40 @@ var result = await resultProcessor.For(new GetBlogCommand(1))
 
 ```
 
+## Using Command Processor (with Autofac and Redis as transport)
 
+```cs
+
+var containerBuilder = new ContainerBuilder();
+
+containerBuilder.RegisterType<BloggingContext>().InstancePerLifetimeScope();
+
+// these can be found and regsiters automatically
+containerBuilder.RegisterType<GetBlogCommandHandler>().As<IAsyncCommandHandler<GetBlogCommand, BlogData>>();
+
+var container = containerBuilder.Build();
+
+var commandProcessor = new CommandProcessor(new LifetimeScopeService(container.BeginLifetimeScope()));
+
+var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost");
+var redisCommandTransportClient = new RedisCommandTransportClient(connectionMultiplexer, "test~commands1", "test~results1");
+var redisCommandTransportServer = new RedisCommandTransportServer(connectionMultiplexer, "test~commands1", "group", "consumer_1");
+
+var commandProcessorClient = new CommandProcessorClient(redisCommandTransportClient);
+var commandProcessorServer = new CommandProcessorServer(commandProcessor, redisCommandTransportServer);
+
+await commandProcessorServer.StartAsync();
+
+try
+{
+    // this command will be executed using redis as the transport between the client and server
+    var blog = await commandProcessorClient.ProcessAsync(new GetBlogCommand(1));
+}
+catch (Exception)
+{
+    // ignore
+}
+
+await commandProcessorServer.StopAsync();
+
+```
