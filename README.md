@@ -44,13 +44,13 @@ dotnet add package DreamNucleus.Commands
 ```
 
 
-https://www.nuget.org/packages/DreamNucleus.Commands.Results/
+https://www.nuget.org/packages/DreamNucleus.Commands.Extensions/
 
 ```
-Install-Package DreamNucleus.Commands.Results
+Install-Package DreamNucleus.Commands.Extensions
 ```
 ```
-dotnet add package DreamNucleus.Commands.Results
+dotnet add package DreamNucleus.Commands.Extensions
 ```
 
 
@@ -61,6 +61,16 @@ Install-Package DreamNucleus.Commands.Autofac
 ```
 ```
 dotnet add package DreamNucleus.Commands.Autofac
+```
+
+
+https://www.nuget.org/packages/DreamNucleus.Commands.Extensions.Redis/
+
+```
+Install-Package DreamNucleus.Commands.Extensions.Redis
+```
+```
+dotnet add package DreamNucleus.Commands.Extensions.Redis
 ```
 
 # Example
