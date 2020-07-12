@@ -253,8 +253,8 @@ var container = containerBuilder.Build();
 var commandProcessor = new CommandProcessor(new LifetimeScopeService(container.BeginLifetimeScope()));
 
 var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost");
-var redisCommandTransportClient = new RedisCommandTransportClient(connectionMultiplexer, "test~commands1", "test~results1");
-var redisCommandTransportServer = new RedisCommandTransportServer(connectionMultiplexer, "test~commands1", "group", "consumer_1");
+var redisCommandTransportClient = new RedisCommandTransportClient(connectionMultiplexer, "commands", "results");
+var redisCommandTransportServer = new RedisCommandTransportServer(connectionMultiplexer, "commands", "group", "consumer");
 
 var commandProcessorClient = new CommandProcessorClient(redisCommandTransportClient);
 var commandProcessorServer = new CommandProcessorServer(commandProcessor, redisCommandTransportServer);
