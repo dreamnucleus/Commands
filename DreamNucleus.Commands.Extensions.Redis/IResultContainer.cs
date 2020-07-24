@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
-    public interface IResultTransport : ITransport
+    public interface IResultContainer : IContainer
     {
         bool Success { get; set; }
     }
 
-    public interface IResultTransport<TResult> : IResultTransport
+    public interface IResultContainer<TResult> : IResultContainer
     {
         TResult Result { get; set; }
         Exception Exception { get; set; }

@@ -9,6 +9,7 @@ using StackExchange.Redis;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
+    // TODO: what about notifications...etc? Do any of those need redis?
     public class CommandProcessorServer
     {
         private readonly ICommandProcessor _commandProcessor;
@@ -63,7 +64,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
                     exceptionProperty.SetValue(resultTransport, exception);
                 }
 
-                await _commandTransportServer.SendAsync((IResultTransport)resultTransport).ConfigureAwait(false);
+                await _commandTransportServer.SendAsync((IResultContainer)resultTransport).ConfigureAwait(false);
 
             }).ConfigureAwait(false);
         }

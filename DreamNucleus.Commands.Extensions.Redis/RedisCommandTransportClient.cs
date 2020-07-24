@@ -10,17 +10,23 @@ namespace DreamNucleus.Commands.Extensions.Redis
 {
     public class RedisCommandTransportClient : ICommandTransportClient
     {
-        private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly string _streamName;
         private readonly string _channelName;
+        private readonly IConnectionMultiplexer _connectionMultiplexer;
+        private readonly IContainerSerializer _containerSerializer;
 
         private readonly IDatabase _database;
         
-        public RedisCommandTransportClient(IConnectionMultiplexer connectionMultiplexer, string streamName, string channelName)
+        public RedisCommandTransportClient(
+            string streamName,
+            string channelName,
+            IConnectionMultiplexer connectionMultiplexer,
+            IContainerSerializer containerSerializer)
         {
-            _connectionMultiplexer = connectionMultiplexer;
             _streamName = streamName;
             _channelName = channelName;
+            _connectionMultiplexer = connectionMultiplexer;
+            _containerSerializer = containerSerializer;
 
             _database = _connectionMultiplexer.GetDatabase();
         }
@@ -33,7 +39,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
 
             channel.OnMessage(async m =>
             {
-                var resultTransport = JsonConvert.DeserializeObject<IResultTransport>(m.Message, Constants.JsonSerializerSettings);
+                var resultTransport = _containerSerializer.Deserialize<IResultContainer>(m.Message);
 
                 if (resultTransport.Id == commandId)
                 {
@@ -44,10 +50,10 @@ namespace DreamNucleus.Commands.Extensions.Redis
             });
         }
 
-        public async Task SendAsync(CommandTransport commandTransport)
+        public async Task SendAsync(CommandContainer commandTransport)
         {
             // TODO: stream max length?
-            await _database.StreamAddAsync(_streamName, _channelName, JsonConvert.SerializeObject(commandTransport, Constants.JsonSerializerSettings)).ConfigureAwait(false);
+            await _database.StreamAddAsync(_streamName, _channelName, _containerSerializer.Serialize(commandTransport)).ConfigureAwait(false);
         }
     }
 }

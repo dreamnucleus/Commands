@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
-    public sealed class CommandTransport : ICommandTransport
+    public sealed class CommandContainer : ICommandContainer
     {
         public string Id { get; set; }
         public object Command { get; set; }
 
-        public CommandTransport(string id, object command)
+        public CommandContainer(string id, object command)
         {
             Id = id;
             Command = command;
         }
 
-        public CommandTransport()
+        public CommandContainer()
         {
         }
     }

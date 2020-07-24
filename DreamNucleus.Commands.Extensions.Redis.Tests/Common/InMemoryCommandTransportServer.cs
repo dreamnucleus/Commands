@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DreamNucleus.Commands.Extensions.Redis.Tests
+namespace DreamNucleus.Commands.Extensions.Redis.Tests.Common
 {
     public class InMemoryCommandTransportServer : ICommandTransportServer
     {
@@ -24,7 +21,7 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
             return Task.CompletedTask;
         }
 
-        public Task ListenAsync(Func<ICommandTransport, Task> listenFunc)
+        public Task ListenAsync(Func<ICommandContainer, Task> listenFunc)
         {
             _ = Task.Run(async () =>
             {
@@ -45,7 +42,7 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
             return Task.CompletedTask;
         }
 
-        public Task SendAsync(IResultTransport resultTransport)
+        public Task SendAsync(IResultContainer resultTransport)
         {
             _inMemoryTransport.TrySendResult(resultTransport);
             return Task.CompletedTask;

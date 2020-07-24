@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
-    public interface ICommandTransport : ITransport
+    public interface IContainerSerializer
     {
-        object Command { get; set; }
+        string Serialize(object value);
+        TResult Deserialize<TResult>(string value);
     }
 }

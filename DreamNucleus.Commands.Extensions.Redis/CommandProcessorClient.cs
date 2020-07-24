@@ -10,6 +10,7 @@ using StackExchange.Redis;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
+    // TODO: how could we do client pipelines and server pipelines
     public class CommandProcessorClient : ICommandProcessor
     {
         private readonly ICommandTransportClient _commandTransportClient;
@@ -28,7 +29,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
             cancellationTokenSource.Token.Register(() => resultTaskCompletionSource.TrySetException(new Exception("30b1ddaa-21d9-452d-8c32-faf070dc7c8c")));
 
-            var commandTransport = new CommandTransport
+            var commandTransport = new CommandContainer
             {
                 Id = Guid.NewGuid().ToString(), // TODO: could i do a string ID which i pass in and then stop duplicates. For example the ID of the object to be created in the db
                 Command = command

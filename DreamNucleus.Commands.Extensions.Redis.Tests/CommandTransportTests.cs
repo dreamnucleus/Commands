@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Autofac;
+using DreamNucleus.Commands.Extensions.Redis.Tests.Common;
 using DreamNucleus.Commands.Results;
 using DreamNucleus.Commands.Tests.Common;
-using StackExchange.Redis;
 using Xunit;
 
 namespace DreamNucleus.Commands.Extensions.Redis.Tests
 {
-    public class UnitTests
+    public class CommandTransportTests
     {
         //[Fact]
         //public async Task ProcessAsync_AsyncIntReturn_ReturnsInt()

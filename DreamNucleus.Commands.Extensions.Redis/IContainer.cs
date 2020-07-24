@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DreamNucleus.Commands.Extensions.Redis
 {
-    public interface ITransport
+    public interface IContainer
     {
         string Id { get; set; }
     }

@@ -10,4 +10,10 @@
     <ProjectReference Include="..\DreamNucleus.Commands.Tests.Common\DreamNucleus.Commands.Tests.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

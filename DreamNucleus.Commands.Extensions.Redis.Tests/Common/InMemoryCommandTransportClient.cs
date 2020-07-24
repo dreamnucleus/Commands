@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DreamNucleus.Commands.Extensions.Redis.Tests
+namespace DreamNucleus.Commands.Extensions.Redis.Tests.Common
 {
     public class InMemoryCommandTransportClient : ICommandTransportClient
     {
@@ -15,7 +12,7 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
             _inMemoryTransport = inMemoryTransport;
         }
 
-        public Task SendAsync(CommandTransport commandTransport)
+        public Task SendAsync(CommandContainer commandTransport)
         {
             _inMemoryTransport.TrySendCommand(commandTransport);
             return Task.CompletedTask;

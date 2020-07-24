@@ -8,7 +8,8 @@ namespace DreamNucleus.Commands.Extensions.Redis
 {
     public interface ICommandTransportClient
     {
-        Task SendAsync(CommandTransport commandTransport);
+        Task SendAsync(CommandContainer commandTransport);
+        // TODO: Listen is clunky, should be called StartListen at the very least
         Task ListenAsync<TSuccessResult>(string commandId, Func<ResultTransport<TSuccessResult>, Task> listenFunc);
     }
 }

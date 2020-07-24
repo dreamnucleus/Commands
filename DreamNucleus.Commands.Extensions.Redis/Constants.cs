@@ -9,9 +9,5 @@ namespace DreamNucleus.Commands.Extensions.Redis
 {
     public static class Constants
     {
-        public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
     }
 }

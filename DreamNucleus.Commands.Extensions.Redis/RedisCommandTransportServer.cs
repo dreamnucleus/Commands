@@ -11,21 +11,29 @@ namespace DreamNucleus.Commands.Extensions.Redis
 {
     public class RedisCommandTransportServer : ICommandTransportServer
     {
-        private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly string _streamName;
         private readonly string _consumerGroupName;
         private readonly string _consumerName;
+
+        private readonly IConnectionMultiplexer _connectionMultiplexer;
+        private readonly IContainerSerializer _containerSerializer;
 
         private readonly IDatabase _database;
 
         private readonly ConcurrentDictionary<string, (string ReturnChannelName, string MessageId)> _commandIdToMessageProperties;
 
-        public RedisCommandTransportServer(IConnectionMultiplexer connectionMultiplexer, string streamName, string consumerGroupName, string consumerName)
+        public RedisCommandTransportServer(
+            string streamName,
+            string consumerGroupName,
+            string consumerName,
+            IConnectionMultiplexer connectionMultiplexer,
+            IContainerSerializer containerSerializer)
         {
-            _connectionMultiplexer = connectionMultiplexer;
             _streamName = streamName;
             _consumerGroupName = consumerGroupName;
             _consumerName = consumerName;
+            _connectionMultiplexer = connectionMultiplexer;
+            _containerSerializer = containerSerializer;
 
             _database = _connectionMultiplexer.GetDatabase();
 
@@ -52,7 +60,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
             }
         }
 
-        public async Task ListenAsync(Func<ICommandTransport, Task> listenFunc)
+        public async Task ListenAsync(Func<ICommandContainer, Task> listenFunc)
         {
             while (true)
             {
@@ -63,7 +71,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
                     var streamMessage = streamMessages.Single();
                     var message = streamMessage.Values.Single();
 
-                    var commandTransport = JsonConvert.DeserializeObject<ICommandTransport>(message.Value, Constants.JsonSerializerSettings);
+                    var commandTransport = _containerSerializer.Deserialize<ICommandContainer>(message.Value);
 
                     if (!_commandIdToMessageProperties.TryAdd(commandTransport.Id, (message.Name.ToString(), streamMessage.Id)))
                     {
@@ -78,14 +86,14 @@ namespace DreamNucleus.Commands.Extensions.Redis
             }
         }
 
-        public async Task SendAsync(IResultTransport resultTransport)
+        public async Task SendAsync(IResultContainer resultTransport)
         {
             // TODO: should be done in a transaction
             if (_commandIdToMessageProperties.TryRemove(resultTransport.Id, out var messageProperties))
             {
                 await _database.StreamAcknowledgeAsync(_streamName, _consumerGroupName, messageProperties.MessageId).ConfigureAwait(false);
 
-                await _database.PublishAsync(messageProperties.ReturnChannelName, JsonConvert.SerializeObject(resultTransport, Constants.JsonSerializerSettings)).ConfigureAwait(false);
+                await _database.PublishAsync(messageProperties.ReturnChannelName, _containerSerializer.Serialize(resultTransport)).ConfigureAwait(false);
             }
             else
             {
