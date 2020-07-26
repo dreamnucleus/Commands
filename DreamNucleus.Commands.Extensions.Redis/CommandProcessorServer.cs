@@ -24,7 +24,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
         // TODO: should stop and start be called from transport
         public async Task StartAsync()
         {
-            await _commandTransportServer.StartAsync().ConfigureAwait(false);
+            //await _commandTransportServer.StartAsync().ConfigureAwait(false);
 
             // TODO: what to do with pending messages?
             // TODO: I guess these commands have to be able to be called many times
@@ -71,7 +71,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
 
         public async Task StopAsync()
         {
-            await _commandTransportServer.StopAsync().ConfigureAwait(false);
+            //await _commandTransportServer.StopAsync().ConfigureAwait(false);
         }
     }
 }

@@ -37,7 +37,6 @@ namespace DreamNucleus.Commands.Extensions.Redis.Tests
         //    Assert.Equal(input, result);
         //}
 
-
         [Fact]
         public async Task ProcessAsync_AsyncIntReturn_ReturnsInt()
         {

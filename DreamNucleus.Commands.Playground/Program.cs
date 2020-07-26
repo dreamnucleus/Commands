@@ -63,27 +63,31 @@ namespace DreamNucleus.Commands.Playground
             var commandProcessor = container.Resolve<ICommandProcessor>();
             //var commandProcessor = new CommandProcessor(commandsBuilder, new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
-            //var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
+            var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
+            var containerSerializer = new NewtonsoftJsonContainerSerializer();
 
-            //var client = new RedisCommandProcessorClient(connectionMultiplexer, "test~commands", "test~results");
-            //var server = new RedisCommandProcessorServer(commandProcessor, connectionMultiplexer, "test~commands", "group", "consumer_1");
+            var commandProcessorClient = new CommandProcessorClient(new RedisCommandTransportClient("test~commands", "test~results", connectionMultiplexer, containerSerializer));
+            var commandTransportServer = new RedisCommandTransportServer("test~commands", "group", "consumer_1", connectionMultiplexer, containerSerializer);
+            var commandProcessorServer = new CommandProcessorServer(commandProcessor, commandTransportServer);
 
-            //_ = server.Start();
+            await commandTransportServer.StartAsync();
 
-            //var intResult = await client.ProcessAsync(new IntCommand(2));
-            //var longResult = await client.ProcessAsync(new LongCommand(2));
-            //var noneResult = await client.ProcessAsync(new NoneCommand());
+            var intResult = await commandProcessorClient.ProcessAsync(new IntCommand(2));
+            var longResult = await commandProcessorClient.ProcessAsync(new LongCommand(2));
+            var noneResult = await commandProcessorClient.ProcessAsync(new NoneCommand());
 
-            //try
-            //{
-            //    var exceptionResult = await client.ProcessAsync(new ExceptionCommand());
-            //}
-            //catch (Exception exception)
-            //{
-            //    Console.WriteLine(exception);
-            //}
+            await Task.Delay(-1);
 
-            //await Task.Delay(-1);
+            try
+            {
+                var exceptionResult = await commandProcessorClient.ProcessAsync(new ExceptionCommand());
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+
+            await Task.Delay(-1);
 
             var resultRegister = new ResultRegister<HttpResult>();
             resultRegister.When<NotFoundException>().Return(r => new HttpResult(444444444));
