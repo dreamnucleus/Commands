@@ -1,4 +1,4 @@
-﻿namespace DreamNucleus.Commands.Playground
+﻿namespace DreamNucleus.Commands.Playground.Commands
 {
     public class HttpResult
     {

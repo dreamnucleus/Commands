@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Pipelines;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     [Singleton]
     public class TestPipeline : Pipeline

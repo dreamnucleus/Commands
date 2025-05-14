@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     public class IntCommand : ISuccessResult<IntCommand, int>
     {
@@ -23,7 +23,7 @@ namespace DreamNucleus.Commands.Playground
         {
             //return Task.FromResult<object>(command.Id);
             await Task.Delay(1);
-            return 1;
+            return command.Id + 1;
         }
     }
 }

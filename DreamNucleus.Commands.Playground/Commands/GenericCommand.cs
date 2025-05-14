@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     public class GenericCommand<TEnumeration> : ISuccessResult<GenericCommand<TEnumeration>, TEnumeration>
         where TEnumeration : class, new()

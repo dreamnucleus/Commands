@@ -5,6 +5,7 @@ using Autofac;
 using DreamNucleus.Commands.Autofac;
 using DreamNucleus.Commands.Extensions.Redis;
 using DreamNucleus.Commands.Extensions.Results;
+using DreamNucleus.Commands.Playground.Commands;
 using DreamNucleus.Commands.Results;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -15,18 +16,7 @@ namespace DreamNucleus.Commands.Playground
     {
         public static async Task Main(string[] args)
         {
-
-            //using (var context = new BloggingContext())
-            //{
-            //    context.Database.EnsureDeleted();
-            //    context.Database.EnsureCreated();
-            //    var blog = new Blog
-            //    {
-            //        Url = "http://vswebessentials.com/blog"
-            //    };
-            //    context.Blogs.Add(blog);
-            //    context.SaveChanges();
-            //}
+            Console.WriteLine("Starting");
 
             var containerBuilder = new ContainerBuilder();
 
@@ -66,17 +56,19 @@ namespace DreamNucleus.Commands.Playground
             var connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync("localhost,allowAdmin=true");
             var containerSerializer = new NewtonsoftJsonContainerSerializer();
 
-            var commandProcessorClient = new CommandProcessorClient(new RedisCommandTransportClient("test~commands", "test~results", connectionMultiplexer, containerSerializer));
+            var commandTransportClient = new RedisCommandTransportClient("test~commands", "test~results", connectionMultiplexer, containerSerializer);
+            var commandProcessorClient = new CommandProcessorClient(commandTransportClient);
             var commandTransportServer = new RedisCommandTransportServer("test~commands", "group", "consumer_1", connectionMultiplexer, containerSerializer);
             var commandProcessorServer = new CommandProcessorServer(commandProcessor, commandTransportServer);
 
             await commandTransportServer.StartAsync();
+            commandProcessorServer.StartAsync();
+
+            await Task.Delay(1000);
 
             var intResult = await commandProcessorClient.ProcessAsync(new IntCommand(2));
             var longResult = await commandProcessorClient.ProcessAsync(new LongCommand(2));
             var noneResult = await commandProcessorClient.ProcessAsync(new NoneCommand());
-
-            await Task.Delay(-1);
 
             try
             {
@@ -87,6 +79,19 @@ namespace DreamNucleus.Commands.Playground
                 Console.WriteLine(exception);
             }
 
+
+            await Task.Delay(-1);
+            //return;
+
+            //try
+            //{
+            //    var exceptionResult = await commandProcessorClient.ProcessAsync(new ExceptionCommand());
+            //}
+            //catch (Exception exception)
+            //{
+            //    Console.WriteLine(exception);
+            //}
+
             await Task.Delay(-1);
 
             var resultRegister = new ResultRegister<HttpResult>();
@@ -95,30 +100,30 @@ namespace DreamNucleus.Commands.Playground
                 new AutofacLifetimeScopeService(container.BeginLifetimeScope()));
 
 
-            string jsonString = JsonConvert.SerializeObject(new IntCommand { Id = 2 }, Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
+            //string jsonString = JsonConvert.SerializeObject(new IntCommand { Id = 2 }, Formatting.Indented, new JsonSerializerSettings
+            //{
+            //    TypeNameHandling = TypeNameHandling.All
+            //});
 
-            var commandObject = JsonConvert.DeserializeObject(jsonString, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
+            //var commandObject = JsonConvert.DeserializeObject(jsonString, new JsonSerializerSettings
+            //{
+            //    TypeNameHandling = TypeNameHandling.All
+            //});
 
-            try
-            {
-                var throws = await resultProcessor.For(new FakeCommand(-1)).ExecuteAsync();
-                var test = await commandProcessor.ProcessAsync(new FakeCommand(-1));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            Console.WriteLine();
-            Console.WriteLine();
-            var test1 = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
-            Console.WriteLine();
+            //try
+            //{
+            //    var throws = await resultProcessor.For(new FakeCommand(-1)).ExecuteAsync();
+            //    var test = await commandProcessor.ProcessAsync(new FakeCommand(-1));
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //var test1 = commandProcessor.ProcessAsync(new FakeCommand(10)).Result;
+            //Console.WriteLine();
 
 
 
@@ -169,9 +174,9 @@ namespace DreamNucleus.Commands.Playground
                 .When(o => o.Success()).Return(r => new HttpResult(r.Result))
                 .ExecuteAsync().Result;
 
-            var intReturn = resultProcessor.For(new IntCommand())
-                .When(o => o.Success()).Return(r => new HttpResult(r))
-                .ExecuteAsync().Result;
+            //var intReturn = resultProcessor.For(new IntCommand())
+            //    .When(o => o.Success()).Return(r => new HttpResult(r))
+            //    .ExecuteAsync().Result;
 
             // checking it throws the exceptions
             try

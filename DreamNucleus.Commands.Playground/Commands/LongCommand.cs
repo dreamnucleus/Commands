@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     public class LongCommand : ISuccessResult<LongCommand, long>
     {
@@ -26,7 +26,7 @@ namespace DreamNucleus.Commands.Playground
         public async Task<long> ExecuteAsync(LongCommand command)
         {
             await Task.Delay(1);
-            return 1;
+            return command.Id + 1;
         }
     }
 }

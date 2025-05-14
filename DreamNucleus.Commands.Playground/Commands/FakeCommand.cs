@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using DreamNucleus.Commands.Extensions.Results;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     public class FakeCommand : ISuccessResult<FakeCommand, FakeData>, INotFoundResult, IConflictResult
     {
@@ -81,7 +81,7 @@ namespace DreamNucleus.Commands.Playground
             //{
             //    //  SimpleMemberAccessExpression
             //    return (object)"";
-            
+
             //}
             //else if (command.Number == -4)
             //{
@@ -120,7 +120,7 @@ namespace DreamNucleus.Commands.Playground
             //    return command.Number == 2 ? Test() : new NotFoundException();
             //}
 
-            
+
             // ??
         }
 

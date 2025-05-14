@@ -1,0 +1,2 @@
+- Need to handle exceptions, like if database fails... then retry the command??? don't just say it was complete with an exception? or was the exception expected and the messages is complete
+- What if i write to the db but fail to ack, need to know i already processed or impotent transactions

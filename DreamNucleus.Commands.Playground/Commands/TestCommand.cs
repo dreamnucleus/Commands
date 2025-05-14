@@ -5,7 +5,7 @@ using DreamNucleus.Commands.Extensions.Results;
 using DreamNucleus.Commands.Results;
 using Microsoft.EntityFrameworkCore;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     public class TestCommand : ISuccessResult<TestCommand, List<TestData>>, INotFoundResult, IConflictResult
     {

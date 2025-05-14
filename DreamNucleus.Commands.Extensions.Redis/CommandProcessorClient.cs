@@ -26,7 +26,7 @@ namespace DreamNucleus.Commands.Extensions.Redis
             var resultTaskCompletionSource = new TaskCompletionSource<TSuccessResult>();
 
             // TODO: timeout
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             cancellationTokenSource.Token.Register(() => resultTaskCompletionSource.TrySetException(new Exception("30b1ddaa-21d9-452d-8c32-faf070dc7c8c")));
 
             var commandTransport = new CommandContainer
@@ -35,6 +35,9 @@ namespace DreamNucleus.Commands.Extensions.Redis
                 Command = command
             };
 
+            Console.WriteLine($"Created new command with Id {commandTransport.Id}");
+
+            // TODO: can i re Listen after are crash?
             await _commandTransportClient.ListenAsync<TSuccessResult>(commandTransport.Id, resultTransport =>
             {
                 if (resultTransport.Success)

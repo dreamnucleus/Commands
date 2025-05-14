@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     // https://docs.efproject.net/en/latest/platforms/full-dotnet/new-db.html with some tweaks
     public class BloggingContext : DbContext

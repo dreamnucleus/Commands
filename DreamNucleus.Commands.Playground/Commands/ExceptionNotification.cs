@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using DreamNucleus.Commands.Notifications;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     public class ExceptionNotification : IExceptionNotification<FakeCommand>
     {

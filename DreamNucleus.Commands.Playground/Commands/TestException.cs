@@ -1,7 +1,7 @@
 ﻿using System;
 using DreamNucleus.Commands.Results;
 
-namespace DreamNucleus.Commands.Playground
+namespace DreamNucleus.Commands.Playground.Commands
 {
     public interface ITestResult : IErrorResult<TestException>
     {
