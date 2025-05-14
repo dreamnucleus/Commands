@@ -18,8 +18,7 @@ namespace DreamNucleus.Commands
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            using (var internalCommandProcessor =
-                new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
+            using (var internalCommandProcessor = new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
             {
                 return await internalCommandProcessor.ProcessAsync(command).ConfigureAwait(false);
             }
@@ -28,8 +27,7 @@ namespace DreamNucleus.Commands
         public async Task<CommandProcessorSuccessResult<TSuccessResult>> ProcessResultAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
-            using (var internalCommandProcessor =
-                new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
+            using (var internalCommandProcessor = new InternalCommandProcessor(_commandsBuilder, _lifetimeScopeService, command))
             {
                 return await internalCommandProcessor.ProcessResultAsync(command).ConfigureAwait(false);
             }
