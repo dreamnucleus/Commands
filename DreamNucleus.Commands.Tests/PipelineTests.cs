@@ -25,9 +25,11 @@ namespace DreamNucleus.Commands.Tests
                     autofacCommandsBuilder.Use<IntCommandExecutedNotification>();
                     autofacCommandsBuilder.Use<ExceptionCommandExceptionNotification>();
 
+                    autofacCommandsBuilder.Use<PrePipeline>();
                     autofacCommandsBuilder.Use<ExecutingPipeline>();
                     autofacCommandsBuilder.Use<ExecutedPipeline>();
                     autofacCommandsBuilder.Use<ExceptionPipeline>();
+                    autofacCommandsBuilder.Use<PostPipeline>();
                 });
 
             const int input = 2;

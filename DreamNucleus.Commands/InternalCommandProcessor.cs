@@ -30,6 +30,12 @@ namespace DreamNucleus.Commands
             TSuccessResult result;
             try
             {
+                var prePipeline = _commandsBuilder.PrePipelines.Reverse() // TODO: always reversing?
+                    .Aggregate((PrePipeline)new FinalPrePipeline(),
+                        (current, prePipelineType) => (PrePipeline)_dependencyService.Resolve(prePipelineType, typeof(PrePipeline), current));
+
+                await prePipeline.PreAsync(command).ConfigureAwait(false);
+
                 var executingPipeline = _commandsBuilder.ExecutingPipelines.Reverse() // TODO: always reversing?
                     .Aggregate((ExecutingPipeline)new FinalExecutingPipeline(this),
                         (current, executingPipelineType) => (ExecutingPipeline)_dependencyService.Resolve(executingPipelineType, typeof(ExecutingPipeline), current));
@@ -46,17 +52,33 @@ namespace DreamNucleus.Commands
 
                 if (newResult is Exception newException)
                 {
+                    var postExceptionPipeline = _commandsBuilder.PostPipelines.Reverse()
+                        .Aggregate((PostPipeline)new FinalPostPipeline(),
+                            (current, postPipelineType) => (PostPipeline)_dependencyService.Resolve(postPipelineType, typeof(PostPipeline), current));
+
+                    await postExceptionPipeline.PostAsync(command).ConfigureAwait(false);
+
                     ExceptionDispatchInfo.Capture(newException).Throw();
                 }
 
-                return (TSuccessResult)newResult; // TODO: I don't think this should go back into the outgoing...
+                result = (TSuccessResult)newResult;
+
+                //return (TSuccessResult)newResult; // TODO: I don't think this should go back into the outgoing...
             }
 
             var executedPipeline = _commandsBuilder.ExecutedPipelines.Reverse()
                 .Aggregate((ExecutedPipeline)new FinalExecutedPipeline(),
                     (current, executedPipelineType) => (ExecutedPipeline)_dependencyService.Resolve(executedPipelineType, typeof(ExecutedPipeline), current));
 
-            return await executedPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
+            var finalResult = await executedPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
+
+            var postExecutedPipeline = _commandsBuilder.PostPipelines.Reverse()
+                .Aggregate((PostPipeline)new FinalPostPipeline(),
+                    (current, postPipelineType) => (PostPipeline)_dependencyService.Resolve(postPipelineType, typeof(PostPipeline), current));
+
+            await postExecutedPipeline.PostAsync(command).ConfigureAwait(false);
+
+            return finalResult;
         }
 
         internal async Task<TSuccessResult> ExecuteAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)

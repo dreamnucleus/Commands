@@ -33,5 +33,4 @@ namespace DreamNucleus.Commands.Pipelines
             return Task.FromResult(result);
         }
     }
-
 }
