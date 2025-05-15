@@ -52,7 +52,7 @@ namespace DreamNucleus.Commands
 
                 if (newResult is Exception newException)
                 {
-                    var postExceptionPipeline = _commandsBuilder.PostPipelines.Reverse()
+                    var postExceptionPipeline = _commandsBuilder.PostPipelines.Reverse() // TODO: these will be run multiple times if there is a retry and we exit
                         .Aggregate((PostPipeline)new FinalPostPipeline(),
                             (current, postPipelineType) => (PostPipeline)_dependencyService.Resolve(postPipelineType, typeof(PostPipeline), current));
 
@@ -72,7 +72,7 @@ namespace DreamNucleus.Commands
 
             var finalResult = await executedPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
 
-            var postExecutedPipeline = _commandsBuilder.PostPipelines.Reverse()
+            var postExecutedPipeline = _commandsBuilder.PostPipelines.Reverse() // TODO: these will be run multiple times if there is a retry and we exit
                 .Aggregate((PostPipeline)new FinalPostPipeline(),
                     (current, postPipelineType) => (PostPipeline)_dependencyService.Resolve(postPipelineType, typeof(PostPipeline), current));
 
