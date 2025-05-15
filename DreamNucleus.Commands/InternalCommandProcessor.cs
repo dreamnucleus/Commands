@@ -27,16 +27,20 @@ namespace DreamNucleus.Commands
         public async Task<TSuccessResult> ProcessAsync<TCommand, TSuccessResult>(ISuccessResult<TCommand, TSuccessResult> command)
             where TCommand : IAsyncCommand
         {
+            var isInitialCommand = command == _initialCommand;
+
             TSuccessResult result;
             try
             {
                 var prePipeline = _commandsBuilder.PrePipelines.Reverse() // TODO: always reversing?
+                    .Where(t => t.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                     .Aggregate((PrePipeline)new FinalPrePipeline(),
                         (current, prePipelineType) => (PrePipeline)_dependencyService.Resolve(prePipelineType, typeof(PrePipeline), current));
 
                 await prePipeline.PreAsync(command).ConfigureAwait(false);
 
                 var executingPipeline = _commandsBuilder.ExecutingPipelines.Reverse() // TODO: always reversing?
+                    .Where(t => t.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                     .Aggregate((ExecutingPipeline)new FinalExecutingPipeline(this),
                         (current, executingPipelineType) => (ExecutingPipeline)_dependencyService.Resolve(executingPipelineType, typeof(ExecutingPipeline), current));
 
@@ -45,6 +49,7 @@ namespace DreamNucleus.Commands
             catch (Exception exception)
             {
                 var exceptionPipeline = _commandsBuilder.ExceptionPipelines.Reverse()
+                    .Where(t => t.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                     .Aggregate((ExceptionPipeline)new FinalExceptionPipeline(),
                         (current, exceptionPipelineType) => (ExceptionPipeline)_dependencyService.Resolve(exceptionPipelineType, typeof(ExceptionPipeline), current));
 
@@ -53,6 +58,7 @@ namespace DreamNucleus.Commands
                 if (newResult is Exception newException)
                 {
                     var postExceptionPipeline = _commandsBuilder.PostPipelines.Reverse() // TODO: these will be run multiple times if there is a retry and we exit
+                        .Where(t => t.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                         .Aggregate((PostPipeline)new FinalPostPipeline(),
                             (current, postPipelineType) => (PostPipeline)_dependencyService.Resolve(postPipelineType, typeof(PostPipeline), current));
 
@@ -67,12 +73,14 @@ namespace DreamNucleus.Commands
             }
 
             var executedPipeline = _commandsBuilder.ExecutedPipelines.Reverse()
+                .Where(t => t.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                 .Aggregate((ExecutedPipeline)new FinalExecutedPipeline(),
                     (current, executedPipelineType) => (ExecutedPipeline)_dependencyService.Resolve(executedPipelineType, typeof(ExecutedPipeline), current));
 
             var finalResult = await executedPipeline.ExecutedAsync(command, result).ConfigureAwait(false);
 
             var postExecutedPipeline = _commandsBuilder.PostPipelines.Reverse() // TODO: these will be run multiple times if there is a retry and we exit
+                .Where(t => t.GetTypeInfo().GetCustomAttribute<SingletonAttribute>() == null || isInitialCommand)
                 .Aggregate((PostPipeline)new FinalPostPipeline(),
                     (current, postPipelineType) => (PostPipeline)_dependencyService.Resolve(postPipelineType, typeof(PostPipeline), current));
 
